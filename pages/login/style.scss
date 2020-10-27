@@ -1,0 +1,30 @@
+@import '@/assets/colors.scss';
+
+.login {
+  font-size: 1rem;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-content: center !important;
+  justify-content: center !important;
+  &__title {
+    text-align: center;
+    font-family: Baloo2;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    margin-bottom: 20%;
+  }
+  &__forgot {
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  &__textfield {
+    ::v-deep .error--text  {
+      color: $MAIN_ORANGE !important;
+      caret-color: $MAIN_ORANGE !important;
+    }
+  }
+}

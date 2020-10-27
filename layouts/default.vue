@@ -115,3 +115,16 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import '~vuetify/src/styles/styles.sass';
+html {
+  overflow-y: auto !important;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+@media #{map-get($display-breakpoints, 'md-and-down')}{
+  html {
+    font-size: 14px;
+  }
+}
+</style>

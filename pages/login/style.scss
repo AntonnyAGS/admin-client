@@ -1,4 +1,5 @@
 @import '@/assets/colors.scss';
+@import '~vuetify/src/styles/styles.sass';
 
 .login {
   font-size: 1rem;
@@ -26,5 +27,10 @@
       color: $MAIN_ORANGE !important;
       caret-color: $MAIN_ORANGE !important;
     }
+  }
+}
+@media #{map-get($display-breakpoints, 'xl-only')}{
+  .login {
+    padding: 0 80px;
   }
 }

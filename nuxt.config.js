@@ -3,7 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
-
+  env: {
+    API_URL: process.env.API_URL,
+    TOKEN: process.env.TOKEN
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: 'Fábrica de Software - Admin',
@@ -14,7 +17,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.svg' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap' }
     ]
   },
@@ -72,5 +75,12 @@ export default {
   },
 
   router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'custom-index',
+        path: '/',
+        component: resolve(__dirname, 'pages/login')
+      })
+    }
   }
 }

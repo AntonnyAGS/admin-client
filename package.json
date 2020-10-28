@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/composition-api": "^0.13.5",
+    "@types/js-cookie": "^2.2.6",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "js-cookie": "^2.2.1",

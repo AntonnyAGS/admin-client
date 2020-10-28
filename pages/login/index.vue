@@ -1,11 +1,15 @@
 <template>
   <div class="login fill-height">
     <div class="login__container">
-      <div class="login__title">
+      <div class="d-flex align-center justify-center">
+        <img src="@/assets/images/icon.svg" alt="">
+      </div>
+      <div class="login__title mt-12">
         Bem vindo (a)
       </div>
       <v-form ref="form" @submit.prevent>
         <v-text-field
+          v-model="email"
           label="Email"
           color="secondary"
           placeholder="Digite seu email aqui..."
@@ -23,6 +27,7 @@
           </template>
         </v-text-field>
         <v-text-field
+          v-model="password"
           label="Senha"
           color="secondary"
           placeholder="Digite sua senha aqui..."
@@ -46,44 +51,79 @@
             Clique aqui
           </nuxt-link>
         </div>
-        <v-btn type="submit" block height="50px" color="secondary" @click="handleSubmit">
+        <v-btn
+          type="submit"
+          block
+          height="50px"
+          color="secondary"
+          :loading="loading"
+          @click="handleSubmit"
+        >
           Entrar
         </v-btn>
       </v-form>
     </div>
+    <v-snackbar v-model="error.show">
+      <div class="text-center">
+        {{ error.message }}
+      </div>
+    </v-snackbar>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api'
+import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
 import { validateEmail } from '@/helpers'
 import { Form } from '@/types'
+import { AuthService } from '@/services'
 
 export default defineComponent({
   layout: 'unauthorized',
   setup () {
-    const teste = ref('olá')
+    const loading = ref(false)
     const showPassword = ref(false)
     const form = ref<Form>()
+    const email = ref('')
+    const password = ref('')
     const rules = {
       email: [
         (v: string) => validateEmail(v) || 'Digite um email válido'
       ],
       password: [
-        (v: string) => (!!v && v.length > 6) || 'Digite uma senha válida'
+        (v: string) => (!!v && v.length > 5) || 'Digite uma senha válida'
       ]
     }
-    const handleSubmit = () => {
+    const error = ref({
+      show: false,
+      message: ''
+    })
+
+    const { redirect } = useContext()
+
+    const handleSubmit = async () => {
       if (!form.value) { return }
       if (form.value.validate()) {
-        console.log('ok')
+        loading.value = true
+        try {
+          const service = new AuthService()
+          await service.auth({ email: email.value, password: password.value })
+          redirect('/dashboard')
+        } catch (er) {
+          error.value.message = er.message
+          error.value.show = true
+        } finally {
+          loading.value = false
+        }
       }
     }
     return {
-      teste,
       showPassword,
       form,
       rules,
-      handleSubmit
+      handleSubmit,
+      email,
+      password,
+      loading,
+      error
     }
   }
 })

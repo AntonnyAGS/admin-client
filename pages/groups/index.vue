@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard">
     {{ users }}
-    <nuxt-link to="/groups">vamos</nuxt-link>
   </div>
 </template>
 

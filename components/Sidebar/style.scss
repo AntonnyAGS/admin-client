@@ -1,0 +1,14 @@
+@import '@/assets/colors';
+
+.sidebar {
+  &__active {
+      i {
+        color: $MAIN_ORANGE !important;
+      }
+  }
+  &__grid {
+    display: grid;
+    height: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+}

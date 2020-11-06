@@ -16,6 +16,14 @@
   </v-app>
 </template>
 
+<script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api'
+// import Cookie from 'js-cookie'
+
+export default defineComponent({
+  middleware: 'isNotAuthenticated'
+})
+</script>
 <style lang="scss">
   body {
     font-family: 'Montserrat', sans-serif;

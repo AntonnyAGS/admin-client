@@ -5,7 +5,8 @@ export default {
   ssr: false,
   env: {
     API_URL: process.env.API_URL,
-    TOKEN: process.env.TOKEN
+    TOKEN: process.env.TOKEN,
+    REFRESH_TOKEN: process.env.REFRESH_TOKEN
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {

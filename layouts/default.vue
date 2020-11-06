@@ -1,36 +1,45 @@
 <template>
   <v-app>
-    <nuxt />
+    <side-bar :items="items" />
+    <v-main>
+      <v-container fluid>
+        <nuxt />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
-<script>
-export default {
-  data () {
+<script lang="ts">
+// Libs
+import { defineComponent, ref } from '@nuxtjs/composition-api'
+
+// Components
+import SideBar from '@/components/Sidebar'
+
+// Types
+import { SidebarItem } from '@/types'
+
+export default defineComponent({
+  middleware: 'isAuthenticated',
+
+  components: {
+    SideBar
+  },
+
+  setup () {
+    const items = ref<SidebarItem[]>([
+      { to: '/dashboard', icon: 'mdi-home', title: 'home' },
+      { to: '/groups', icon: 'mdi-account-multiple', title: 'groups' },
+      { to: '/projects', icon: 'mdi-folder', title: 'projects' }
+    ])
+
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      items
     }
   }
-}
+})
 </script>
+
 <style lang="scss">
 @import '~vuetify/src/styles/styles.sass';
 html {

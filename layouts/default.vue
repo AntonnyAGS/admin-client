@@ -2,7 +2,7 @@
   <v-app>
     <side-bar :items="items" />
     <v-main>
-      <v-container fluid>
+      <v-container fluid class="fill-height">
         <nuxt />
       </v-container>
     </v-main>

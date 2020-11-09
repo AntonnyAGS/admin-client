@@ -3,5 +3,6 @@ declare namespace NodeJS {
     API_URL: string;
     TOKEN: string;
     REFRESH_TOKEN: string;
+    SECRET_LOCAL_KEY: string;
   }
 }

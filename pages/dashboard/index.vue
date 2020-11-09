@@ -1,34 +1,44 @@
 <template>
   <div class="dashboard">
-    {{ users }}
-    <nuxt-link to="/groups">vamos</nuxt-link>
+    <hero-card v-if="user" :name="user.name" />
+    <div class="dashboard__projects-info">
+      <project-info-card :type="ProjectStatus.APPROVED" value="03" />
+      <project-info-card :type="ProjectStatus.APPROVED" value="03" />
+    </div>
+    <projects-card class="dashboard__projects" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@nuxtjs/composition-api'
-import Cookies from 'js-cookie'
-import { UserService } from '@/services'
+// Libs
+import { defineComponent } from '@nuxtjs/composition-api'
+import { useNamespacedState } from 'vuex-composition-helpers'
+
+// Components
+import { HeroCard, ProjectInfoCard, ProjectsCard } from '@/components/Cards'
+
+// Types
+import { State } from '@/store/user'
+import { ProjectStatus } from '@/enums'
 
 export default defineComponent({
+  components: {
+    HeroCard,
+    ProjectInfoCard,
+    ProjectsCard
+  },
+
   setup () {
-    const token = Cookies.get(process.env.TOKEN)
-    const service = new UserService()
-    const users = ref()
+    const { user } = useNamespacedState<State>('user', ['user'])
 
-    const loadUsers = async () => {
-      try {
-        users.value = await service.users()
-        console.log(users)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    loadUsers()
     return {
-      users
+      user,
+      ProjectStatus
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+@import './style.scss';
+</style>

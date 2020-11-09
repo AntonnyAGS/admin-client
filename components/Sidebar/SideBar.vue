@@ -5,6 +5,8 @@
     color="primary"
     mobile-breakpoint="600"
     mini-variant-width="80px"
+    :value="true"
+    :disable-route-watcher="true"
     style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;"
   >
     <div class="sidebar__grid">

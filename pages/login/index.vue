@@ -75,10 +75,15 @@ import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
 import { validateEmail } from '@/helpers'
 import { Form } from '@/types'
 import { AuthService } from '@/services'
+import { Actions } from '@/store/user'
+import { useNamespacedActions } from 'vuex-composition-helpers'
 
 export default defineComponent({
   layout: 'unauthorized',
+
   setup () {
+    const { setUser } = useNamespacedActions<Actions>('user', ['setUser'])
+
     const loading = ref(false)
     const showPassword = ref(false)
     const form = ref<Form>()
@@ -105,7 +110,8 @@ export default defineComponent({
         loading.value = true
         try {
           const service = new AuthService()
-          await service.auth({ email: email.value, password: password.value })
+          const { user } = await service.auth({ email: email.value, password: password.value })
+          setUser(user)
           redirect('/dashboard')
         } catch (er) {
           error.value.message = er.message

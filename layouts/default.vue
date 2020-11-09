@@ -22,6 +22,8 @@ import { SidebarItem } from '@/types'
 export default defineComponent({
   middleware: 'isAuthenticated',
 
+  name: 'layout',
+
   components: {
     SideBar
   },

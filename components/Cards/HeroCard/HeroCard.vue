@@ -37,6 +37,7 @@ export default defineComponent({
   img {
     height: calc(100% + 40px);
     margin-top: -40px;
+    margin-right: 15px;
   }
   &__text {
     display: flex;

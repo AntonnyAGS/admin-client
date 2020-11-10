@@ -1,15 +1,17 @@
 <template>
-  <v-card class="hero-card">
-    <div class="hero-card__text">
-      <div class="hero-card__title">
-        Olá, {{ name }}!
+  <div>
+    <v-card class="hero-card">
+      <div class="hero-card__text">
+        <div class="hero-card__title">
+          Olá, {{ name }}!
+        </div>
+        <div class="hero-card__subtitle">
+          É bom ver você novamente.
+        </div>
       </div>
-      <div class="hero-card__subtitle">
-        É bom ver você novamente.
-      </div>
-    </div>
-    <img src="@/assets/images/hero_vector.svg">
-  </v-card>
+      <img src="@/assets/images/hero_vector.svg">
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,6 +30,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/colors.scss';
+@import '@/assets/variables.scss';
 
 .hero-card {
   background-color: $MAIN_GREY;
@@ -37,12 +40,12 @@ export default defineComponent({
   img {
     height: calc(100% + 40px);
     margin-top: -40px;
-    margin-right: 15px;
+    margin-right: $MAIN_SPACE;
   }
   &__text {
     display: flex;
     flex-direction: column;
-    padding: 15px;
+    padding: $MAIN_SPACE;
     justify-content: center;
   }
   &__title {

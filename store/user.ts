@@ -28,5 +28,3 @@ export const mutations: MutationTree<State> = {
     state.user = user
   }
 }
-
-

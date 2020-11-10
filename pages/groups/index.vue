@@ -1,6 +1,11 @@
 <template>
-  <div class="dashboard">
-    {{ users }}
+  <div class="groups">
+    <div>
+      oi
+    </div>
+    <div>
+      reewerewerrewrewew
+    </div>
   </div>
 </template>
 

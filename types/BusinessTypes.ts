@@ -1,7 +1,7 @@
 import { ProjectStatus } from '@/enums'
 
 export type User = {
-  createdAt: string;
+  createdAt: Date;
   email: string;
   name: string;
   _id: string;
@@ -10,7 +10,7 @@ export type User = {
 }
 
 export type Project = {
-  createdAt: string;
+  createdAt: Date;
   name: string;
   _id: string;
   status: ProjectStatus;

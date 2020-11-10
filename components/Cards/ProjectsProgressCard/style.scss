@@ -1,0 +1,50 @@
+@import '@/assets/colors.scss';
+@import '@/assets/variables.scss';
+@import '~vuetify/src/styles/styles.sass';
+
+.project-progress-card{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  background-color: $MAIN_GREY;
+  padding: $MAIN_SPACE;
+  &__header {
+    margin-bottom: $MAIN_SPACE;
+    font-family: Baloo2;
+    display: flex;
+    align-items: center;
+  }
+  &__title {    
+    font-weight: 600;
+    font-size: 2rem;
+  }
+  &__body {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(110.812px, 1fr) );
+    grid-gap: 15px;
+  }
+  &__item {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  &__item-title {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-family: Baloo;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'lg-and-up')}{
+  .project-progress-card { 
+    &__body {
+      display: grid;
+      grid-template-columns: repeat( auto-fit, minmax(123.641px, 1fr) );
+      grid-gap: 15px;
+    }
+  }
+}

@@ -1,11 +1,16 @@
 <template>
   <div class="dashboard">
-    <hero-card v-if="user" :name="user.name" />
-    <div class="dashboard__projects-info">
-      <project-info-card :type="ProjectStatus.APPROVED" value="03" />
-      <project-info-card :type="ProjectStatus.APPROVED" value="03" />
+    <div class="dashboard__header">
+      <hero-card v-if="user" :name="user.name" />
+      <div class="dashboard__projects-info">
+        <project-info-card :type="ProjectStatus.APPROVED" value="03" />
+        <project-info-card :type="ProjectStatus.APPROVED" value="03" />
+      </div>
     </div>
-    <projects-card v-if="projects" :items="projects" class="dashboard__projects" />
+    <div class="dashboard__body">
+      <projects-card v-if="projects" :items="projects" class="dashboard__projects" />
+      <projects-progress-card v-if="projects" :items="projects" class="dashboard__projects-progress" />
+    </div>
   </div>
 </template>
 
@@ -16,7 +21,7 @@ import { useNamespacedState } from 'vuex-composition-helpers'
 import moment from 'moment'
 
 // Components
-import { HeroCard, ProjectInfoCard, ProjectsCard } from '@/components/Cards'
+import { HeroCard, ProjectInfoCard, ProjectsCard, ProjectsProgressCard } from '@/components/Cards'
 
 // Types
 import { State } from '@/store/user'
@@ -27,17 +32,18 @@ export default defineComponent({
   components: {
     HeroCard,
     ProjectInfoCard,
-    ProjectsCard
+    ProjectsCard,
+    ProjectsProgressCard
   },
 
   setup () {
     const { user } = useNamespacedState<State>('user', ['user'])
     const projects = ref<Project[]>([
-      { _id: 'mockid-1', name: 'Projeto Captção', createdAt: moment().format('DD/MM/YYYY, hh:mm:ss a'), status: ProjectStatus.APPROVED },
-      { _id: 'mockid-2', name: 'Projeto Captção', createdAt: moment().format('DD/MM/YYYY, hh:mm:ss a'), status: ProjectStatus.FINISHED },
-      { _id: 'mockid-3', name: 'Projeto Captção', createdAt: moment().format('DD/MM/YYYY, hh:mm:ss a'), status: ProjectStatus.DOING },
-      { _id: 'mockid-4', name: 'Projeto Captção', createdAt: moment().format('DD/MM/YYYY, hh:mm:ss a'), status: ProjectStatus.REPROVED },
-      { _id: 'mockid-5', name: 'Projeto Captção', createdAt: moment().format('DD/MM/YYYY, hh:mm:ss a'), status: ProjectStatus.WAITING }
+      { _id: 'mockid-1', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.APPROVED },
+      { _id: 'mockid-2', name: 'Projeto Captção', createdAt: moment('2020-10-05T21:58:04.721Z').utc(), status: ProjectStatus.FINISHED },
+      { _id: 'mockid-3', name: 'Projeto Captção', createdAt: moment('2020-11-02T21:58:04.721Z').utc(), status: ProjectStatus.DOING },
+      { _id: 'mockid-4', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.REPROVED },
+      { _id: 'mockid-5', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.WAITING }
     ])
 
     return {

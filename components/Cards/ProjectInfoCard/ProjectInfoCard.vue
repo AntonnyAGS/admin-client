@@ -1,12 +1,14 @@
 <template>
-  <v-card class="project-info-card">
-    <div class="project-info-card__number">
-      {{ value }}
-    </div>
-    <div class="project-info-card__type">
-      {{ types[type] }}
-    </div>
-  </v-card>
+  <div style="width: 100%;">
+    <v-card class="project-info-card">
+      <div class="project-info-card__number">
+        {{ value }}
+      </div>
+      <div class="project-info-card__type">
+        {{ types[type] }}
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -43,12 +45,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/colors.scss';
+@import '@/assets/variables.scss';
 
 .project-info-card {
   background-color: $MAIN_GREY;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  padding: 15px;
+  padding: $MAIN_SPACE;
   width: 100%;
   &__number {
     font-size: 2.5rem;

@@ -39,11 +39,11 @@ export default defineComponent({
   setup () {
     const { user } = useNamespacedState<State>('user', ['user'])
     const projects = ref<Project[]>([
-      { _id: 'mockid-1', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.APPROVED },
-      { _id: 'mockid-2', name: 'Projeto Captção', createdAt: moment('2020-10-05T21:58:04.721Z').utc(), status: ProjectStatus.FINISHED },
-      { _id: 'mockid-3', name: 'Projeto Captção', createdAt: moment('2020-11-02T21:58:04.721Z').utc(), status: ProjectStatus.DOING },
-      { _id: 'mockid-4', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.REPROVED },
-      { _id: 'mockid-5', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc(), status: ProjectStatus.WAITING }
+      { _id: 'mockid-1', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc().toDate(), status: ProjectStatus.APPROVED },
+      { _id: 'mockid-2', name: 'Projeto Captção', createdAt: moment('2020-10-05T21:58:04.721Z').utc().toDate(), status: ProjectStatus.FINISHED },
+      { _id: 'mockid-3', name: 'Projeto Captção', createdAt: moment('2020-11-02T21:58:04.721Z').utc().toDate(), status: ProjectStatus.DOING },
+      { _id: 'mockid-4', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc().toDate(), status: ProjectStatus.REPROVED },
+      { _id: 'mockid-5', name: 'Projeto Captção', createdAt: moment('2020-11-05T21:58:04.721Z').utc().toDate(), status: ProjectStatus.WAITING }
     ])
 
     return {

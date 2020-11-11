@@ -10,7 +10,7 @@ export type User = {
 }
 
 export type Project = {
-  createdAt: Date;
+  createdAt: Date | string;
   name: string;
   _id: string;
   status: ProjectStatus;

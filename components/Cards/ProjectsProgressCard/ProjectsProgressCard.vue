@@ -42,7 +42,7 @@ import { StatusColor } from '@/helpers'
 export default defineComponent({
   props: {
     items: {
-      type: Array as () => Project,
+      type: Array as () => Project[],
       required: true
     },
     completedValue: {

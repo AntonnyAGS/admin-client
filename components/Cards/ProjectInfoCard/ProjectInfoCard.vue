@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%;" class="project-info">
     <v-card class="project-info-card">
       <div class="project-info-card__number">
         {{ value }}

@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="dashboard__header">
       <hero-card v-if="user" :name="user.name" />
-      <div class="dashboard__projects-info">
+      <div class="dashboard__info">
         <project-info-card :type="ProjectStatus.APPROVED" value="03" />
         <project-info-card :type="ProjectStatus.APPROVED" value="03" />
       </div>

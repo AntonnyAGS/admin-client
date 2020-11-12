@@ -38,7 +38,6 @@ export default defineComponent({
   grid-template-columns: 3fr 1fr;
   margin-top: 40px;
   img {
-    height: calc(100% + 40px);
     margin-top: -40px;
     margin-right: $MAIN_SPACE;
   }

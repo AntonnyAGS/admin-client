@@ -57,7 +57,7 @@ export default defineComponent({
     font-size: 2.5rem;
     display: flex;
     justify-content: center;
-    font-family: Baloo2;
+    font-family: Roboto;
     font-weight: bold;
     align-items: center;
   }
@@ -68,4 +68,10 @@ export default defineComponent({
     font-weight: 500;
   }
 }
+
+// @media #{map-get($display-breakpoints, 'md-and-up')}{
+//   .project-info-card {
+//     // padding: $MAIN_SPACE * 2;
+//   }
+// }
 </style>

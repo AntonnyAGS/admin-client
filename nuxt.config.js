@@ -20,7 +20,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/icon.svg' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70&family=Montserrat:wght@400;500;600;700&display=swap' }
     ]
   },
 

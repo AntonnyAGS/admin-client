@@ -1,6 +1,11 @@
+@import '~vuetify/src/styles/styles.sass';
 // Ref: https://github.com/nuxt-community/vuetify-module#customvariables
 //
 // The variables you want to modify
 // $font-size-root: 70px;
 
 $MAIN_SPACE: 15px;
+$MAIN_SPACE_DESKTOP: 45px;
+
+$LAYOUT_PADDING: 15px;
+$LAYOUT_PADDING_DESKTOP: 45px;

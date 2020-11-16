@@ -13,8 +13,6 @@
       margin-right: $MAIN_SPACE !important;
     }
   }
-
-
   &__projects, &__projects-progress {
     margin-top: $MAIN_SPACE;
   }
@@ -24,16 +22,22 @@
   .dashboard {
     &__header {
       display: grid;
-      grid-template-columns: 2.5fr 1fr;
-      grid-gap: $MAIN_SPACE;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: $MAIN_SPACE * 2;
     }
     &__info {
       align-items: flex-end;
+      ::v-deep .project-info:first-child {
+        margin-right: $MAIN_SPACE * 2 !important;
+      }
     }
     &__body {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: $MAIN_SPACE;
+      grid-gap: $MAIN_SPACE * 2;
+    }
+    &__projects, &__projects-progress {
+      margin-top: $MAIN_SPACE * 2;
     }
   }
 }

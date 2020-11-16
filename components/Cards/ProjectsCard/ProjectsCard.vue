@@ -67,7 +67,7 @@ export default defineComponent({
   }
   &__header {
     margin-bottom: $MAIN_SPACE;
-    font-family: Baloo2;
+    font-family: Roboto;
     display: flex;
     align-items: center;
   }

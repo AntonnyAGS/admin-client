@@ -9,7 +9,9 @@
           É bom ver você novamente.
         </div>
       </div>
-      <img src="@/assets/images/hero_vector.svg">
+      <div class="d-flex justify-end">
+        <img src="@/assets/images/hero_vector.svg">
+      </div>
     </v-card>
   </div>
 </template>
@@ -37,6 +39,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 3fr 1fr;
   margin-top: 40px;
+  border-radius: $BORDER_RADIUS;
   img {
     margin-top: -40px;
     margin-right: $MAIN_SPACE;
@@ -48,7 +51,7 @@ export default defineComponent({
     justify-content: center;
   }
   &__title {
-    font-family: Baloo;
+    font-family: Roboto;
     font-size: 2rem;
     font-weight: 600;
   }

@@ -1,8 +1,8 @@
 <template>
-  <div style="width: 100%;" class="project-info">
-    <v-card class="project-info-card">
+  <div style="width: 100%;" class="project-info fill-height">
+    <v-card class="project-info-card fill-height">
       <div class="project-info-card__number">
-        {{ value }}
+        {{ formatNumber(value, 2) }}
       </div>
       <div class="project-info-card__type">
         {{ types[type] }}
@@ -14,6 +14,8 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 import { ProjectStatus } from '@/enums'
+import { formatNumber } from '@/helpers'
+
 export default defineComponent({
   props: {
     type: {
@@ -21,22 +23,24 @@ export default defineComponent({
       default: ''
     },
     value: {
-      type: String,
+      type: Number,
       default: '0'
     }
   },
 
   setup () {
-    const types:Record<ProjectStatus, string> = {
+    const types:Record<ProjectStatus | string, string> = {
       [ProjectStatus.APPROVED]: 'Projetos aprovados',
       [ProjectStatus.FINISHED]: 'Projetos finalizados',
       [ProjectStatus.WAITING]: 'Projetos pendentes',
       [ProjectStatus.REPROVED]: 'Projetos reprovados',
-      [ProjectStatus.DOING]: 'Projetos em andamento'
+      [ProjectStatus.DOING]: 'Projetos em andamento',
+      ALL: 'Todos os projetos'
     }
 
     return {
-      types
+      types,
+      formatNumber
     }
   }
 })
@@ -53,6 +57,7 @@ export default defineComponent({
   grid-template-columns: 1fr 1.5fr;
   padding: $MAIN_SPACE;
   width: 100%;
+  border-radius: $BORDER_RADIUS;
   &__number {
     font-size: 2.5rem;
     display: flex;
@@ -68,10 +73,4 @@ export default defineComponent({
     font-weight: 500;
   }
 }
-
-// @media #{map-get($display-breakpoints, 'md-and-up')}{
-//   .project-info-card {
-//     // padding: $MAIN_SPACE * 2;
-//   }
-// }
 </style>

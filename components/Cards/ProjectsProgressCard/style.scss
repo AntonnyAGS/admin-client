@@ -8,6 +8,7 @@
   flex-direction: column;
   background-color: $MAIN_GREY;
   padding: $MAIN_SPACE;
+  border-radius: $BORDER_RADIUS;
   &__header {
     margin-bottom: $MAIN_SPACE;
     font-family: Roboto;

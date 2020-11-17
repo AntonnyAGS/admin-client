@@ -10,7 +10,7 @@
           Ver todos
         </nuxt-link>
       </div>
-      <v-list class="projects-card__list pa-0">
+      <v-list v-if="items.length > 0" class="projects-card__list pa-0">
         <template v-for="(item, index) in items">
           <v-list-item :key="item._id" class="pa-0">
             <v-list-item-title>
@@ -28,6 +28,11 @@
           />
         </template>
       </v-list>
+      <v-list-item v-else class="pa-0">
+        <v-list-item-title>
+          Ainda não há nada aqui.
+        </v-list-item-title>
+      </v-list-item>
     </v-card>
   </div>
 </template>
@@ -62,6 +67,7 @@ export default defineComponent({
 .projects-card {
   padding: $MAIN_SPACE;
   background-color: $MAIN_GREY;
+  border-radius: $BORDER_RADIUS;
   &__list {
     background-color: $MAIN_GREY;
   }

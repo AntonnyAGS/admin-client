@@ -56,7 +56,7 @@ html {
   padding: $LAYOUT_PADDING !important;
 }
 
-@media #{map-get($display-breakpoints, 'md-and-up')}{
+@media #{map-get($display-breakpoints, 'lg-and-up')}{
   html {
     font-size: 16px;
   }

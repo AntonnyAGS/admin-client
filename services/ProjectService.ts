@@ -1,12 +1,12 @@
 import axios from '@/config/axios'
-import { User } from '@/types'
+import { Project } from '@/types'
 import Cookie from 'js-cookie'
 
-export class UserService {
-  async users (): Promise<User[]> {
+export class ProjectService {
+  async projects (): Promise<Project[]> {
     try {
       const token = Cookie.get(process.env.TOKEN)
-      const { data } = await axios.get<User[]>('/user', {
+      const { data } = await axios.get<Project[]>('/project', {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -18,4 +18,4 @@ export class UserService {
   }
 }
 
-export default UserService
+export default ProjectService

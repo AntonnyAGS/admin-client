@@ -15,9 +15,10 @@
     </div>
     <div class="dashboard__body">
       <div>
-        <projects-progress-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,5)" class="dashboard__projects-progress" />
-        <projects-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,5)" class="dashboard__projects" />
+        <projects-progress-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,3)" class="dashboard__projects-progress" />
+        <projects-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,3)" class="dashboard__projects" />
       </div>
+      <information-card class="dashboard__carousel" />
     </div>
   </div>
 </template>
@@ -28,7 +29,7 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
 // Components
-import { HeroCard, ProjectInfoCard, ProjectsCard, ProjectsProgressCard, ActionCard } from '@/components/Cards'
+import { HeroCard, ProjectInfoCard, ProjectsCard, ProjectsProgressCard, ActionCard, InformationCard } from '@/components/Cards'
 
 // Types/Enums
 import { ProjectStatus } from '@/enums'
@@ -46,7 +47,8 @@ export default defineComponent({
     ProjectInfoCard,
     ProjectsCard,
     ProjectsProgressCard,
-    ActionCard
+    ActionCard,
+    InformationCard
   },
 
   setup () {

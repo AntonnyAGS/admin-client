@@ -9,10 +9,11 @@
           {{ description }}
         </div>
         <v-spacer />
-        <v-btn color="#ff9700" class="white--text text-capitalize" width="120px">
+        <v-btn rounded color="#ff9700" class="action-card__button white--text text-capitalize" width="120px">
           Clique aqui
         </v-btn>
       </div>
+      <div class="action-card__image" />
     </v-card>
   </div>
 </template>
@@ -37,6 +38,7 @@ export default defineComponent({
 <style lang="scss">
 @import '@/assets/colors.scss';
 @import '@/assets/variables.scss';
+@import '~vuetify/src/styles/styles.sass';
 
 .action-card {
   background-color: $MAIN_GREY !important;
@@ -50,9 +52,14 @@ export default defineComponent({
     font-size: 1.2rem;
     font-weight: 600;
   }
-  // &__description {
-  //   font-size: 1rem;
-  // }
+  &__button {
+    margin-top: $MAIN_SPACE;
+  }
+  &__image {
+    background-image: url('../../../assets/images/discussion.svg');
+    background-size: contain;
+    background-position: right;
+  }
 }
 
 </style>

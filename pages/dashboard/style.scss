@@ -20,6 +20,9 @@
   &__projects, &__projects-progress {
     margin-top: $MAIN_SPACE;
   }
+  &__carousel {
+    margin-top: $MAIN_SPACE;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'md-and-up')}{
@@ -41,7 +44,7 @@
       }
     }
     &__actions {
-      margin: 40px 0 0 0;
+      margin: 0;
     }
     &__body {
       display: grid;
@@ -49,6 +52,9 @@
       grid-gap: $MAIN_SPACE * 2;
     }
     &__projects, &__projects-progress {
+      margin-top: $MAIN_SPACE * 2;
+    }
+    &__carousel {
       margin-top: $MAIN_SPACE * 2;
     }
   }

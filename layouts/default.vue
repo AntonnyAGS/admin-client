@@ -2,7 +2,7 @@
   <v-app>
     <side-bar :items="items" />
     <v-main>
-      <v-container fluid class="fill-height">
+      <v-container fluid class="main-container fill-height">
         <nuxt />
       </v-container>
     </v-main>
@@ -44,14 +44,24 @@ export default defineComponent({
 
 <style lang="scss">
 @import '~vuetify/src/styles/styles.sass';
+@import '@/assets/variables.scss';
+
 html {
   overflow-y: auto !important;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 14px;
 }
-@media #{map-get($display-breakpoints, 'md-and-down')}{
+
+.main-container {
+  padding: $LAYOUT_PADDING !important;
+}
+
+@media #{map-get($display-breakpoints, 'lg-and-up')}{
   html {
-    font-size: 14px;
+    font-size: 16px;
+  }
+  .main-container {
+    padding: $LAYOUT_PADDING * 3 !important;
   }
 }
 </style>

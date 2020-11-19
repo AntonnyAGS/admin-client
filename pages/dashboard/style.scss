@@ -7,15 +7,20 @@
   flex-direction: column;
   width: 100%;
   &__info {
-    margin-top: $MAIN_SPACE;
-    display: flex;
-    ::v-deep .project-info:first-child {
-      margin-right: $MAIN_SPACE !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: $MAIN_SPACE;
+    &--all {
+      grid-column: span 2;
     }
   }
-
-
+  &__actions {
+    margin: $MAIN_SPACE 0;
+  }
   &__projects, &__projects-progress {
+    margin-top: $MAIN_SPACE;
+  }
+  &__carousel {
     margin-top: $MAIN_SPACE;
   }
 }
@@ -24,16 +29,33 @@
   .dashboard {
     &__header {
       display: grid;
-      grid-template-columns: 2.5fr 1fr;
-      grid-gap: $MAIN_SPACE;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: $MAIN_SPACE * 2;
     }
     &__info {
-      align-items: flex-end;
+      margin-top: $MAIN_SPACE * 2 !important;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: $MAIN_SPACE * 2;
+      ::v-deep .project-info {
+        margin-right:0 !important;
+      }
+      &--all {
+        grid-column: auto !important;
+      }
+    }
+    &__actions {
+      margin: 0;
     }
     &__body {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: $MAIN_SPACE;
+      grid-gap: $MAIN_SPACE * 2;
+    }
+    &__projects, &__projects-progress {
+      margin-top: $MAIN_SPACE * 2;
+    }
+    &__carousel {
+      margin-top: $MAIN_SPACE * 2;
     }
   }
 }

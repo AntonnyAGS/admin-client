@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
   body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: Montserrat;
   }
 </style>
 <style lang="scss" scoped>
@@ -59,7 +59,7 @@ export default defineComponent({
       font-weight: 600;
       border-left: 5px solid black;
       padding-left: 10px;
-      font-family: Baloo2, 'sans serif';
+      font-family: Roboto;
     }
 }
 }

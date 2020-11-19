@@ -21,3 +21,8 @@ export const StatusText: Record<ProjectStatus, string> = {
   [ProjectStatus.FINISHED]: 'Finalizado',
   [ProjectStatus.REPROVED]: 'Reprovado'
 }
+
+export const formatNumber = (number: number, length: number): string => {
+  const result = ('0' + number.toString()).slice((length * -1))
+  return result
+}

@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 100%;" class="project-info fill-height">
-    <v-card class="project-info-card fill-height">
+  <div style="width: 100%;" class="project-info">
+    <v-card class="project-info-card">
       <div class="project-info-card__number">
         {{ formatNumber(value, 2) }}
       </div>

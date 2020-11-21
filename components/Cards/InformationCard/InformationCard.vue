@@ -10,7 +10,7 @@
             <div class="information-card__body">
               <div class="information-card__grid">
                 <div class="d-flex flex-column information-card__text">
-                  <div>
+                  <div class="information-card__description1">
                     Aqui dentro da <strong>Fábrica de Software</strong>, você pode gerenciar os projetos de extensão
                     da sua universidade. <br>
                     O software está em constante evolução e pretende trazer novas features em breve. Enquanto isso,
@@ -117,6 +117,14 @@ export default defineComponent({})
 }
 ::v-deep .v-btn.v-btn--icon {
   color: $MAIN_ORANGE;
+}
+
+@media #{map-get($display-breakpoints, 'xl-only')}{
+  .information-card {
+    &__description1 {
+    padding-bottom: 24px;
+    }
+  }
 }
 
 @media (max-width: 600px){

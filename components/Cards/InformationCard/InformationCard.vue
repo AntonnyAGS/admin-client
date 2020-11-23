@@ -78,7 +78,7 @@ export default defineComponent({})
 
 .information-card {
   height: 100%;
-  background-color: $MAIN_GREY;
+  background-color: $MAIN_GREY !important;
   border-radius: $BORDER-RADIUS;
   &__item {
     color: black;

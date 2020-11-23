@@ -3,7 +3,7 @@
     <div class="dashboard__header">
       <hero-card v-if="user" :name="user.name" />
       <div class="dashboard__actions">
-        <action-card title="Gerencie seus grupos" description="Você pode gerenciar seus grupos clicando no botão abaixo." />
+        <action-card title="Gerencie seus grupos" description="Você pode gerenciar seus grupos clicando no botão abaixo." image-url="discussion.svg" />
       </div>
     </div>
     <div class="dashboard__info">

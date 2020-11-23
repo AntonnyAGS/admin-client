@@ -1,0 +1,97 @@
+@import '~vuetify/src/styles/styles.sass';
+@import '@/assets/colors.scss';
+
+$radius: 8px;
+
+::v-deep  .data-table {
+  box-shadow: 0px 5px 15px rgba(69, 90, 100, 0.25);
+  background-color: transparent !important;
+  thead {
+    background: $MAIN_ORANGE !important;
+    color: white !important;
+
+    tr {
+      th {
+        color: white !important;
+        font-size: 14px !important;
+        font-family: Montserrat !important;
+
+        &:first-child {
+          border-top-left-radius: $radius;
+          // border-bottom-left-radius: $radius;
+        }
+
+        &:last-child {
+          border-top-right-radius: $radius;
+          // border-bottom-right-radius: $radius;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border-color: transparent !important;
+      }
+    }
+
+    tr:nth-child(odd) {
+      background-color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #EEF2FA;
+    }
+
+    tr:last-child {
+      td:first-child {
+        border-bottom-left-radius: $radius;
+      }
+
+      td:last-child {
+        border-bottom-right-radius: $radius;
+      }
+    }
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    &__left {
+      padding:0 15px !important;
+      margin-top:20px;
+      margin-bottom:20px;
+    }
+
+    .v-input__slot:before {
+      border-color: transparent !important;
+    }
+  }
+
+  .v-data-table-header-mobile {
+
+    .v-label,
+    i {
+      color: white !important;
+    }
+
+    .v-input__slot::before {
+      border-color: rgba(255, 255, 255, 0.42) !important;
+    }
+  }
+}
+@media #{map-get($display-breakpoints, 'md-and-up')}{ 
+ .data-table {
+   &__footer {
+     grid-template-columns: 1fr 1fr 1fr;
+     &__left {
+      display: flex;
+      &__text {
+        margin-left: 20px !important;
+      }
+    }
+   }
+ }
+}

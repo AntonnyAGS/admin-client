@@ -31,7 +31,7 @@ export default defineComponent({
   setup () {
     const items = ref<SidebarItem[]>([
       { to: '/dashboard', icon: 'mdi-home', title: 'home' },
-      { to: '/groups', icon: 'mdi-account-multiple', title: 'groups' },
+      { to: '/users', icon: 'mdi-account-multiple', title: 'groups' },
       { to: '/projects', icon: 'mdi-folder', title: 'projects' }
     ])
 

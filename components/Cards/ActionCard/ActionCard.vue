@@ -13,7 +13,7 @@
           Clique aqui
         </v-btn>
       </div>
-      <div class="action-card__image" />
+      <div class="action-card__image" :style="{ 'background-image': `url(${require(`@/assets/images/${imageUrl}`)})` }" />
     </v-card>
   </div>
 </template>
@@ -30,7 +30,8 @@ export default defineComponent({
     description: {
       type: String,
       required: true
-    }
+    },
+    imageUrl: String
   }
 })
 </script>
@@ -45,8 +46,9 @@ export default defineComponent({
   height: 100%;
   border-radius: $BORDER_RADIUS !important;
   padding: $MAIN_SPACE;
-  display: grid;
+  display: grid !important;
   grid-template-columns: 1.8fr 1fr;
+  gap: $MAIN_SPACE;
   &__title {
     font-family: Roboto;
     font-size: 1.2rem;
@@ -56,10 +58,19 @@ export default defineComponent({
     margin-top: $MAIN_SPACE;
   }
   &__image {
-    background-image: url('../../../assets/images/discussion.svg');
     background-size: contain;
     background-position: right;
   }
 }
 
+@media #{map-get($display-breakpoints, 'sm-and-down')}{
+.action-card {
+  &__image {
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    border-radius: 50% !important;
+  }
+}
+}
 </style>

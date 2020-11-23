@@ -34,7 +34,7 @@ export default defineComponent({
 @import '~vuetify/src/styles/styles.sass';
 
 .hero-card {
-  background-color: $MAIN_GREY;
+  background-color: $MAIN_GREY !important;
   display: grid;
   grid-template-columns: auto 1fr;
   border-radius: $BORDER_RADIUS;

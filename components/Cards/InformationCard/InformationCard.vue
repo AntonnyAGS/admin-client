@@ -116,7 +116,7 @@ export default defineComponent({})
   }
 }
 ::v-deep .v-btn.v-btn--icon {
-  color: $MAIN_ORANGE;
+  color: $MAIN_ORANGE !important;
 }
 
 @media #{map-get($display-breakpoints, 'xl-only')}{

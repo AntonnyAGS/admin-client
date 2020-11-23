@@ -1,14 +1,13 @@
-@import '~vuetify/src/styles/styles.sass';
 @import '@/assets/colors.scss';
+@import '@/assets/variables.scss';
+@import '~vuetify/src/styles/styles.sass';
 
 $radius: 8px;
 
-::v-deep  .data-table {
-  box-shadow: 0px 5px 15px rgba(69, 90, 100, 0.25);
+::v-deep .data-table {
   background-color: transparent !important;
   thead {
     background: $MAIN_ORANGE !important;
-    color: white !important;
 
     tr {
       th {
@@ -17,12 +16,12 @@ $radius: 8px;
         font-family: Montserrat !important;
 
         &:first-child {
-          border-top-left-radius: $radius;
+          // border-top-left-radius: $radius;
           // border-bottom-left-radius: $radius;
         }
 
         &:last-child {
-          border-top-right-radius: $radius;
+          // border-top-right-radius: $radius;
           // border-bottom-right-radius: $radius;
         }
       }
@@ -36,21 +35,17 @@ $radius: 8px;
       }
     }
 
-    tr:nth-child(odd) {
-      background-color: white;
-    }
-
     tr:nth-child(even) {
-      background-color: #EEF2FA;
+      background-color:white;
     }
 
     tr:last-child {
       td:first-child {
-        border-bottom-left-radius: $radius;
+        // border-bottom-left-radius: $radius;
       }
 
       td:last-child {
-        border-bottom-right-radius: $radius;
+        // border-bottom-right-radius: $radius;
       }
     }
   }
@@ -63,6 +58,9 @@ $radius: 8px;
       padding:0 15px !important;
       margin-top:20px;
       margin-bottom:20px;
+    }
+    &__center { 
+      padding: 15px !important;
     }
 
     .v-input__slot:before {
@@ -89,7 +87,7 @@ $radius: 8px;
      &__left {
       display: flex;
       &__text {
-        margin-left: 20px !important;
+        margin-left: 20px !Important;
       }
     }
    }

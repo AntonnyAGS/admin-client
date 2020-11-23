@@ -1,4 +1,5 @@
 @import '@/assets/variables.scss';
+@import '@/assets/colors.scss';
 @import '~vuetify/src/styles/styles.sass';
 
 .users {
@@ -7,8 +8,25 @@
   &__create-students-card {
     margin-top: $MAIN_SPACE;
   }
-  &__table {
+  &__table-header {
     margin-top: $MAIN_SPACE;
+    background-color: $MAIN_ORANGE;
+    padding: $MAIN_SPACE;
+    display: flex;
+    align-items: center;
+    &__title {
+      font-size: 1.6rem;
+      color: white;
+      font-family: Roboto;
+      font-weight: 600;
+    }
+    &__action {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__table-card {
+    background-color: $MAIN_GREY;
   }
 }
 @media #{map-get($display-breakpoints, 'md-and-up')}{
@@ -21,7 +39,7 @@
     &__create-students-card {
       margin-top: 0;
     }
-    &__table {
+    &__table-header {
       margin-top: $MAIN_SPACE * 2;
     }
   }

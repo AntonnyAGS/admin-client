@@ -4,8 +4,11 @@
       v-bind="$props"
       class="data-table"
       :header-props="{ sortByText: 'Ordene por...' }"
-      :items-per-page="limitSelect"
-      hide-default-footer
+      :footer-props="{
+        itemsPerPageAllText: 'Todos',
+        itemsPerPageText: 'Itens por página:'
+      }"
+      locale="pt"
       v-on="$listeners"
     >
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -14,34 +17,10 @@
       <template v-for="(_, slot) of $slots">
         <slot :name="slot" />
       </template>
+      <template v-slot:[`footer.page-text`]="item">
+        {{ item.pageStart }} - {{ item.pageStop }} de {{ item.itemsLength }}
+      </template>
     </v-data-table>
-    <div class="data-table__footer">
-      <div class="data-table__footer__left">
-        <v-autocomplete
-          v-model="limitSelect"
-          color="primary"
-          hide-details
-          :items="limitList"
-          item-color="secondary"
-          item-text="text"
-          item-value="value"
-          class="ma-0 pa-0"
-          style="width:120px"
-        />
-        <div style="width:100%" class="data-table__footer__left__text d-flex align-center">
-          {{ getFooterText }}
-        </div>
-      </div>
-      <div class="data_table__footer__center d-flex align-center justify-center">
-        <v-pagination
-          v-model="pagination"
-          rounded
-          total-visible="5"
-          color="primary text--white"
-          :length="getFooterLenght"
-        />
-      </div>
-    </div>
   </div>
 </template>
 

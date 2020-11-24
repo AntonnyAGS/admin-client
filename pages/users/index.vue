@@ -56,7 +56,7 @@
         />
       </v-card>
     </div>
-    <create-student-modal v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleSubmit" />
+    <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleSubmit" />
   </div>
 </template>
 <script lang="ts">

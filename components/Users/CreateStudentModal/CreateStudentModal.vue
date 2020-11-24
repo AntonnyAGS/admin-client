@@ -15,17 +15,18 @@
         <div class="create-student__body">
           <v-text-field
             v-model="form.name"
-            label="Nome"
+            label="Nome *"
             placeholder="Digite o nome do aluno"
           />
           <v-text-field
             v-model="form.email"
-            label="Email"
+            label="Email *"
             type="text"
             placeholder="Digite o email do aluno"
           />
           <v-text-field
             v-model="form.phone"
+            v-mask="['(##) ####-####', '(##) #####-####']"
             label="Telefone"
             placeholder="Digite o telefone do aluno"
           />
@@ -56,8 +57,29 @@
 <script lang="ts">
 // Libs
 import { defineComponent, ref } from '@nuxtjs/composition-api'
+import * as yup from 'yup'
+import { mask } from 'vue-the-mask'
 
+// Types/enums
 import { UserRole } from '@/enums'
+type UserForm = {
+  name: string;
+  email: string;
+  password: string;
+  // eslint-disable-next-line
+  password_repeat: string;
+  phone?: string;
+  role: UserRole;
+}
+
+const validateSchema = yup.object().shape<UserForm>({
+  email: yup.string().email('Digite um email válido').required('Digite o email'),
+  name: yup.string().required('Digite o nome'),
+  password: yup.string().required('Digite a senha'),
+  password_repeat: yup.string().required('Digite a confirmação de senha'),
+  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
+  // phone: yup.string().min(10)
+})
 
 export default defineComponent({
   props: {
@@ -65,10 +87,14 @@ export default defineComponent({
     loading: Boolean
   },
 
-  setup (_, { emit }) {
-    const form = ref({
-      name: '',
+  directives: {
+    mask
+  },
+
+  setup (_, { emit, root: { $notify } }) {
+    const form = ref<UserForm>({
       email: '',
+      name: '',
       phone: '',
       password: '123456',
       password_repeat: '123456',
@@ -76,8 +102,24 @@ export default defineComponent({
     })
 
     const handleSubmit = () => {
-      console.log('entrei')
-      emit('handle-submit', form.value)
+      try {
+        validateSchema.validateSync(form.value, { abortEarly: true })
+        if (form.value.phone) {
+          form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
+        }
+        emit('handle-submit', form.value)
+      } catch (error) {
+        let title = ''
+        if (error.name === 'ValidationError') {
+          title = 'Erro de validação'
+        }
+        $notify({
+          title,
+          type: 'error',
+          text: error.message
+        })
+        console.log(error)
+      }
     }
 
     return {

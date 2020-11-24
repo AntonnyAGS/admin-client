@@ -9,7 +9,13 @@
           {{ description }}
         </div>
         <v-spacer />
-        <v-btn rounded color="#ff9700" class="action-card__button white--text text-capitalize" width="120px">
+        <v-btn
+          rounded
+          color="#ff9700"
+          class="action-card__button white--text text-capitalize"
+          width="120px"
+          @click="$emit('handle-click')"
+        >
           Clique aqui
         </v-btn>
       </div>

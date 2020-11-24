@@ -23,6 +23,9 @@ export const StatusText: Record<ProjectStatus, string> = {
 }
 
 export const formatNumber = (number: number, length: number): string => {
-  const result = ('0' + number.toString()).slice((length * -1))
+  let result = '' + number.toString()
+  while (result.length < length) {
+    result = '0' + result
+  }
   return result
 }

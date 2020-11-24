@@ -1,4 +1,4 @@
-import { ProjectStatus } from '@/enums'
+import { ProjectStatus, PersonType, UserRole } from '@/enums'
 
 export type User = {
   createdAt: Date;
@@ -6,7 +6,12 @@ export type User = {
   name: string;
   _id: string;
   isAdmin: boolean;
-  ra?: string
+  ra?: string;
+  cpf?: string;
+  cnpj?: string;
+  personType?: PersonType;
+  role: UserRole;
+  phone: string;
 }
 
 export type Project = {

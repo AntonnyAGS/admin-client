@@ -18,7 +18,7 @@
         <slot :name="slot" />
       </template>
       <template v-slot:[`footer.page-text`]="item">
-        {{ item.pageStart }} - {{ item.pageStop }} de {{ item.itemsLength }}
+        {{ formatNumber(item.pageStart, 2) }} - {{ formatNumber(item.pageStop, 2) }} de {{ formatNumber(item.itemsLength, 2) }}
       </template>
     </v-data-table>
   </div>
@@ -28,6 +28,8 @@
 // Libs
 import { defineComponent, ref, computed } from '@vue/composition-api'
 import { VDataTable } from 'vuetify/lib'
+
+import { formatNumber } from '@/helpers'
 
 export default defineComponent({
   name: 'Table',
@@ -63,7 +65,8 @@ export default defineComponent({
       getFooterLenght,
       props,
       pagination,
-      getFooterText
+      getFooterText,
+      formatNumber
     }
   }
 })

@@ -12,6 +12,7 @@
         description="Você pode criar novos alunos para te ajudar."
         image-url="books.svg"
         class="users__create-students-card"
+        @handle-click="showCreateStudent = true"
       />
     </div>
     <div class="users__body">
@@ -21,8 +22,7 @@
             Usuários
           </div>
           <v-spacer />
-          <!-- <v-text-field hide-details dense /> -->
-          <div class="users__table-header__action" style="margin-left: 15px">
+          <div class="users__table-header__action">
             <v-text-field
               v-if="showSearch"
               v-model="search"
@@ -31,12 +31,16 @@
               dense
               hide-details
             />
-            <v-icon small color="white" style="margin-left: 15px" @click="showSearch = !showSearch">
-              fas fa-search
-            </v-icon>
-            <v-icon small color="white" style="margin-left: 15px">
-              fas fa-filter
-            </v-icon>
+            <v-btn icon>
+              <v-icon small color="white" @click="showSearch = !showSearch">
+                fas fa-search
+              </v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon small color="white">
+                fas fa-filter
+              </v-icon>
+            </v-btn>
           </div>
         </div>
         <data-table
@@ -52,6 +56,7 @@
         />
       </v-card>
     </div>
+    <create-student-modal v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleSubmit" />
   </div>
 </template>
 <script lang="ts">
@@ -61,14 +66,17 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 // Components
 import { ActionCard } from '@/components/Cards'
 import DataTable from '@/components/DataTable'
+import CreateStudentModal from '@/components/Users/CreateStudentModal'
 
 // Services
 import { UserService } from '@/services'
+import { User } from '~/types'
 
 export default defineComponent({
   components: {
     ActionCard,
-    DataTable
+    DataTable,
+    CreateStudentModal
   },
 
   setup () {
@@ -77,6 +85,7 @@ export default defineComponent({
     const loading = ref(false)
     const search = ref('')
     const showSearch = ref(false)
+    const showCreateStudent = ref(false)
 
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
@@ -96,13 +105,27 @@ export default defineComponent({
       }
     }
 
+    const handleSubmit = async (user: User) => {
+      try {
+        loading.value = true
+        await service.createStudent(user)
+        loadUsers()
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
     loadUsers()
     return {
       users,
       headers,
       loading,
       search,
-      showSearch
+      showSearch,
+      showCreateStudent,
+      handleSubmit
     }
   }
 })

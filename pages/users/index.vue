@@ -6,6 +6,7 @@
         description="Você pode criar novos administradores para te ajudar."
         image-url="whiteboard.svg"
         class="users__create-admin-card"
+        @handle-click="showCreateAdmin = true"
       />
       <action-card
         title="Crie novos alunos"
@@ -64,7 +65,8 @@
         </data-table>
       </v-card>
     </div>
-    <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleSubmit" />
+    <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleCreateStudent" />
+    <create-admin-modal v-if="showCreateAdmin" v-model="showCreateAdmin" :loading.sync="loading" @handle-submit="handleCreateAdmin" />
   </div>
 </template>
 <script lang="ts">
@@ -74,8 +76,7 @@ import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 // Components
 import { ActionCard } from '@/components/Cards'
 import DataTable from '@/components/DataTable'
-import CreateStudentModal from '@/components/Users/CreateStudentModal'
-import { Filters } from '@/components/Users'
+import { Filters, CreateStudentModal, CreateAdminModal } from '@/components/Users'
 
 // Services/Helpers/Types
 import { UserService } from '@/services'
@@ -91,6 +92,7 @@ export default defineComponent({
     ActionCard,
     DataTable,
     CreateStudentModal,
+    CreateAdminModal,
     Filters
   },
 
@@ -102,6 +104,7 @@ export default defineComponent({
     const search = ref('')
     const showSearch = ref(false)
     const showCreateStudent = ref(false)
+    const showCreateAdmin = ref(false)
 
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
@@ -129,7 +132,7 @@ export default defineComponent({
       }
     }
 
-    const handleSubmit = async (user: User) => {
+    const handleCreateStudent = async (user: User) => {
       try {
         const service = new UserService()
         loading.value = true
@@ -151,6 +154,29 @@ export default defineComponent({
       }
     }
 
+    const handleCreateAdmin = async (user: User) => {
+      try {
+        const service = new UserService()
+        loading.value = true
+        await service.createAdmin(user)
+        showCreateStudent.value = false
+        $notify({
+          title: 'Administrador criado com sucesso!',
+          text: 'Seu novo administrador foi criado com sucesso.'
+        })
+        loadUsers()
+      } catch (error) {
+        console.log(error)
+        $notify({
+          title: 'Erro ao criar administrador!',
+          text: error.message,
+          type: 'error'
+        })
+      } finally {
+        loading.value = false
+      }
+    }
+
     loadUsers()
     return {
       users,
@@ -159,10 +185,12 @@ export default defineComponent({
       search,
       showSearch,
       showCreateStudent,
-      handleSubmit,
+      handleCreateStudent,
       UserRoleText,
       UserRoleColor,
-      filteredUsers
+      filteredUsers,
+      showCreateAdmin,
+      handleCreateAdmin
     }
   }
 })

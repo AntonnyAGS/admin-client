@@ -8,12 +8,11 @@
       </v-btn>
     </template>
     <v-card>
-      <div class="user-filters">
+      <div v-if="showMenu" class="user-filters">
         <div class="user-filters__title">
           Filtros
         </div>
         <v-autocomplete
-          v-if="showMenu"
           label="Tipo"
           :items="items"
           :value="filter.role"

@@ -15,7 +15,7 @@
         <v-autocomplete
           label="Tipo"
           :items="items"
-          :value="filter.role"
+          :value="filter.status"
           multiple
           small-chips
           item-value="value"
@@ -24,7 +24,7 @@
           @input="setFilter"
         >
           <template v-slot:selection="{item}">
-            <v-chip small :color="UserRoleColor[item.value]" class="white--text">
+            <v-chip small :color="StatusColor[item.value]" class="white--text">
               {{ item.text }}
             </v-chip>
           </template>
@@ -37,37 +37,39 @@
 <script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api'
 
-import { UserRole } from '@/enums'
+import { ProjectStatus } from '@/enums'
 
-import { UserRoleColor } from '@/helpers'
+import { StatusText, StatusColor } from '@/helpers'
 
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
-import { State, Actions } from '@/store/users'
+import { State, Actions } from '@/store/projects'
 
 export default defineComponent({
   setup () {
-    const { filter } = useNamespacedState<State>('users', ['filter'])
-    const { setFilters } = useNamespacedActions<Actions>('users', ['setFilters'])
+    const { filter } = useNamespacedState<State>('projects', ['filter'])
+    const { setFilter: setFilters } = useNamespacedActions<Actions>('projects', ['setFilter'])
 
     const items = ref([
-      { text: 'Alunos', value: UserRole.STUDENT },
-      { text: 'Administradores', value: UserRole.ADMIN },
-      { text: 'Clientes', value: UserRole.CLIENT }
+      { text: StatusText[ProjectStatus.WAITING], value: ProjectStatus.WAITING },
+      { text: StatusText[ProjectStatus.APPROVED], value: ProjectStatus.APPROVED },
+      { text: StatusText[ProjectStatus.FINISHED], value: ProjectStatus.FINISHED },
+      { text: StatusText[ProjectStatus.REPROVED], value: ProjectStatus.REPROVED },
+      { text: StatusText[ProjectStatus.DOING], value: ProjectStatus.DOING }
     ])
 
     const showMenu = ref(false)
 
-    const setFilter = (value: UserRole[]) => {
+    const setFilter = (value: ProjectStatus[]) => {
       const filters = JSON.parse(JSON.stringify(filter.value))
-      filters.role = value
+      filters.status = value
       setFilters(filters)
     }
 
     return {
       items,
       showMenu,
-      UserRoleColor,
+      StatusColor,
       filter,
       setFilter
     }

@@ -53,8 +53,8 @@ export default defineComponent({
 
   setup () {
     const { user } = useNamespacedState<UserState>('user', ['user'])
-    const { projects } = useNamespacedState<ProjectState>('project', ['projects'])
-    const { setProjects } = useNamespacedActions<ProjectActions>('project', ['setProjects'])
+    const { projects } = useNamespacedState<ProjectState>('projects', ['projects'])
+    const { setProjects } = useNamespacedActions<ProjectActions>('projects', ['setProjects'])
 
     const loading = ref(false)
 

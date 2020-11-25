@@ -1,4 +1,4 @@
-import { UserRole } from '@/enums'
+import { UserRole, ProjectStatus } from '@/enums'
 
 export type Form = {
   reset: () => void;
@@ -20,4 +20,8 @@ export type SidebarItem = {
 
 export type UsersFilter = {
   role: UserRole[]
+}
+
+export type ProjectsFilter = {
+  status: ProjectStatus[]
 }

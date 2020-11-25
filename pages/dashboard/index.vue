@@ -36,7 +36,7 @@ import { ProjectStatus } from '@/enums'
 
 // Store
 import { State as UserState } from '@/store/user'
-import { State as ProjectState, Actions as ProjectActions } from '@/store/project'
+import { State as ProjectState, Actions as ProjectActions } from '@/store/projects'
 
 // Service
 import { ProjectService } from '@/services'

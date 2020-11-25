@@ -1,5 +1,5 @@
 
-import { ProjectStatus } from '@/enums'
+import { ProjectStatus, UserRole } from '@/enums'
 
 export const validateEmail = (email: string): boolean => {
   const pattern = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi)
@@ -23,6 +23,21 @@ export const StatusText: Record<ProjectStatus, string> = {
 }
 
 export const formatNumber = (number: number, length: number): string => {
-  const result = ('0' + number.toString()).slice((length * -1))
+  let result = '' + number.toString()
+  while (result.length < length) {
+    result = '0' + result
+  }
   return result
+}
+
+export const UserRoleText: Record<UserRole, string> = {
+  [UserRole.ADMIN]: 'Administrador',
+  [UserRole.CLIENT]: 'Cliente',
+  [UserRole.STUDENT]: 'Aluno'
+}
+
+export const UserRoleColor: Record<UserRole, string> = {
+  [UserRole.ADMIN]: '#2696E8',
+  [UserRole.CLIENT]: '#29CC97',
+  [UserRole.STUDENT]: '#FEC400'
 }

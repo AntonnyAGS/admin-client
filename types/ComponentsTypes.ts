@@ -1,3 +1,5 @@
+import { UserRole, ProjectStatus } from '@/enums'
+
 export type Form = {
   reset: () => void;
   validate: () => boolean;
@@ -14,4 +16,12 @@ export type SidebarItem = {
   title: string;
   disabled?: boolean;
   icon: string;
+}
+
+export type UsersFilter = {
+  role: UserRole[]
+}
+
+export type ProjectsFilter = {
+  status: ProjectStatus[]
 }

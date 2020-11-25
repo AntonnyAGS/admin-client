@@ -5,3 +5,14 @@ export enum ProjectStatus {
   REPROVED = 'REPROVED',
   DOING = 'DOING'
 }
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  STUDENT = 'STUDENT',
+  CLIENT = 'CLIENT'
+}
+
+export enum PersonType {
+  PERSON = 'PERSON',
+  COMPANY = 'COMPANY'
+}

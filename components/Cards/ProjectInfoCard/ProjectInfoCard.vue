@@ -52,7 +52,7 @@ export default defineComponent({
 @import '@/assets/variables.scss';
 
 .project-info-card {
-  background-color: $MAIN_GREY;
+  background-color: $MAIN_GREY !important;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   padding: $MAIN_SPACE;

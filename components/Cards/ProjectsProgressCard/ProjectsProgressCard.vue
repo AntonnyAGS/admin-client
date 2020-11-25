@@ -7,7 +7,10 @@
         </div>
       </div>
       <div class="project-progress-card__body">
-        <div v-for="item in items" :key="item._id" class="project-progress-card__item">
+        <div v-if="items.length === 0" style="height: 48px" class="d-flex align-center">
+          Ainda não há nada aqui.
+        </div>
+        <div v-for="item in items" v-else :key="item._id" class="project-progress-card__item">
           <div class="project-progress-card__item-title">
             <v-icon small style="margin-bottom:4px" :color="StatusColor[item.status]">
               fas fa-circle

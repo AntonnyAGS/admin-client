@@ -6,7 +6,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  background-color: $MAIN_GREY;
+  background-color: $MAIN_GREY !important;
   padding: $MAIN_SPACE;
   border-radius: $BORDER_RADIUS;
   &__header {
@@ -35,8 +35,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     font-family: Baloo;
+    width: 100px !important;
   }
 }
 

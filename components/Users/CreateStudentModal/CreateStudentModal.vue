@@ -70,27 +70,29 @@ import { UserRole } from '@/enums'
 type UserForm = {
   name: string;
   email: string;
+  ra: string;
   password: string;
   // eslint-disable-next-line
   password_repeat: string;
   phone?: string;
   role: UserRole;
-  ra: string;
+
 }
 
 const validateSchema = yup.object().shape<UserForm>({
-  email: yup.string().email('Digite um email válido').required('Digite o email'),
   name: yup.string().required('Digite o nome'),
+  email: yup.string().email('Digite um email válido').required('Digite o email'),
   password: yup.string().required('Digite a senha'),
   password_repeat: yup.string().required('Digite a confirmação de senha'),
   role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
+  ra: yup.string().required('Digite o RA'),
   phone: yup.string().test('len', 'Digite um telefone válido', (val) => {
     if (typeof val !== 'string' || (val?.length !== 0 && val.length < 14)) {
       return false
     }
     return true
-  }),
-  ra: yup.string().required('Digite o RA')
+  })
+
 })
 
 export default defineComponent({
@@ -105,18 +107,19 @@ export default defineComponent({
 
   setup (_, { emit, root: { $notify } }) {
     const form = ref<UserForm>({
-      email: '',
       name: '',
+      email: '',
       password: '123456',
       phone: '',
+      ra: '',
       password_repeat: '123456',
-      role: UserRole.STUDENT,
-      ra: ''
+      role: UserRole.STUDENT
+
     })
 
     const handleSubmit = () => {
       try {
-        validateSchema.validateSync(form.value, { abortEarly: true })
+        validateSchema.validateSync(form.value, { abortEarly: false })
         if (form.value.phone) {
           form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
         }
@@ -130,9 +133,9 @@ export default defineComponent({
         $notify({
           title,
           type: 'error',
-          text: error.message
+          text: error.errors[0]
         })
-        console.log(error)
+        console.log(error.errors)
       }
     }
 

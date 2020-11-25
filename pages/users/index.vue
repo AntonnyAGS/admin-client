@@ -30,23 +30,20 @@
               single-line
               dense
               hide-details
+              style="margin-left: 15px;"
             />
             <v-btn icon>
               <v-icon small color="white" @click="showSearch = !showSearch">
                 fas fa-search
               </v-icon>
             </v-btn>
-            <v-btn icon>
-              <v-icon small color="white">
-                fas fa-filter
-              </v-icon>
-            </v-btn>
+            <filters />
           </div>
         </div>
         <data-table
           :loading="loading"
           :headers="headers"
-          :items="users"
+          :items="filteredUsers"
           class="users__table"
           no-data-text="Ainda não há nada aqui."
           :footer-total-items="users ? users.length : 0"
@@ -72,28 +69,35 @@
 </template>
 <script lang="ts">
 // Libs
-import { defineComponent, ref } from '@nuxtjs/composition-api'
+import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
 // Components
 import { ActionCard } from '@/components/Cards'
 import DataTable from '@/components/DataTable'
 import CreateStudentModal from '@/components/Users/CreateStudentModal'
+import { Filters } from '@/components/Users'
 
 // Services/Helpers/Types
 import { UserService } from '@/services'
 import { UserRoleText, UserRoleColor } from '@/helpers'
+
+import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
+
+import { State, Actions } from '@/store/users'
 import { User } from '~/types'
 
 export default defineComponent({
   components: {
     ActionCard,
     DataTable,
-    CreateStudentModal
+    CreateStudentModal,
+    Filters
   },
 
   setup (_, { root: { $notify } }) {
-    const service = new UserService()
-    const users = ref()
+    const { setUsers } = useNamespacedActions<Actions>('users', ['setUsers'])
+    const { users, filter } = useNamespacedState<State>('users', ['users', 'filter'])
+
     const loading = ref(false)
     const search = ref('')
     const showSearch = ref(false)
@@ -106,11 +110,18 @@ export default defineComponent({
       { text: '', value: 'action', sortable: false, align: 'center' }
     ]
 
+    const filteredUsers = computed(() => {
+      return users.value.filter((item) => {
+        return filter.value.role.includes(item.role)
+      })
+    })
+
     const loadUsers = async () => {
       try {
+        const service = new UserService()
         loading.value = true
-        users.value = await service.users()
-        console.log(users)
+        const _users = await service.users()
+        await setUsers(_users)
       } catch (error) {
         console.log(error)
       } finally {
@@ -120,6 +131,7 @@ export default defineComponent({
 
     const handleSubmit = async (user: User) => {
       try {
+        const service = new UserService()
         loading.value = true
         await service.createStudent(user)
         showCreateStudent.value = false
@@ -149,7 +161,8 @@ export default defineComponent({
       showCreateStudent,
       handleSubmit,
       UserRoleText,
-      UserRoleColor
+      UserRoleColor,
+      filteredUsers
     }
   }
 })

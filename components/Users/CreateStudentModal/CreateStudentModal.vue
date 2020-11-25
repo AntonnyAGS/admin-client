@@ -30,6 +30,11 @@
             label="Telefone"
             placeholder="Digite o telefone do aluno"
           />
+          <v-text-field
+            v-model="form.ra"
+            label="RA *"
+            placeholder="Digite o RA do aluno"
+          />
 
           <div class="create-student__password-obs">
             <strong>Atenção:</strong> todos os alunos serão criados com a senha '123456' como padrão.
@@ -70,6 +75,7 @@ type UserForm = {
   password_repeat: string;
   phone?: string;
   role: UserRole;
+  ra: string;
 }
 
 const validateSchema = yup.object().shape<UserForm>({
@@ -78,7 +84,13 @@ const validateSchema = yup.object().shape<UserForm>({
   password: yup.string().required('Digite a senha'),
   password_repeat: yup.string().required('Digite a confirmação de senha'),
   role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
-  // phone: yup.string().min(10)
+  phone: yup.string().test('len', 'Digite um telefone válido', (val) => {
+    if (typeof val !== 'string' || (val?.length !== 0 && val.length < 14)) {
+      return false
+    }
+    return true
+  }),
+  ra: yup.string().required('Digite o RA')
 })
 
 export default defineComponent({
@@ -95,10 +107,11 @@ export default defineComponent({
     const form = ref<UserForm>({
       email: '',
       name: '',
-      phone: '',
       password: '123456',
+      phone: '',
       password_repeat: '123456',
-      role: UserRole.STUDENT
+      role: UserRole.STUDENT,
+      ra: ''
     })
 
     const handleSubmit = () => {
@@ -107,6 +120,7 @@ export default defineComponent({
         if (form.value.phone) {
           form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
         }
+        form.value.email = form.value.email.toLowerCase()
         emit('handle-submit', form.value)
       } catch (error) {
         let title = ''

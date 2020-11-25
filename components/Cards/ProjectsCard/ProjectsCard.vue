@@ -69,7 +69,7 @@ export default defineComponent({
   background-color: $MAIN_GREY !important;
   border-radius: $BORDER_RADIUS;
   &__list {
-    background-color: $MAIN_GREY;
+    background-color: $MAIN_GREY !important;
   }
   &__header {
     margin-bottom: $MAIN_SPACE;

@@ -53,7 +53,18 @@
           :search="search"
           no-results-text="Nada encontrado."
           loading-text="Carregando..."
-        />
+        >
+          <template v-slot:[`item.role`]="{item}">
+            <v-chip :color="UserRoleColor[item.role]" class="white--text">
+              {{ UserRoleText[item.role] }}
+            </v-chip>
+          </template>
+          <template v-slot:[`item.action`]="{item}">
+            <v-btn rounded small class="text-capitalize" color="secondary">
+              Detalhes
+            </v-btn>
+          </template>
+        </data-table>
       </v-card>
     </div>
     <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleSubmit" />
@@ -68,8 +79,9 @@ import { ActionCard } from '@/components/Cards'
 import DataTable from '@/components/DataTable'
 import CreateStudentModal from '@/components/Users/CreateStudentModal'
 
-// Services
+// Services/Helpers/Types
 import { UserService } from '@/services'
+import { UserRoleText, UserRoleColor } from '@/helpers'
 import { User } from '~/types'
 
 export default defineComponent({
@@ -79,7 +91,7 @@ export default defineComponent({
     CreateStudentModal
   },
 
-  setup () {
+  setup (_, { root: { $notify } }) {
     const service = new UserService()
     const users = ref()
     const loading = ref(false)
@@ -90,7 +102,8 @@ export default defineComponent({
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
       { text: 'Email', value: 'email', sortable: true, align: 'center' },
-      { text: '', value: 'action', sortable: false }
+      { text: 'Tipo', value: 'role', sortable: true, align: 'center' },
+      { text: '', value: 'action', sortable: false, align: 'center' }
     ]
 
     const loadUsers = async () => {
@@ -109,9 +122,18 @@ export default defineComponent({
       try {
         loading.value = true
         await service.createStudent(user)
+        showCreateStudent.value = false
+        $notify({
+          title: 'Aluno criado com sucesso!',
+          text: 'Seu novo aluno foi criado com sucesso.'
+        })
         loadUsers()
       } catch (error) {
-        console.log(error)
+        $notify({
+          title: 'Erro ao criar aluno!',
+          text: error.message,
+          type: 'error'
+        })
       } finally {
         loading.value = false
       }
@@ -125,7 +147,9 @@ export default defineComponent({
       search,
       showSearch,
       showCreateStudent,
-      handleSubmit
+      handleSubmit,
+      UserRoleText,
+      UserRoleColor
     }
   }
 })

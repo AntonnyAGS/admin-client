@@ -159,7 +159,7 @@ export default defineComponent({
         const service = new UserService()
         loading.value = true
         await service.createAdmin(user)
-        showCreateStudent.value = false
+        showCreateAdmin.value = false
         $notify({
           title: 'Administrador criado com sucesso!',
           text: 'Seu novo administrador foi criado com sucesso.'

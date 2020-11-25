@@ -33,10 +33,8 @@ instance.interceptors.response.use(
       })
     } else if (error.response.status === 403) {
       window.$nuxt.$store.dispatch('config/logout')
-      return Promise.reject(error)
-    } else {
-      return Promise.reject(error)
     }
+    return Promise.reject(error)
   }
 )
 

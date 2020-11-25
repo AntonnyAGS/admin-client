@@ -24,20 +24,9 @@
             type="text"
             placeholder="Digite o email do aluno"
           />
-          <v-text-field
-            v-model="form.phone"
-            v-mask="['(##) ####-####', '(##) #####-####']"
-            label="Telefone"
-            placeholder="Digite o telefone do aluno"
-          />
-          <v-text-field
-            v-model="form.ra"
-            label="RA *"
-            placeholder="Digite o RA do aluno"
-          />
 
           <div class="create-admin__password-obs">
-            <strong>Atenção:</strong> todos os alunos serão criados com a senha '123456' como padrão.
+            <strong>Atenção:</strong> todos os administradores serão criados com a senha '123456' como padrão.
           </div>
         </div>
         <v-divider />
@@ -70,11 +59,9 @@ import { UserRole } from '@/enums'
 type UserForm = {
   name: string;
   email: string;
-  ra: string;
   password: string;
   // eslint-disable-next-line
   password_repeat: string;
-  phone?: string;
   role: UserRole;
 
 }
@@ -84,15 +71,7 @@ const validateSchema = yup.object().shape<UserForm>({
   email: yup.string().email('Digite um email válido').required('Digite o email'),
   password: yup.string().required('Digite a senha'),
   password_repeat: yup.string().required('Digite a confirmação de senha'),
-  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
-  ra: yup.string().required('Digite o RA'),
-  phone: yup.string().test('len', 'Digite um telefone válido', (val) => {
-    if (typeof val !== 'string' || (val?.length !== 0 && val.length < 14)) {
-      return false
-    }
-    return true
-  })
-
+  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole))
 })
 
 export default defineComponent({
@@ -110,19 +89,14 @@ export default defineComponent({
       name: '',
       email: '',
       password: '123456',
-      phone: '',
-      ra: '',
       password_repeat: '123456',
-      role: UserRole.STUDENT
+      role: UserRole.ADMIN
 
     })
 
     const handleSubmit = () => {
       try {
         validateSchema.validateSync(form.value, { abortEarly: false })
-        if (form.value.phone) {
-          form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
-        }
         form.value.email = form.value.email.toLowerCase()
         emit('handle-submit', form.value)
       } catch (error) {

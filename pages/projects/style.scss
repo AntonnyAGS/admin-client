@@ -6,7 +6,7 @@
   width: 100%;
   height: 100%;
   &__cover-card {
-    height: 133px;
+    min-height: 133px;
   }
   &__table-header {
     margin-top: $MAIN_SPACE;

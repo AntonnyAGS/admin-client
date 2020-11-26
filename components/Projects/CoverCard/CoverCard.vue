@@ -1,6 +1,6 @@
 <template>
-  <div class="fill-height">
-    <v-card class="cover-card">
+  <div>
+    <v-card class="cover-card" style="min-height: 133px;">
       <div class="d-flex flex-column">
         <div class="cover-card__title">
           {{ title }}

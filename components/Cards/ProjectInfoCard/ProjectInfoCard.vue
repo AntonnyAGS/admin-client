@@ -58,8 +58,9 @@ export default defineComponent({
   padding: $MAIN_SPACE;
   width: 100%;
   border-radius: $BORDER_RADIUS;
+  height: 100%;
   &__number {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     display: flex;
     justify-content: center;
     font-family: Roboto;
@@ -71,6 +72,7 @@ export default defineComponent({
     text-align: center;
     align-items: center;
     font-weight: 500;
+    overflow: hidden;
   }
 }
 </style>

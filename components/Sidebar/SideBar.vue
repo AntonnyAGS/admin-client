@@ -10,17 +10,17 @@
     style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;"
   >
     <div class="sidebar__grid">
-      <div>
+      <div style="width: 80px;">
         <v-list>
           <v-list-item class="px-2">
-            <v-list-item-avatar>
+            <v-list-item-avatar class="ma-0">
               <img src="@/assets/images/icon.svg">
             </v-list-item-avatar>
           </v-list-item>
         </v-list>
       </div>
 
-      <div>
+      <div style="width: 80px;">
         <v-list
           nav
           dense
@@ -33,7 +33,7 @@
             :to="item.to"
             active-class="sidebar__active"
           >
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0">
               <v-icon color="white" large>
                 {{ item.icon }}
               </v-icon>
@@ -43,10 +43,10 @@
         </v-list>
       </div>
 
-      <div class="d-flex align-end">
+      <div class="d-flex align-end" style="width: 80px;">
         <v-list style="width: 100%">
           <v-list-item class="px-2">
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0">
               <v-icon color="white" large>
                 mdi-logout
               </v-icon>

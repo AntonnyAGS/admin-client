@@ -45,7 +45,7 @@
 
       <div class="d-flex align-end" style="width: 80px;">
         <v-list style="width: 100%">
-          <v-list-item class="px-2">
+          <v-list-item class="px-2" @click="handleLogout">
             <v-list-item-icon class="ma-0">
               <v-icon color="white" large>
                 mdi-logout
@@ -62,11 +62,27 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 import { SidebarItem } from '@/types'
 
+import { useNamespacedActions } from 'vuex-composition-helpers'
+
+import { Actions } from '@/store/config'
+
 export default defineComponent({
   props: {
     items: {
       type: Array as () => SidebarItem[],
       required: true
+    }
+  },
+
+  setup () {
+    const { logout } = useNamespacedActions<Actions>('config', ['logout'])
+
+    const handleLogout = async () => {
+      await logout()
+    }
+
+    return {
+      handleLogout
     }
   }
 })

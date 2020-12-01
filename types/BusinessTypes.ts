@@ -14,6 +14,14 @@ export type User = {
   phone: string;
 }
 
+export type Group = {
+  _id: string;
+  groupName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  users: User[];
+}
+
 export type Project = {
   createdAt: Date | string;
   name: string;

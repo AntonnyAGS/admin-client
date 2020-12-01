@@ -62,6 +62,9 @@
           Entrar
         </v-btn>
       </v-form>
+      <div>
+        oi
+      </div>
     </div>
     <v-snackbar v-model="error.show">
       <div class="text-center">

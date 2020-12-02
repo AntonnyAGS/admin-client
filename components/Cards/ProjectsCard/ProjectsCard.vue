@@ -73,7 +73,7 @@ export default defineComponent({
   }
   &__header {
     margin-bottom: $MAIN_SPACE;
-    font-family: Roboto;
+    font-family: Montserrat;
     display: flex;
     align-items: center;
   }
@@ -83,7 +83,7 @@ export default defineComponent({
   }
   &__link {
     text-decoration: none;
-    font-family: Roboto;
+    font-family: Montserrat;
     font-weight: 600;
     color: $STATUS_FINISHED;
   }

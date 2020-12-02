@@ -105,7 +105,7 @@ export default defineComponent({})
   &__title {
     font-size: 1.8rem;
     font-weight: 600;
-    font-family: Roboto;
+    font-family: Montserrat;
   }
   &__button {
     width: 160px;

@@ -59,7 +59,7 @@ export default defineComponent({
       font-weight: 600;
       border-left: 5px solid black;
       padding-left: 10px;
-      font-family: Roboto;
+      font-family: Montserrat;
     }
 }
 }

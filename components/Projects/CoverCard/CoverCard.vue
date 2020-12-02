@@ -56,7 +56,7 @@ export default defineComponent({
   grid-template-columns: 1.8fr 1fr;
   gap: $MAIN_SPACE;
   &__title {
-    font-family: Roboto;
+    font-family: Montserrat;
     font-size: 1.2rem;
     font-weight: 600;
   }

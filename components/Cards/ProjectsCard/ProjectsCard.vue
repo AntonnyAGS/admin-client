@@ -83,7 +83,7 @@ export default defineComponent({
   }
   &__link {
     text-decoration: none;
-    font-family: Baloo;
+    font-family: Roboto;
     font-weight: 600;
     color: $STATUS_FINISHED;
   }

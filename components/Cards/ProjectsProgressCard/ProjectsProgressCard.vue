@@ -11,21 +11,34 @@
           Ainda não há nada aqui.
         </div>
         <div v-for="item in items" v-else :key="item._id" class="project-progress-card__item">
-          <div class="project-progress-card__item-title">
-            <v-icon small style="margin-bottom:4px" :color="StatusColor[item.status]">
-              fas fa-circle
-            </v-icon>
-            {{ item.name }}
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <div class="project-progress-card__item-title" v-on="on">
+                <v-icon small style="margin-bottom:4px" :color="StatusColor[item.status]">
+                  fas fa-circle
+                </v-icon>
+                <div class="project-progress-card__item-text">
+                  {{ item.name }}
+                </div>
+              </div>
+            </template>
+            <span>
+              {{ item.name }}
+            </span>
+          </v-tooltip>
+          <div class="progress-circular-container" :style="{'background-color': StatusColor[item.status] }">
+            <v-progress-circular
+              :rotate="360"
+              :size="100"
+              :width="15"
+              :value="getProgress(item)"
+              :color="StatusColor[item.status]"
+            >
+              <span class="white--text" style="font-weight: 600; font-size: 1.3rem">
+                {{ getDiffDays(item) }}
+              </span>
+            </v-progress-circular>
           </div>
-          <v-progress-circular
-            :rotate="360"
-            :size="100"
-            :width="15"
-            :value="getProgress(item)"
-            :color="StatusColor[item.status]"
-          >
-            {{ getDiffDays(item) }}
-          </v-progress-circular>
         </div>
       </div>
     </v-card>

@@ -17,7 +17,7 @@
                     sinta se a vontade em comunicar os desenvolvedores caso algo estranho aconteça.
                   </div>
                   <v-spacer />
-                  <v-btn class="information-card__button text-capitalize" rounded>
+                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/projects')">
                     Conheça nos
                   </v-btn>
                 </div>
@@ -40,7 +40,7 @@
                     sinta se a vontade em comunicar os desenvolvedores caso algo estranho aconteça.
                   </div>
                   <v-spacer />
-                  <v-btn class="information-card__button text-capitalize" rounded>
+                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/users')">
                     Visualizar
                   </v-btn>
                 </div>

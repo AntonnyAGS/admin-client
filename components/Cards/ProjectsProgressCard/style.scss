@@ -36,9 +36,18 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    font-family: Baloo;
+    font-family: Montserrat;
     width: 100px !important;
   }
+  &__item-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.progress-circular-container {
+  border-radius: 50%;
 }
 
 @media #{map-get($display-breakpoints, 'lg-and-up')}{

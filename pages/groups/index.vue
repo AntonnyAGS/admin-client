@@ -6,6 +6,7 @@
         description="Crie novos grupos para te auxiliar a gerenciar os projetos."
         image-url="discussion.svg"
         class="groups__cover-card"
+        @handle-click="showCreateGroup = true"
       />
     </div>
     <div class="groups__body">
@@ -56,6 +57,11 @@
         </data-table>
       </v-card>
     </div>
+    <create-group-modal
+      v-model="showCreateGroup"
+      :items="users.filter(({ role }) => role === UserRole.STUDENT)"
+      @handle-submit="handleCreateGroup"
+    />
   </div>
 </template>
 
@@ -66,42 +72,48 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 // Components
 import DataTable from '@/components/DataTable'
 import ActionCard from '@/components/Cards/ActionCard'
+import { CreateGroupModal } from '@/components/Groups'
 
 // Services/Helpers/Types
-import { GroupService } from '@/services'
+import { GroupService, UserService } from '@/services'
+import { CreateGroupVars } from '@/services/GroupService'
 import { StatusText, StatusColor } from '@/helpers'
 
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
 import { State, Actions } from '@/store/groups'
+import { State as UsersState, Actions as UsersActions } from '@/store/users'
+
+import { UserRole } from '@/enums'
 
 export default defineComponent({
   components: {
     ActionCard,
-    DataTable
+    DataTable,
+    CreateGroupModal
   },
 
   setup () {
     const { setGroups } = useNamespacedActions<Actions>('groups', ['setGroups'])
     const { groups } = useNamespacedState<State>('groups', ['groups'])
 
+    const { setUsers } = useNamespacedActions<UsersActions>('users', ['setUsers'])
+    const { users } = useNamespacedState<UsersState>('users', ['users'])
+
     const loading = ref(false)
     const search = ref('')
     const showSearch = ref(false)
-    const showCreateStudent = ref(false)
-    const showCreateAdmin = ref(false)
+    const showCreateGroup = ref(false)
 
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
-      { text: 'Descrição', value: 'description', sortable: true, align: 'center' },
-      { text: 'Status', value: 'status', sortable: true, align: 'center' },
       { text: '', value: 'action', sortable: false, align: 'center' }
     ]
 
-    const loadProjects = async () => {
+    const loadGroups = async () => {
       try {
-        const service = new GroupService()
         loading.value = true
+        const service = new GroupService()
         const _groups = await service.groups()
         await setGroups(_groups)
       } catch (error) {
@@ -110,18 +122,48 @@ export default defineComponent({
         loading.value = false
       }
     }
+    loadGroups()
 
-    loadProjects()
+    const loadUsers = async () => {
+      try {
+        loading.value = true
+        const service = new UserService()
+        const _users = await service.users()
+        await setUsers(_users)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
+    }
+    loadUsers()
+
+    const handleCreateGroup = async (group: CreateGroupVars) => {
+      try {
+        loading.value = true
+        const service = new GroupService()
+        await service.create(group)
+        showCreateGroup.value = false
+        await loadGroups()
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
     return {
       groups,
       headers,
       loading,
       search,
       showSearch,
-      showCreateStudent,
+      showCreateGroup,
       StatusText,
       StatusColor,
-      showCreateAdmin
+      users,
+      UserRole,
+      handleCreateGroup
     }
   }
 })

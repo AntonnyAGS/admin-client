@@ -30,9 +30,9 @@
             deletable-chips
             placeholder="Digite o do aluno"
           />
-          <div class="create__password-obs">
+          <!-- <div class="create__password-obs">
             <strong>Atenção:</strong> todos os alunos serão criados com a senha '123456' como padrão.
-          </div>
+          </div> -->
         </div>
         {{ form.userIds }}
         <v-divider />

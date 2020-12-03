@@ -40,7 +40,7 @@
                     sinta se a vontade em comunicar os desenvolvedores caso algo estranho aconteça.
                   </div>
                   <v-spacer />
-                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/users')">
+                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/users?role=STUDENT')">
                     Visualizar
                   </v-btn>
                 </div>

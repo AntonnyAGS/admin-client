@@ -16,6 +16,20 @@ export class ProjectService {
       throw new Error(error.response.data.message)
     }
   }
+
+  async project (id: string): Promise<Project> {
+    try {
+      const token = Cookie.get(process.env.TOKEN)
+      const { data } = await axios.get<Project>(`/project/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      })
+      return data
+    } catch (error) {
+      throw new Error(error.response.data.message)
+    }
+  }
 }
 
 export default ProjectService

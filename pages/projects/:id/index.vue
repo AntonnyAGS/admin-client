@@ -14,18 +14,18 @@
       <div class="project__header-info">
         <div class="project__header-actions">
           <template v-if="project.status === ProjectStatus.WAITING">
-            <v-btn icon>
+            <v-btn icon @click="handleManageStatus(ProjectStatus.APPROVED)">
               <v-icon>
                 fas fa-thumbs-up
               </v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="handleManageStatus(ProjectStatus.REPROVED)">
               <v-icon>
                 fas fa-thumbs-down
               </v-icon>
             </v-btn>
           </template>
-          <v-btn v-if="project.status === ProjectStatus.APPROVED" icon>
+          <v-btn v-if="project.status === ProjectStatus.APPROVED" icon @click="handleManageStatus(ProjectStatus.DOING)">
             <v-icon>
               fas fa-play
             </v-icon>
@@ -184,8 +184,11 @@ export default defineComponent({
       ]
     })
 
-    const handleApprove = () => {
-      console.log('entrou')
+    const handleManageStatus = async (status: ProjectStatus) => {
+      if (!project.value) { return }
+      const service = new ProjectService()
+      await service.updateProject({ ...project.value, status })
+      project.value.status = status
     }
     return {
       getProject,
@@ -203,7 +206,7 @@ export default defineComponent({
       handleFileDownload,
       groups,
       showManageGroupsModal,
-      handleApprove,
+      handleManageStatus,
       ProjectStatus
     }
   }

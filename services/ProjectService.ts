@@ -8,7 +8,7 @@ export class ProjectService {
       const token = Cookie.get(process.env.TOKEN)
       const { data } = await axios.get<Project[]>('/project', {
         headers: {
-          authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       })
       return data
@@ -22,7 +22,7 @@ export class ProjectService {
       const token = Cookie.get(process.env.TOKEN)
       const { data } = await axios.get<Project>(`/project/${id}`, {
         headers: {
-          authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       })
       return data

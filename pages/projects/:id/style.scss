@@ -1,0 +1,41 @@
+@import '@/assets/variables.scss';
+@import '@/assets/colors.scss';
+
+.project {
+  width: 100%;
+  background-color: $MAIN_GREY;
+  font-family: Montserrat;
+  &__breadcrumbs {
+    padding: $MAIN_SPACE;
+    display: flex;
+    color: grey;
+    align-items: center;
+  }
+  &__header, &__client, &__groups, &__docs {
+    padding: $MAIN_SPACE;
+  }
+  &__header-title {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    ::v-deep .v-chip {
+      margin-left: $MAIN_SPACE;
+    }
+  }
+  &__client-title, &__groups-title, &__docs-title {
+    font-weight: 500;
+  }
+  &__client-info {
+    margin-top: $MAIN_SPACE;
+    color: grey;
+  }
+  &__groups-body {
+    margin-top: 10px;
+    ::v-deep .v-chip {
+      margin: 5px 5px 0 0;
+    }
+  }
+  &__groups-empty {
+    color: grey;
+  }
+}

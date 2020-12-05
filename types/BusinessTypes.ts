@@ -27,7 +27,8 @@ export type Project = {
   name: string;
   _id: string;
   status: ProjectStatus;
-  groupsId: string[];
+  groups: string[];
   description: string;
   updateAt: Date;
+  client: User;
 }

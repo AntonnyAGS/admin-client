@@ -2,7 +2,7 @@
   <v-dialog :value="value" persistent max-width="600px">
     <v-card>
       <div class="create__title">
-        Criar grupo
+        Vincular grupos
         <v-spacer />
         <v-btn icon @click="$emit('input', false)">
           <v-icon>
@@ -13,25 +13,25 @@
       <v-divider />
       <v-form @submit.prevent>
         <div class="create__body">
-          <v-text-field
+          <!-- <v-text-field
             v-model="form.name"
             label="Nome *"
             placeholder="Digite o nome do grupo"
-          />
+          /> -->
           <v-autocomplete
-            v-model="form.usersIds"
+            v-model="groups"
             multiple
             :items="items"
-            label="Alunos *"
+            label="Grupos *"
             item-text="name"
             item-value="_id"
             type="text"
             chips
             deletable-chips
-            placeholder="Digite o do aluno"
+            return-object
+            placeholder="Digite o nome do grupo"
           />
         </div>
-        {{ form.userIds }}
         <v-divider />
         <div class="create__footer">
           <v-spacer />
@@ -58,29 +58,33 @@ import * as yup from 'yup'
 import { mask } from 'vue-the-mask'
 
 // Types/enums
-import { User } from '@/types'
+import { Group } from '@/types'
 
-type UserForm = {
-  name: string;
-  usersIds: string[] | any;
-}
+// type UserForm = {
+//   name: string;
+//   usersIds: string[] | any;
+// }
 
-const validateSchema = yup.object().shape<UserForm>({
-  name: yup.string().required('Digite o nome'),
-  usersIds: yup.mixed().test('users', 'Informe pelo menos um usuário', (val) => {
-    if (val.length === 0) {
-      return false
-    }
-    return true
-  })
-})
+// const validateSchema = yup.object().shape<UserForm>({
+//   name: yup.string().required('Digite o nome'),
+//   usersIds: yup.mixed().test('users', 'Informe pelo menos um grupo', (val) => {
+//     if (val.length === 0) {
+//       return false
+//     }
+//     return true
+//   })
+// })
 
 export default defineComponent({
   props: {
     value: Boolean,
     loading: Boolean,
     items: {
-      type: Array as () => User[],
+      type: Array as () => Group[],
+      default: () => []
+    },
+    selectedItems: {
+      type: Array as () => Group[],
       default: () => []
     }
   },
@@ -89,17 +93,16 @@ export default defineComponent({
     mask
   },
 
-  setup (_, { emit, root: { $notify } }) {
-    const form = ref<UserForm>({
-      name: '',
-      usersIds: []
-    })
+  setup ({ selectedItems }, { emit, root: { $notify } }) {
+    // const form = ref<UserForm>({
+    //   name: '',
+    //   usersIds: []
+    // })
+    const groups = ref(selectedItems.map(_id => _id))
 
     const handleSubmit = () => {
       try {
-        validateSchema.validateSync(form.value, { abortEarly: false })
-
-        emit('handle-submit', form.value)
+        emit('handle-submit', groups.value)
       } catch (error) {
         console.log(error)
         let title = ''
@@ -116,8 +119,9 @@ export default defineComponent({
     }
 
     return {
-      form,
-      handleSubmit
+      // form,
+      handleSubmit,
+      groups
     }
   }
 })

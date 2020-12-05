@@ -30,7 +30,7 @@
               fas fa-play
             </v-icon>
           </v-btn>
-          <v-btn v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED" icon>
+          <v-btn v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED" icon @click="showManageGroupsModal = true">
             <v-icon>
               fas fa-users
             </v-icon>
@@ -75,7 +75,7 @@
         Grupos
       </div>
       <div class="project__groups-body">
-        <template v-if="project.groups.length > 0">
+        <template v-if="project.groups && project.groups.length > 0">
           <v-chip v-for="group in project.groups" :key="group._id" color="#ff9700" class="white--text">
             {{ group.name }}
           </v-chip>
@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-    <manage-groups-modal v-model="showManageGroupsModal" />
+    <manage-groups-modal v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
   </v-card>
 </template>
 
@@ -122,7 +122,7 @@ import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpe
 
 import { State, Actions } from '@/store/groups'
 import { ManageGroupsModal } from '@/components/Projects'
-import { Project, File } from '~/types'
+import { Project, File, Group } from '~/types'
 
 export default defineComponent({
   components: {
@@ -190,6 +190,16 @@ export default defineComponent({
       await service.updateProject({ ...project.value, status })
       project.value.status = status
     }
+
+    const handleManageGroups = async (_groups: Group[]) => {
+      if (!project.value) { return }
+      const groupsId = _groups.map(_id => _id)
+      const service = new ProjectService()
+      await service.updateProject({ ...project.value, groupsId })
+      project.value.groups = _groups
+      showManageGroupsModal.value = false
+    }
+
     return {
       getProject,
       project,
@@ -207,7 +217,8 @@ export default defineComponent({
       groups,
       showManageGroupsModal,
       handleManageStatus,
-      ProjectStatus
+      ProjectStatus,
+      handleManageGroups
     }
   }
 })

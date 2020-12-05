@@ -27,10 +27,11 @@ export type Project = {
   name: string;
   _id: string;
   status: ProjectStatus;
-  groups: string[];
+  groups: string[] | Group[];
   description: string;
   updateAt: Date;
   client: User;
+  groupsId?: string[] | Group[];
 }
 
 export type File = {

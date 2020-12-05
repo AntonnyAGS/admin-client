@@ -17,8 +17,9 @@
   }
   &__header-actions {
     margin-bottom: $MAIN_SPACE;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    ::v-deep .v-btn:not(:last-child) {
+      margin-right: 10px !important;
+    }
   }
   &__header-title {
     font-size: 2rem;
@@ -95,10 +96,6 @@
     }
     &__header-actions {
       grid-area: actions;
-      display: block;
-      ::v-deep .v-icon:not(:last-child) {
-        margin-right: 10px;
-      }
     }
   }
 }

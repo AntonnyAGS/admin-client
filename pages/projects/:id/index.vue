@@ -13,24 +13,36 @@
     <div class="project__header">
       <div class="project__header-info">
         <div class="project__header-actions">
-          <v-btn icon class="mx-auto">
+          <template v-if="project.status === ProjectStatus.WAITING">
+            <v-btn icon>
+              <v-icon>
+                fas fa-thumbs-up
+              </v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>
+                fas fa-thumbs-down
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-btn v-if="project.status === ProjectStatus.APPROVED" icon>
             <v-icon>
-              fas fa-star
+              fas fa-play
             </v-icon>
           </v-btn>
-          <v-btn icon class="mx-auto">
+          <v-btn v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED" icon>
             <v-icon>
               fas fa-users
             </v-icon>
           </v-btn>
-          <v-btn icon class="mx-auto">
+          <v-btn v-if="project.status === ProjectStatus.DOING" icon>
             <v-icon>
-              fas fa-thumbs-down
+              fas fa-check
             </v-icon>
           </v-btn>
-          <v-btn icon class="mx-auto">
+          <v-btn v-if="project.status === ProjectStatus.DOING" icon>
             <v-icon>
-              fas fa-thumbs-up
+              fas fa-star
             </v-icon>
           </v-btn>
         </div>
@@ -95,24 +107,37 @@
         </div>
       </div>
     </div>
+    <manage-groups-modal v-model="showManageGroupsModal" />
   </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
-import { ProjectService, DocService } from '@/services'
+import { ProjectService, DocService, GroupService } from '@/services'
 import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor, FileText } from '@/helpers'
-import { PersonType } from '@/enums'
+import { PersonType, ProjectStatus } from '@/enums'
 import moment from 'moment'
+import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
+
+import { State, Actions } from '@/store/groups'
+import { ManageGroupsModal } from '@/components/Projects'
 import { Project, File } from '~/types'
 
 export default defineComponent({
+  components: {
+    ManageGroupsModal
+  },
+
   setup (_, { root: { $route } }) {
+    const { setGroups } = useNamespacedActions<Actions>('groups', ['setGroups'])
+    const { groups } = useNamespacedState<State>('groups', ['groups'])
     const { id } = $route.params
 
     const project = ref<Project>()
     const files = ref<File[]>()
+
+    const showManageGroupsModal = ref(false)
 
     const getProject = async () => {
       try {
@@ -132,6 +157,16 @@ export default defineComponent({
       }
     }
 
+    const loadGroups = async () => {
+      try {
+        const service = new GroupService()
+        const _groups = await service.groups()
+        await setGroups(_groups)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     const handleFileDownload = (fileId: string) => {
       if (!files.value) { return }
       const _file = files.value.find(({ _id }) => _id === fileId)
@@ -140,6 +175,7 @@ export default defineComponent({
 
     getProject()
     getFiles()
+    loadGroups()
 
     const breadcrumbItems = computed(() => {
       return [
@@ -148,6 +184,9 @@ export default defineComponent({
       ]
     })
 
+    const handleApprove = () => {
+      console.log('entrou')
+    }
     return {
       getProject,
       project,
@@ -161,7 +200,11 @@ export default defineComponent({
       files,
       FileText,
       moment,
-      handleFileDownload
+      handleFileDownload,
+      groups,
+      showManageGroupsModal,
+      handleApprove,
+      ProjectStatus
     }
   }
 })

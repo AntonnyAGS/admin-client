@@ -11,11 +11,36 @@
     </div>
     <v-divider />
     <div class="project__header">
-      <div class="project__header-title">
-        {{ project.name }}
-        <v-chip :color="StatusColor[project.status]" class="white--text">
-          {{ StatusText[project.status] }}
-        </v-chip>
+      <div class="project__header-info">
+        <div class="project__header-actions">
+          <v-btn icon class="mx-auto">
+            <v-icon>
+              fas fa-star
+            </v-icon>
+          </v-btn>
+          <v-btn icon class="mx-auto">
+            <v-icon>
+              fas fa-users
+            </v-icon>
+          </v-btn>
+          <v-btn icon class="mx-auto">
+            <v-icon>
+              fas fa-thumbs-down
+            </v-icon>
+          </v-btn>
+          <v-btn icon class="mx-auto">
+            <v-icon>
+              fas fa-thumbs-up
+            </v-icon>
+          </v-btn>
+        </div>
+        <div class="project__header-title">
+          {{ project.name }}
+          <v-chip :color="StatusColor[project.status]" class="white--text">
+            {{ StatusText[project.status] }}
+          </v-chip>
+          <v-spacer />
+        </div>
       </div>
       <div class="project__header-description">
         {{ project.description }}

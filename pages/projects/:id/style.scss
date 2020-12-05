@@ -1,5 +1,6 @@
 @import '@/assets/variables.scss';
 @import '@/assets/colors.scss';
+@import '~vuetify/src/styles/styles.sass';
 
 .project {
   width: 100%;
@@ -13,6 +14,11 @@
   }
   &__header, &__client, &__groups, &__docs {
     padding: $MAIN_SPACE;
+  }
+  &__header-actions {
+    margin-bottom: $MAIN_SPACE;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
   }
   &__header-title {
     font-size: 2rem;
@@ -78,5 +84,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: center;
+  }
+}
+@media #{map-get($display-breakpoints, 'md-and-up')}{
+  .project {
+    &__header-info {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'title actions';
+    }
+    &__header-actions {
+      grid-area: actions;
+      display: block;
+      ::v-deep .v-icon:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
   }
 }

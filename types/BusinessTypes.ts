@@ -1,4 +1,4 @@
-import { ProjectStatus, PersonType, UserRole } from '@/enums'
+import { ProjectStatus, PersonType, UserRole, FileType } from '@/enums'
 
 export type User = {
   createdAt: Date;
@@ -31,4 +31,13 @@ export type Project = {
   description: string;
   updateAt: Date;
   client: User;
+}
+
+export type File = {
+  _id: string;
+  projectId: string;
+  fileName: string;
+  fileType: FileType;
+  fileUrl: string;
+  createdAt: Date;
 }

@@ -16,3 +16,8 @@ export enum PersonType {
   PERSON = 'PERSON',
   COMPANY = 'COMPANY'
 }
+
+export enum FileType {
+  LOGO = 'LOGO',
+  REQUIREMENTS_DOCUMENT = 'REQUIREMENTS_DOCUMENT'
+}

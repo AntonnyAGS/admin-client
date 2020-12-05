@@ -53,6 +53,22 @@
       <div class="project__docs-title">
         Documentos
       </div>
+      <div class="project__docs-body">
+        <div v-if="files && files.length === 0" class="project__docs-empty">
+          Ainda não há documentos para este projeto.
+        </div>
+        <div v-for="file in files" :key="file._id" class="project__docs-item">
+          <div class="project__docs-item-header">
+            {{ FileText[file.fileType] }}
+          </div>
+          <div class="project__docs-item-download" @click="handleFileDownload(file._id)">
+            {{ file.fileName }}
+            <div class="project__docs-item-data">
+              {{ moment(file.createdAt).format('DD/MM/YYYY') }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </v-card>
 </template>
@@ -60,23 +76,45 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
-import { ProjectService } from '@/services'
-import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor } from '@/helpers'
+import { ProjectService, DocService } from '@/services'
+import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor, FileText } from '@/helpers'
 import { PersonType } from '@/enums'
-import { Project } from '~/types'
+import moment from 'moment'
+import { Project, File } from '~/types'
 
 export default defineComponent({
   setup (_, { root: { $route } }) {
     const { id } = $route.params
 
     const project = ref<Project>()
+    const files = ref<File[]>()
 
     const getProject = async () => {
-      const service = new ProjectService()
-      project.value = await service.project(id)
+      try {
+        const service = new ProjectService()
+        project.value = await service.project(id)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const getFiles = async () => {
+      try {
+        const service = new DocService()
+        files.value = await service.doc(id)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const handleFileDownload = (fileId: string) => {
+      if (!files.value) { return }
+      const _file = files.value.find(({ _id }) => _id === fileId)
+      window.open(_file?.fileUrl)
     }
 
     getProject()
+    getFiles()
 
     const breadcrumbItems = computed(() => {
       return [
@@ -94,7 +132,11 @@ export default defineComponent({
       formatCnpj,
       formatCpf,
       StatusText,
-      StatusColor
+      StatusColor,
+      files,
+      FileText,
+      moment,
+      handleFileDownload
     }
   }
 })

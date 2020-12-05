@@ -1,5 +1,5 @@
 
-import { ProjectStatus, UserRole, PersonType } from '@/enums'
+import { ProjectStatus, UserRole, PersonType, FileType } from '@/enums'
 
 export const validateEmail = (email: string): boolean => {
   const pattern = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi)
@@ -55,4 +55,9 @@ export function formatCpf (cpf: string): string {
 export function formatCnpj (cnpj: string): string {
   if (!cnpj) { return '' }
   return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5')
+}
+
+export const FileText: Record<FileType, string> = {
+  [FileType.LOGO]: 'Logo',
+  [FileType.REQUIREMENTS_DOCUMENT]: 'Requerimentos'
 }

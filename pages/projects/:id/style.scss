@@ -3,7 +3,7 @@
 
 .project {
   width: 100%;
-  background-color: $MAIN_GREY;
+  background-color: $MAIN_GREY !important;
   font-family: Montserrat;
   &__breadcrumbs {
     padding: $MAIN_SPACE;
@@ -25,7 +25,7 @@
   &__client-title, &__groups-title, &__docs-title {
     font-weight: 500;
   }
-  &__client-info {
+  &__client-info, &__header-description {
     margin-top: $MAIN_SPACE;
     color: grey;
   }
@@ -35,7 +35,48 @@
       margin: 5px 5px 0 0;
     }
   }
-  &__groups-empty {
+  &__groups-empty, &__docs-empty {
     color: grey;
+  }
+  &__docs-body {
+    margin-top: 10px;
+    display: flex;
+  }
+  &__docs-item {
+    margin: 5px 5px 0 0;
+    width: 120px;
+    border: 1px solid #d7d7d9;
+    background-color: white;
+    // box-shadow: 4px 2px 10px #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__docs-item-header {
+    padding: 8px;
+    border-bottom: 1px solid #d7d7d9;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  &__docs-item-download {
+    padding: 8px;
+    color: grey;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    cursor: pointer;
+  }
+  &__docs-item-data {
+    font-size: 0.8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
   }
 }

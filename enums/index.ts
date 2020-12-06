@@ -21,3 +21,9 @@ export enum FileType {
   LOGO = 'LOGO',
   REQUIREMENTS_DOCUMENT = 'REQUIREMENTS_DOCUMENT'
 }
+
+export enum ScoreType {
+  DEVELOPMENT = 'DEVELOPMENT',
+  PRESENTATION = 'PRESENTATION',
+  FINAL = 'FINAL'
+}

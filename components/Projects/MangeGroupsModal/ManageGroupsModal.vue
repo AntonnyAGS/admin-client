@@ -107,6 +107,9 @@ export default defineComponent({
 @import '@/assets/colors.scss';
 @import '~vuetify/src/styles/styles.sass';
 
+*:not(.v-icon) {
+  font-family: Montserrat;
+}
 .create {
   &__title {
     padding: $MAIN_SPACE;

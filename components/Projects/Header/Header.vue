@@ -29,7 +29,7 @@
             fas fa-check
           </v-icon>
         </v-btn>
-        <v-btn v-if="project.status === ProjectStatus.FINISHED" icon>
+        <v-btn v-if="project.status === ProjectStatus.FINISHED" icon @click="$emit('show-add-students-score')">
           <v-icon>
             fas fa-star
           </v-icon>
@@ -97,6 +97,10 @@ export default defineComponent({
     ::v-deep .v-chip {
       margin-left: $MAIN_SPACE;
     }
+  }
+  &__header-description {
+    color: grey;
+    margin-top: $MAIN_SPACE;
   }
 }
 @media #{map-get($display-breakpoints, 'md-and-up')}{

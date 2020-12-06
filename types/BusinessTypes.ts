@@ -1,4 +1,4 @@
-import { ProjectStatus, PersonType, UserRole, FileType } from '@/enums'
+import { ProjectStatus, PersonType, UserRole, FileType, ScoreType } from '@/enums'
 
 export type User = {
   createdAt: Date;
@@ -41,4 +41,12 @@ export type File = {
   fileType: FileType;
   fileUrl: string;
   createdAt: Date;
+}
+
+export type Score = {
+  score: number;
+  studentId: User | string;
+  scoresType: ScoreType[];
+  projectId: Project | string;
+  groupId: Group | string;
 }

@@ -20,7 +20,7 @@
     </div>
     <div class="dashboard__body">
       <div>
-        <projects-progress-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,3)" class="dashboard__projects-progress" />
+        <projects-progress-card v-if="projects" :items="filteredProjects(ProjectStatus.DOING).slice(0,3)" class="dashboard__projects-progress" />
         <projects-card v-if="projects" :items="filteredProjects(ProjectStatus.WAITING).slice(0,3)" class="dashboard__projects" />
       </div>
       <information-card class="dashboard__carousel" />

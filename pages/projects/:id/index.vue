@@ -10,54 +10,7 @@
       />
     </div>
     <v-divider />
-    <div class="project__header">
-      <div class="project__header-info">
-        <div class="project__header-actions">
-          <template v-if="project.status === ProjectStatus.WAITING">
-            <v-btn icon @click="handleManageStatus(ProjectStatus.APPROVED)">
-              <v-icon>
-                fas fa-thumbs-up
-              </v-icon>
-            </v-btn>
-            <v-btn icon @click="handleManageStatus(ProjectStatus.REPROVED)">
-              <v-icon>
-                fas fa-thumbs-down
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-btn v-if="project.status === ProjectStatus.APPROVED" icon @click="handleManageStatus(ProjectStatus.DOING)">
-            <v-icon>
-              fas fa-play
-            </v-icon>
-          </v-btn>
-          <v-btn v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED" icon @click="showManageGroupsModal = true">
-            <v-icon>
-              fas fa-users
-            </v-icon>
-          </v-btn>
-          <v-btn v-if="project.status === ProjectStatus.DOING" icon>
-            <v-icon>
-              fas fa-check
-            </v-icon>
-          </v-btn>
-          <v-btn v-if="project.status === ProjectStatus.DOING" icon>
-            <v-icon>
-              fas fa-star
-            </v-icon>
-          </v-btn>
-        </div>
-        <div class="project__header-title">
-          {{ project.name }}
-          <v-chip :color="StatusColor[project.status]" class="white--text">
-            {{ StatusText[project.status] }}
-          </v-chip>
-          <v-spacer />
-        </div>
-      </div>
-      <div class="project__header-description">
-        {{ project.description }}
-      </div>
-    </div>
+    <project-header :project="project" @show-manage-groups="showManageGroupsModal = true" />
     <v-divider />
     <div class="project__client">
       <div class="project__client-title">
@@ -121,12 +74,13 @@ import moment from 'moment'
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
 import { State, Actions } from '@/store/groups'
-import { ManageGroupsModal } from '@/components/Projects'
+import { ManageGroupsModal, Header as ProjectHeader } from '@/components/Projects'
 import { Project, File, Group } from '~/types'
 
 export default defineComponent({
   components: {
-    ManageGroupsModal
+    ManageGroupsModal,
+    ProjectHeader
   },
 
   setup (_, { root: { $route } }) {

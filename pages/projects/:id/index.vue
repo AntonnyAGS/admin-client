@@ -12,7 +12,8 @@
     <v-divider />
     <project-header :project="project" @show-manage-groups="showManageGroupsModal = true" />
     <v-divider />
-    <div class="project__client">
+    <client :project="project" />
+    <!-- <div class="project__client">
       <div class="project__client-title">
         Dados do cliente
       </div>
@@ -21,7 +22,7 @@
         -
         {{ project.client.personType === PersonType.COMPANY ? formatCnpj(project.client.cnpj) : formatCpf(project.client.cpf) }}
       </div>
-    </div>
+    </div> -->
     <v-divider />
     <div class="project__groups">
       <div class="project__groups-title">
@@ -67,24 +68,25 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
-import { ProjectService, DocService, GroupService } from '@/services'
+import { ProjectService, DocService } from '@/services'
 import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor, FileText } from '@/helpers'
 import { PersonType, ProjectStatus } from '@/enums'
 import moment from 'moment'
-import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
+import { useNamespacedState } from 'vuex-composition-helpers'
 
-import { State, Actions } from '@/store/groups'
-import { ManageGroupsModal, Header as ProjectHeader } from '@/components/Projects'
+import { State } from '@/store/groups'
+import { ManageGroupsModal, Header as ProjectHeader, Client } from '@/components/Projects'
+import { useLoadGroups } from '@/hooks'
 import { Project, File, Group } from '~/types'
 
 export default defineComponent({
   components: {
     ManageGroupsModal,
-    ProjectHeader
+    ProjectHeader,
+    Client
   },
 
   setup (_, { root: { $route } }) {
-    const { setGroups } = useNamespacedActions<Actions>('groups', ['setGroups'])
     const { groups } = useNamespacedState<State>('groups', ['groups'])
     const { id } = $route.params
 
@@ -111,16 +113,6 @@ export default defineComponent({
       }
     }
 
-    const loadGroups = async () => {
-      try {
-        const service = new GroupService()
-        const _groups = await service.groups()
-        await setGroups(_groups)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
     const handleFileDownload = (fileId: string) => {
       if (!files.value) { return }
       const _file = files.value.find(({ _id }) => _id === fileId)
@@ -129,7 +121,7 @@ export default defineComponent({
 
     getProject()
     getFiles()
-    loadGroups()
+    useLoadGroups()
 
     const breadcrumbItems = computed(() => {
       return [

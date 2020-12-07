@@ -44,6 +44,7 @@ export type File = {
 }
 
 export type Score = {
+  _id?: string;
   score: number;
   studentId: User | string;
   scoresType: ScoreType[];

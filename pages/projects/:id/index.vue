@@ -21,16 +21,23 @@
     <v-divider />
     <groups :project="project" />
     <v-divider />
-    <docs :files="files" />
-    <manage-groups-modal v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
-    <add-student-score v-model="showAddStudentScore" :items="project.groups" />
+    <docs v-if="files" :files="files" />
+    <manage-groups-modal v-if="showManageGroupsModal" v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
+    <add-student-score
+      v-if="showAddStudentScore"
+      v-model="showAddStudentScore"
+      :items="project.groups"
+      :scores="scores"
+      :project="project"
+      @handle-submit="handleCreateScores"
+    />
   </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
-import { ProjectService, DocService } from '@/services'
+import { ProjectService, DocService, ScoreService } from '@/services'
 import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor, FileText } from '@/helpers'
 import { PersonType, ProjectStatus } from '@/enums'
 import moment from 'moment'
@@ -39,7 +46,7 @@ import { useNamespacedState } from 'vuex-composition-helpers'
 import { State } from '@/store/groups'
 import { ManageGroupsModal, Header as ProjectHeader, Client, AddStudentScore, Groups, Docs } from '@/components/Projects'
 import { useLoadGroups } from '@/hooks'
-import { Project, File, Group } from '~/types'
+import { Project, File, Group, Score } from '~/types'
 
 export default defineComponent({
   components: {
@@ -57,6 +64,7 @@ export default defineComponent({
 
     const project = ref<Project>()
     const files = ref<File[]>()
+    const scores = ref<Score[]>()
 
     const showManageGroupsModal = ref(false)
     const showAddStudentScore = ref(false)
@@ -79,9 +87,19 @@ export default defineComponent({
       }
     }
 
+    const getScores = async () => {
+      try {
+        const service = new ScoreService()
+        scores.value = await service.scores(id)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     getProject()
     getFiles()
     useLoadGroups()
+    getScores()
 
     const breadcrumbItems = computed(() => {
       return [
@@ -106,6 +124,25 @@ export default defineComponent({
       showManageGroupsModal.value = false
     }
 
+    const handleCreateScores = async (_scores: Score[]) => {
+      try {
+        const service = new ScoreService()
+        const newScores = _scores.filter(s => !s._id)
+        const updatedScores = _scores.filter(s => s._id)
+
+        if (newScores.length > 0) {
+          await service.create(newScores)
+        }
+        if (updatedScores.length > 0) {
+          await service.update(updatedScores)
+        }
+        showAddStudentScore.value = false
+        scores.value = _scores
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return {
       getProject,
       project,
@@ -124,7 +161,9 @@ export default defineComponent({
       handleManageStatus,
       ProjectStatus,
       handleManageGroups,
-      showAddStudentScore
+      showAddStudentScore,
+      scores,
+      handleCreateScores
     }
   }
 })

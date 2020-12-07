@@ -2,7 +2,7 @@
   <v-dialog :value="value" persistent max-width="600px">
     <v-card>
       <div class="create__title">
-        Adicionar notas
+        Gerenciar notas
         <v-spacer />
         <v-btn icon @click="$emit('input', false)">
           <v-icon>
@@ -40,9 +40,12 @@
               <div>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on">
-                      <v-icon>
+                    <v-btn icon v-on="on" @click="handleAddScore(ScoreType.DEVELOPMENT, student._id)">
+                      <v-icon v-if="isActiveScore(student._id, ScoreType.DEVELOPMENT)">
                         fas fa-star
+                      </v-icon>
+                      <v-icon v-else>
+                        far fa-star
                       </v-icon>
                     </v-btn>
                   </template>
@@ -52,9 +55,12 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on">
-                      <v-icon>
+                    <v-btn icon v-on="on" @click="handleAddScore(ScoreType.PRESENTATION, student._id)">
+                      <v-icon v-if="isActiveScore(student._id, ScoreType.PRESENTATION)">
                         fas fa-star
+                      </v-icon>
+                      <v-icon v-else>
+                        far fa-star
                       </v-icon>
                     </v-btn>
                   </template>
@@ -64,9 +70,12 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on">
-                      <v-icon>
+                    <v-btn icon v-on="on" @click="handleAddScore(ScoreType.FINAL, student._id)">
+                      <v-icon v-if="isActiveScore(student._id, ScoreType.FINAL)">
                         fas fa-star
+                      </v-icon>
+                      <v-icon v-else>
+                        far fa-star
                       </v-icon>
                     </v-btn>
                   </template>
@@ -103,7 +112,8 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 import { mask } from 'vue-the-mask'
 
 // Types/enums
-import { Group } from '@/types'
+import { Group, Project, Score } from '@/types'
+import { ScoreType } from '@/enums'
 
 export default defineComponent({
   props: {
@@ -112,6 +122,14 @@ export default defineComponent({
     items: {
       type: Array as () => Group[],
       default: () => []
+    },
+    scores: {
+      type: Array as () => Score[],
+      default: () => []
+    },
+    project: {
+      type: Object as () => Project,
+      required: true
     }
   },
 
@@ -119,14 +137,39 @@ export default defineComponent({
     mask
   },
 
-  setup (_, { emit, root: { $notify } }) {
+  setup ({ scores, project }, { emit, root: { $notify } }) {
     const group = ref()
 
-    const scores = ref()
+    const scoresToSend = ref([...scores])
+
+    const getScoresIndex = (studentId: string, projectId: string, groupId: string) => {
+      return scoresToSend.value.findIndex(s => (s.studentId === studentId) && (s.projectId === projectId) && (s.groupId === groupId))
+    }
+
+    const handleAddScore = (scoreType: ScoreType, studentId: string) => {
+      const scoreIndex = getScoresIndex(studentId, project._id, group.value._id)
+      if (scoreIndex < 0) {
+        const obj: Score = {
+          score: 1,
+          studentId,
+          scoresType: [scoreType],
+          projectId: project._id,
+          groupId: group.value._id
+        }
+        scoresToSend.value.push(obj)
+        return
+      }
+      const score = scoresToSend.value[scoreIndex]
+      const hasThisType = score.scoresType.includes(scoreType)
+      hasThisType ? score.scoresType = score.scoresType.filter(s => s !== scoreType) : score.scoresType.push(scoreType)
+      score.score = hasThisType ? score.score - 1 : score.score + 1
+      scoresToSend.value.splice(scoreIndex, 1, score)
+    }
 
     const handleSubmit = () => {
       try {
-        emit('handle-submit', group.value)
+        emit('handle-submit', scoresToSend.value)
+        console.log(scoresToSend.value)
       } catch (error) {
         console.log(error)
         let title = ''
@@ -142,10 +185,23 @@ export default defineComponent({
       }
     }
 
+    const isActiveScore = (studentId: string, scoreType: ScoreType) => {
+      const scoreIndex = getScoresIndex(studentId, project._id, group.value._id)
+
+      if (scoreIndex < 0) {
+        return false
+      }
+
+      return scoresToSend.value[scoreIndex].scoresType.includes(scoreType)
+    }
+
     return {
       handleSubmit,
       group,
-      scores
+      scoresToSend,
+      handleAddScore,
+      ScoreType,
+      isActiveScore
     }
   }
 })

@@ -29,7 +29,7 @@
         <div v-if="group" class="create__students">
           Alunos
           <v-list class="pa-0" style="overflow: auto; max-height: 122px;">
-            <v-list-item v-for="student in group.usersIds" :key="student._id" class="pa-0">
+            <v-list-item v-for="student in group.usersIds || group.users" :key="student._id" class="pa-0">
               <v-list-item-content>
                 <v-list-item-title>
                   {{ student.name }}

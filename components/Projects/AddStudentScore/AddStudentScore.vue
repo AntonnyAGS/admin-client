@@ -19,6 +19,7 @@
             label="Grupos"
             item-text="name"
             item-value="_id"
+            no-data-text="Ainda não há grupos."
             type="text"
             hide-details
             return-object

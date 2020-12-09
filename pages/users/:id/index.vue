@@ -80,9 +80,17 @@ export default defineComponent({
         const isClient = p.clientId === user.value?._id
 
         // @ts-ignore
-        const _groups = p.groupsId.map(g => groups.value.find(({ _id }) => _id === g))
+        const _groups = groups.value.filter((group) => {
+          return group.users.map(u => u._id).includes(user.value?._id || '')
+        })
         // @ts-ignore
-        const isMemberOfGroups = _groups.map(g => g.users.map(({ _id }) => _id).includes(user.value?._id))
+        let isMemberOfGroups = false
+        _groups.forEach((g) => {
+          // @ts-ignore
+          if (p.groupsId?.includes(g._id)) {
+            isMemberOfGroups = true
+          }
+        })
 
         return isClient || isMemberOfGroups
       })

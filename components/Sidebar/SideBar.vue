@@ -25,21 +25,23 @@
           nav
           dense
         >
-          <v-list-item
-            v-for="item in items"
-            :key="item.title"
-            class="mb-5"
-            link
-            :to="item.to"
-            active-class="sidebar__active"
-          >
-            <v-list-item-icon class="ma-0">
-              <v-icon color="white" large>
-                {{ item.icon }}
-              </v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
+          <template v-for="item in items">
+            <v-list-item
+              v-if="!item.isAdminOnly || (item.isAdminOnly && user && user.role === UserRole.ADMIN) "
+              :key="item.title"
+              class="mb-5"
+              link
+              :to="item.to"
+              active-class="sidebar__active"
+            >
+              <v-list-item-icon class="ma-0">
+                <v-icon color="white" large>
+                  {{ item.icon }}
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </template>
         </v-list>
       </div>
 
@@ -62,9 +64,13 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 import { SidebarItem } from '@/types'
 
-import { useNamespacedActions } from 'vuex-composition-helpers'
+import { useNamespacedActions, useNamespacedState } from 'vuex-composition-helpers'
 
 import { Actions } from '@/store/config'
+
+import { State } from '@/store/user'
+
+import { UserRole } from '@/enums'
 
 export default defineComponent({
   props: {
@@ -76,13 +82,16 @@ export default defineComponent({
 
   setup () {
     const { logout } = useNamespacedActions<Actions>('config', ['logout'])
+    const { user } = useNamespacedState<State>('user', ['user'])
 
     const handleLogout = async () => {
       await logout()
     }
 
     return {
-      handleLogout
+      handleLogout,
+      user,
+      UserRole
     }
   }
 })

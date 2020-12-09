@@ -16,6 +16,7 @@ export type SidebarItem = {
   title: string;
   disabled?: boolean;
   icon: string;
+  isAdminOnly?: boolean;
 }
 
 export type UsersFilter = {

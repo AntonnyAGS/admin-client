@@ -16,7 +16,7 @@ export type User = {
 
 export type Group = {
   _id: string;
-  groupName: string;
+  name: string;
   createdAt: Date;
   updatedAt: Date;
   users: User[];

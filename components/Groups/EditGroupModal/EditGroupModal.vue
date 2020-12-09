@@ -1,8 +1,8 @@
 <template>
   <v-dialog :value="value" persistent max-width="600px">
     <v-card>
-      <div class="create__title">
-        Criar grupo
+      <div class="edit__title">
+        Editar grupo
         <v-spacer />
         <v-btn icon @click="$emit('input', false)">
           <v-icon>
@@ -12,7 +12,7 @@
       </div>
       <v-divider />
       <v-form @submit.prevent>
-        <div class="create__body">
+        <div class="edit__body">
           <v-text-field
             v-model="form.name"
             label="Nome *"
@@ -33,7 +33,7 @@
         </div>
         {{ form.userIds }}
         <v-divider />
-        <div class="create__footer">
+        <div class="edit__footer">
           <v-spacer />
           <v-btn
             type="submit"
@@ -58,7 +58,7 @@ import * as yup from 'yup'
 import { mask } from 'vue-the-mask'
 
 // Types/enums
-import { User } from '@/types'
+import { Group, User } from '@/types'
 
 type UserForm = {
   name: string;
@@ -79,9 +79,14 @@ export default defineComponent({
   props: {
     value: Boolean,
     loading: Boolean,
+    name: String,
     items: {
       type: Array as () => User[],
       default: () => []
+    },
+    group: {
+      type: Object as () => Group,
+      default: () => {}
     }
   },
 
@@ -89,17 +94,17 @@ export default defineComponent({
     mask
   },
 
-  setup (_, { emit, root: { $notify } }) {
+  setup ({ group }, { emit, root: { $notify } }) {
     const form = ref<UserForm>({
-      name: '',
-      usersIds: []
+      name: group.name,
+      usersIds: group.users
     })
 
     const handleSubmit = () => {
       try {
         validateSchema.validateSync(form.value, { abortEarly: false })
 
-        emit('handle-submit', form.value)
+        emit('handle-submit', { _id: group._id, ...form.value })
       } catch (error) {
         console.log(error)
         let title = ''
@@ -129,7 +134,7 @@ export default defineComponent({
 @import '@/assets/colors.scss';
 @import '~vuetify/src/styles/styles.sass';
 
-.create {
+.edit {
   &__title {
     padding: $MAIN_SPACE;
     font-size: 1.4rem;

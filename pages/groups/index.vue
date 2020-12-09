@@ -44,13 +44,13 @@
           no-results-text="Nada encontrado."
           loading-text="Carregando..."
         >
-          <template v-slot:[`item.status`]="{item}">
+          <!-- <template v-slot:[`item.status`]="{item}">
             <v-chip :color="StatusColor[item.status]" class="white--text">
               {{ StatusText[item.status] }}
             </v-chip>
-          </template>
+          </template> -->
           <template v-slot:[`item.action`]="{item}">
-            <v-btn rounded small class="text-capitalize" color="secondary">
+            <v-btn rounded small class="text-capitalize" color="secondary" @click="handleEditGroup(item)">
               Detalhes
             </v-btn>
           </template>
@@ -58,9 +58,17 @@
       </v-card>
     </div>
     <create-group-modal
+      v-if="showCreateGroup"
       v-model="showCreateGroup"
       :items="users.filter(({ role }) => role === UserRole.STUDENT)"
       @handle-submit="handleCreateGroup"
+    />
+    <edit-group-modal
+      v-if="showEditGroup"
+      v-model="showEditGroup"
+      :items="users.filter(({ role }) => role === UserRole.STUDENT)"
+      :group="selectedGroup"
+      @handle-submit="handleUpdate"
     />
   </div>
 </template>
@@ -72,11 +80,11 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 // Components
 import DataTable from '@/components/DataTable'
 import ActionCard from '@/components/Cards/ActionCard'
-import { CreateGroupModal } from '@/components/Groups'
+import { CreateGroupModal, EditGroupModal } from '@/components/Groups'
 
 // Services/Helpers/Types
 import { GroupService, UserService } from '@/services'
-import { CreateGroupVars } from '@/services/GroupService'
+import { CreateGroupVars, UpdateGroupVars } from '@/services/GroupService'
 import { StatusText, StatusColor } from '@/helpers'
 
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
@@ -85,12 +93,14 @@ import { State, Actions } from '@/store/groups'
 import { State as UsersState, Actions as UsersActions } from '@/store/users'
 
 import { UserRole } from '@/enums'
+import { Group } from '~/types'
 
 export default defineComponent({
   components: {
     ActionCard,
     DataTable,
-    CreateGroupModal
+    CreateGroupModal,
+    EditGroupModal
   },
 
   setup () {
@@ -104,6 +114,8 @@ export default defineComponent({
     const search = ref('')
     const showSearch = ref(false)
     const showCreateGroup = ref(false)
+    const showEditGroup = ref(false)
+    const selectedGroup = ref<Group>()
 
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
@@ -152,6 +164,25 @@ export default defineComponent({
       }
     }
 
+    const handleEditGroup = (item: Group) => {
+      selectedGroup.value = item
+      showEditGroup.value = true
+    }
+
+    const handleUpdate = async (group: UpdateGroupVars) => {
+      try {
+        loading.value = true
+        const service = new GroupService()
+        await service.update(group)
+        showEditGroup.value = false
+        await loadGroups()
+      } catch (error) {
+        console.log(error)
+      } finally {
+        loading.value = false
+      }
+    }
+
     return {
       groups,
       headers,
@@ -163,7 +194,11 @@ export default defineComponent({
       StatusColor,
       users,
       UserRole,
-      handleCreateGroup
+      handleCreateGroup,
+      showEditGroup,
+      handleEditGroup,
+      selectedGroup,
+      handleUpdate
     }
   }
 })

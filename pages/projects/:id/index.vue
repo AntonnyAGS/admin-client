@@ -121,6 +121,7 @@ export default defineComponent({
       const service = new ProjectService()
       await service.updateProject({ ...project.value, groupsId })
       project.value.groups = _groups
+      project.value.groupsId = _groups.map(g => g._id)
       showManageGroupsModal.value = false
     }
 

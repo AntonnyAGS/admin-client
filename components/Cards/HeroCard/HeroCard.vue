@@ -46,7 +46,7 @@ export default defineComponent({
     justify-content: center;
   }
   &__title {
-    font-family: Roboto;
+    font-family: Montserrat;
     font-size: 2rem;
     font-weight: 600;
   }

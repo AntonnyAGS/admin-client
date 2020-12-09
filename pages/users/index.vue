@@ -58,7 +58,7 @@
             </v-chip>
           </template>
           <template v-slot:[`item.action`]="{item}">
-            <v-btn rounded small class="text-capitalize" color="secondary">
+            <v-btn rounded small class="text-capitalize" color="secondary" @click="$router.push(`/users/${item._id}`)">
               Detalhes
             </v-btn>
           </template>
@@ -85,6 +85,7 @@ import { UserRoleText, UserRoleColor } from '@/helpers'
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
 import { State, Actions } from '@/store/users'
+import { UserRole } from '@/enums'
 import { User } from '~/types'
 
 export default defineComponent({
@@ -96,9 +97,17 @@ export default defineComponent({
     Filters
   },
 
-  setup (_, { root: { $notify } }) {
-    const { setUsers } = useNamespacedActions<Actions>('users', ['setUsers'])
+  setup (_, { root: { $notify, $route } }) {
+    const { setUsers, setFilters } = useNamespacedActions<Actions>('users', ['setUsers', 'setFilters'])
     const { users, filter } = useNamespacedState<State>('users', ['users', 'filter'])
+
+    const { role } = $route.query
+
+    if (role && Object.values(UserRole).includes(role as UserRole)) {
+      setFilters({ role: [role as UserRole] })
+    } else {
+      setFilters({ role: Object.values(UserRole) })
+    }
 
     const loading = ref(false)
     const search = ref('')

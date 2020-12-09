@@ -17,7 +17,7 @@
                     sinta se a vontade em comunicar os desenvolvedores caso algo estranho aconteça.
                   </div>
                   <v-spacer />
-                  <v-btn class="information-card__button text-capitalize" rounded>
+                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/projects')">
                     Conheça nos
                   </v-btn>
                 </div>
@@ -40,7 +40,7 @@
                     sinta se a vontade em comunicar os desenvolvedores caso algo estranho aconteça.
                   </div>
                   <v-spacer />
-                  <v-btn class="information-card__button text-capitalize" rounded>
+                  <v-btn class="information-card__button text-capitalize" rounded @click="$router.push('/users?role=STUDENT')">
                     Visualizar
                   </v-btn>
                 </div>
@@ -105,7 +105,7 @@ export default defineComponent({})
   &__title {
     font-size: 1.8rem;
     font-weight: 600;
-    font-family: Roboto;
+    font-family: Montserrat;
   }
   &__button {
     width: 160px;

@@ -17,7 +17,7 @@
     &__title {
       font-size: 1.6rem;
       color: white;
-      font-family: Roboto;
+      font-family: Montserrat;
       font-weight: 600;
     }
     &__action {
@@ -27,6 +27,15 @@
   }
   &__table-card {
     background-color: $MAIN_GREY;
+  }
+  &__table-description {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: $MAIN_SPACE 0;
+    color: grey;
   }
 }
 @media #{map-get($display-breakpoints, 'md-and-up')}{

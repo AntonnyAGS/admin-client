@@ -1,13 +1,22 @@
 <template>
   <div style="width: 100%;" class="project-info">
-    <v-card class="project-info-card">
-      <div class="project-info-card__number">
-        {{ formatNumber(value, 2) }}
-      </div>
-      <div class="project-info-card__type">
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-card class="project-info-card" v-on="on">
+          <div class="project-info-card__number">
+            {{ formatNumber(value, 2) }}
+          </div>
+          <div class="project-info-card__type">
+            <div class="project-info-card__title">
+              {{ types[type] }}
+            </div>
+          </div>
+        </v-card>
+      </template>
+      <span>
         {{ types[type] }}
-      </div>
-    </v-card>
+      </span>
+    </v-tooltip>
   </div>
 </template>
 
@@ -30,11 +39,11 @@ export default defineComponent({
 
   setup () {
     const types:Record<ProjectStatus | string, string> = {
-      [ProjectStatus.APPROVED]: 'Projetos aprovados',
-      [ProjectStatus.FINISHED]: 'Projetos finalizados',
-      [ProjectStatus.WAITING]: 'Projetos pendentes',
-      [ProjectStatus.REPROVED]: 'Projetos reprovados',
-      [ProjectStatus.DOING]: 'Projetos em andamento',
+      [ProjectStatus.APPROVED]: 'Aprovados',
+      [ProjectStatus.FINISHED]: 'Finalizados',
+      [ProjectStatus.WAITING]: 'Pendentes',
+      [ProjectStatus.REPROVED]: 'Reprovados',
+      [ProjectStatus.DOING]: 'Em andamento',
       ALL: 'Todos os projetos'
     }
 
@@ -55,15 +64,16 @@ export default defineComponent({
   background-color: $MAIN_GREY !important;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
+  gap: $MAIN_SPACE;
   padding: $MAIN_SPACE;
   width: 100%;
   border-radius: $BORDER_RADIUS;
   height: 100%;
   &__number {
-    font-size: 2.2rem;
+    font-size: 2rem;
     display: flex;
     justify-content: center;
-    font-family: Roboto;
+    font-family: Montserrat;
     font-weight: bold;
     align-items: center;
   }
@@ -71,8 +81,15 @@ export default defineComponent({
     display: flex;
     text-align: center;
     align-items: center;
-    font-weight: 500;
+    width: 100%;
     overflow: hidden;
+  }
+  &__title {
+    font-family: Montserrat;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
   }
 }
 </style>

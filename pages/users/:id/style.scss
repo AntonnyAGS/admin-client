@@ -1,0 +1,14 @@
+@import '@/assets/variables';
+@import '@/assets/colors';
+
+.user {
+  width: 100%;
+  background-color: $MAIN_GREY !important;
+  font-family: Montserrat;
+  &__breadcrumbs {
+    padding: $MAIN_SPACE;
+    display: flex;
+    color: grey;
+    align-items: center;
+  }
+}

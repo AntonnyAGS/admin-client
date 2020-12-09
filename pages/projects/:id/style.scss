@@ -1,0 +1,101 @@
+@import '@/assets/variables.scss';
+@import '@/assets/colors.scss';
+@import '~vuetify/src/styles/styles.sass';
+
+.project {
+  width: 100%;
+  background-color: $MAIN_GREY !important;
+  font-family: Montserrat;
+  &__breadcrumbs {
+    padding: $MAIN_SPACE;
+    display: flex;
+    color: grey;
+    align-items: center;
+  }
+  &__header, &__client, &__groups, &__docs {
+    padding: $MAIN_SPACE;
+  }
+  &__header-actions {
+    margin-bottom: $MAIN_SPACE;
+    ::v-deep .v-btn:not(:last-child) {
+      margin-right: 10px !important;
+    }
+  }
+  &__header-title {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    ::v-deep .v-chip {
+      margin-left: $MAIN_SPACE;
+    }
+  }
+  &__client-title, &__groups-title, &__docs-title {
+    font-weight: 500;
+  }
+  &__client-info, &__header-description {
+    margin-top: $MAIN_SPACE;
+    color: grey;
+  }
+  &__groups-body {
+    margin-top: 10px;
+    ::v-deep .v-chip {
+      margin: 5px 5px 0 0;
+    }
+  }
+  &__groups-empty, &__docs-empty {
+    color: grey;
+  }
+  &__docs-body {
+    margin-top: 10px;
+    display: flex;
+  }
+  &__docs-item {
+    margin: 5px 5px 0 0;
+    width: 120px;
+    border: 1px solid #d7d7d9;
+    background-color: white;
+    // box-shadow: 4px 2px 10px #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__docs-item-header {
+    padding: 8px;
+    border-bottom: 1px solid #d7d7d9;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  &__docs-item-download {
+    padding: 8px;
+    color: grey;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    cursor: pointer;
+  }
+  &__docs-item-data {
+    font-size: 0.8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}
+@media #{map-get($display-breakpoints, 'md-and-up')}{
+  .project {
+    &__header-info {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'title actions';
+    }
+    &__header-actions {
+      grid-area: actions;
+    }
+  }
+}

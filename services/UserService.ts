@@ -8,7 +8,7 @@ export class UserService {
       const token = Cookie.get(process.env.TOKEN)
       const { data } = await axios.get<User[]>('/user', {
         headers: {
-          authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       })
       return data
@@ -22,7 +22,7 @@ export class UserService {
       const token = Cookie.get(process.env.TOKEN)
       const { data } = await axios.post<User>('/user', student, {
         headers: {
-          authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       })
       return data
@@ -36,7 +36,21 @@ export class UserService {
       const token = Cookie.get(process.env.TOKEN)
       const { data } = await axios.post<User>('/user/create-admin', admin, {
         headers: {
-          authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return data
+    } catch (error) {
+      throw new Error(error.response.data.message)
+    }
+  }
+
+  async user (id: string): Promise<User> {
+    try {
+      const token = Cookie.get(process.env.TOKEN)
+      const { data } = await axios.get<User>(`/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
       })
       return data

@@ -31,6 +31,7 @@ export type Project = {
   description: string;
   updateAt: Date;
   client: User;
+  clientId?: string;
   groupsId?: string[] | Group[];
 }
 

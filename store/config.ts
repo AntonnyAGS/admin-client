@@ -13,6 +13,12 @@ export const actions: ActionTree<any, any> = {
 
     Cookies.remove(process.env.TOKEN, { path: '/' })
     Cookies.remove(process.env.REFRESH_TOKEN, { path: '/' })
+
+    // Clearing Data
+    window.$nuxt.$store.dispatch('user/setUser', null)
+    window.$nuxt.$store.dispatch('groups/setGroups', [])
+    window.$nuxt.$store.dispatch('projects/setProjects', [])
+    window.$nuxt.$store.dispatch('users/setUsers', [])
     this.$router.replace('/')
   }
 }

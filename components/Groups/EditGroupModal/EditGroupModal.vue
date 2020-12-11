@@ -17,6 +17,7 @@
             v-model="form.name"
             label="Nome *"
             placeholder="Digite o nome do grupo"
+            :readonly="!isAdmin"
           />
           <v-autocomplete
             v-model="form.usersIds"
@@ -29,6 +30,7 @@
             chips
             deletable-chips
             placeholder="Digite o do aluno"
+            :readonly="!isAdmin"
           />
         </div>
         {{ form.userIds }}
@@ -36,6 +38,7 @@
         <div class="edit__footer">
           <v-spacer />
           <v-btn
+            v-if="isAdmin"
             type="submit"
             rounded
             class="text-capitalize"
@@ -77,6 +80,10 @@ const validateSchema = yup.object().shape<UserForm>({
 
 export default defineComponent({
   props: {
+    isAdmin: {
+      type: Boolean,
+      default: true
+    },
     value: Boolean,
     loading: Boolean,
     name: String,

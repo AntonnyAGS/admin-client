@@ -6,6 +6,7 @@
         description="Crie novos grupos para te auxiliar a gerenciar os projetos."
         image-url="discussion.svg"
         class="groups__cover-card"
+        :is-admin="user.role === UserRole.ADMIN"
         @handle-click="showCreateGroup = true"
       />
     </div>
@@ -44,11 +45,6 @@
           no-results-text="Nada encontrado."
           loading-text="Carregando..."
         >
-          <!-- <template v-slot:[`item.status`]="{item}">
-            <v-chip :color="StatusColor[item.status]" class="white--text">
-              {{ StatusText[item.status] }}
-            </v-chip>
-          </template> -->
           <template v-slot:[`item.action`]="{item}">
             <v-btn rounded small class="text-capitalize" color="secondary" @click="handleEditGroup(item)">
               Detalhes
@@ -66,6 +62,7 @@
     <edit-group-modal
       v-if="showEditGroup"
       v-model="showEditGroup"
+      :is-admin="user.role === UserRole.ADMIN"
       :items="users.filter(({ role }) => role === UserRole.STUDENT)"
       :group="selectedGroup"
       @handle-submit="handleUpdate"
@@ -91,6 +88,7 @@ import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpe
 
 import { State, Actions } from '@/store/groups'
 import { State as UsersState, Actions as UsersActions } from '@/store/users'
+import { State as UserState } from '@/store/user'
 
 import { UserRole } from '@/enums'
 import { Group } from '~/types'
@@ -109,6 +107,7 @@ export default defineComponent({
 
     const { setUsers } = useNamespacedActions<UsersActions>('users', ['setUsers'])
     const { users } = useNamespacedState<UsersState>('users', ['users'])
+    const { user } = useNamespacedState<UserState>('user', ['user'])
 
     const loading = ref(false)
     const search = ref('')
@@ -148,6 +147,7 @@ export default defineComponent({
         loading.value = false
       }
     }
+
     loadUsers()
 
     const handleCreateGroup = async (group: CreateGroupVars) => {
@@ -198,7 +198,8 @@ export default defineComponent({
       showEditGroup,
       handleEditGroup,
       selectedGroup,
-      handleUpdate
+      handleUpdate,
+      user
     }
   }
 })

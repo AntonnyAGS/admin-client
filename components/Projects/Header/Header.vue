@@ -1,7 +1,7 @@
 <template>
   <div class="project__header">
     <div class="project__header-info">
-      <div class="project__header-actions">
+      <div v-if="isAdmin" class="project__header-actions">
         <template v-if="project.status === ProjectStatus.WAITING">
           <v-btn icon @click="$emit('handle-manage-status', ProjectStatus.APPROVED)">
             <v-icon>
@@ -61,6 +61,10 @@ export default defineComponent({
     project: {
       type: Object as () => Project,
       required: true
+    },
+    isAdmin: {
+      type: Boolean,
+      default: true
     }
   },
 

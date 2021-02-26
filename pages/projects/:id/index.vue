@@ -11,6 +11,7 @@
     </div>
     <v-divider />
     <project-header
+      :is-admin="user && user.role === UserRole.ADMIN"
       :project="project"
       @show-manage-groups="showManageGroupsModal = true"
       @show-add-students-score="showAddStudentScore = true"
@@ -20,6 +21,8 @@
     <client :project="project" />
     <v-divider />
     <groups :project="project" />
+    <v-divider />
+    <student-score v-if="user && user.role === UserRole.STUDENT" :score="studentScore" />
     <v-divider />
     <docs v-if="files" :files="files" />
     <manage-groups-modal v-if="showManageGroupsModal" v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
@@ -39,12 +42,13 @@ import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 
 import { ProjectService, DocService, ScoreService } from '@/services'
 import { UserPersonText, formatCnpj, formatCpf, StatusText, StatusColor, FileText } from '@/helpers'
-import { PersonType, ProjectStatus } from '@/enums'
+import { PersonType, ProjectStatus, UserRole } from '@/enums'
 import moment from 'moment'
 import { useNamespacedState } from 'vuex-composition-helpers'
 
 import { State } from '@/store/groups'
-import { ManageGroupsModal, Header as ProjectHeader, Client, AddStudentScore, Groups, Docs } from '@/components/Projects'
+import { State as UserState } from '@/store/user'
+import { ManageGroupsModal, Header as ProjectHeader, Client, AddStudentScore, Groups, Docs, StudentScore } from '@/components/Projects'
 import { useLoadGroups } from '@/hooks'
 import { Project, File, Group, Score } from '~/types'
 
@@ -55,10 +59,12 @@ export default defineComponent({
     Client,
     AddStudentScore,
     Groups,
-    Docs
+    Docs,
+    StudentScore
   },
 
   setup (_, { root: { $route } }) {
+    const { user } = useNamespacedState<UserState>('user', ['user'])
     const { groups } = useNamespacedState<State>('groups', ['groups'])
     const { id } = $route.params
 
@@ -100,6 +106,14 @@ export default defineComponent({
     getFiles()
     useLoadGroups()
     getScores()
+
+    const studentScore = computed(() => {
+      if (user.value?.role !== UserRole.STUDENT) {
+        return
+      }
+
+      return scores.value && scores.value.length > 0 ? scores.value[0] : {}
+    })
 
     const breadcrumbItems = computed(() => {
       return [
@@ -164,7 +178,10 @@ export default defineComponent({
       handleManageGroups,
       showAddStudentScore,
       scores,
-      handleCreateScores
+      handleCreateScores,
+      user,
+      UserRole,
+      studentScore
     }
   }
 })

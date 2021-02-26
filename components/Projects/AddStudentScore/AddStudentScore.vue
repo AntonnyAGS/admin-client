@@ -170,7 +170,6 @@ export default defineComponent({
     const handleSubmit = () => {
       try {
         emit('handle-submit', scoresToSend.value)
-        console.log(scoresToSend.value)
       } catch (error) {
         console.log(error)
         let title = ''

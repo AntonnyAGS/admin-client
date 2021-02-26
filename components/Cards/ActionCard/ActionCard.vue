@@ -1,6 +1,6 @@
 <template>
   <div class="fill-height">
-    <v-card class="action-card">
+    <v-card class="action-card" style="min-height: 133px">
       <div class="d-flex flex-column">
         <div class="action-card__title">
           {{ title }}
@@ -10,6 +10,7 @@
         </div>
         <v-spacer />
         <v-btn
+          v-if="isAdmin"
           rounded
           color="#ff9700"
           class="action-card__button white--text text-capitalize"
@@ -36,6 +37,10 @@ export default defineComponent({
     description: {
       type: String,
       required: true
+    },
+    isAdmin: {
+      type: Boolean,
+      default: true
     },
     imageUrl: String
   }

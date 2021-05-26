@@ -67,6 +67,9 @@ export default defineComponent({
   &__docs-title {
     font-weight: 500;
   }
+  &__docs-body {
+    display: flex;
+  }
   &__docs-empty {
     color: grey;
   }

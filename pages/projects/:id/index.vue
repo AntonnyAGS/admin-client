@@ -23,7 +23,7 @@
     <groups :project="project" />
     <v-divider />
     <student-score v-if="user && user.role === UserRole.STUDENT" :score="studentScore" />
-    <v-divider />
+    <v-divider v-if="user && user.role === UserRole.STUDENT" />
     <docs v-if="files" :files="files" />
     <manage-groups-modal v-if="showManageGroupsModal" v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
     <add-student-score

@@ -46,7 +46,7 @@
           loading-text="Carregando..."
         >
           <template v-slot:[`item.action`]="{item}">
-            <v-btn rounded small class="text-capitalize" color="secondary" @click="handleEditGroup(item)">
+            <v-btn class="text-capitalize" color="secondary" @click="handleEditGroup(item)">
               Detalhes
             </v-btn>
           </template>

@@ -1,14 +1,27 @@
 @import '@/assets/colors';
 
+
+
 .sidebar {
-  &__active {
-      i {
-        color: $MAIN_ORANGE !important;
-      }
-  }
   &__grid {
     display: grid;
     height: 100%;
     grid-template-rows: 1fr 1fr 1fr;
   }
+}
+
+::v-deep .v-list-item {
+  display: flex !important;
+  align-items: center;
+
+  flex-direction: row;
+
+}
+
+::v-deep .v-list-item__title {
+  color: white !important;
+}
+
+::v-deep .v-list-item--active {
+  background-color: $MAIN_ORANGE !important;
 }

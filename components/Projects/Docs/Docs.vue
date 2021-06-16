@@ -41,7 +41,23 @@ export default defineComponent({
     const handleFileDownload = (fileId: string) => {
       if (!files) { return }
       const _file = files.find(({ _id }) => _id === fileId)
-      window.open(_file?.fileUrl)
+
+      const url = _file?.fileUrl || ''
+      const filename = _file?.fileName || ''
+
+      fetch(url)
+        .then((t) => {
+          return t.blob()
+        })
+        .then((b) => {
+          const downloadUrl = window.URL.createObjectURL(b)
+          const link = document.createElement('a')
+          link.href = downloadUrl
+          link.setAttribute('download', filename)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
     }
 
     return {

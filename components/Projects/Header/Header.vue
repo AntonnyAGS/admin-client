@@ -3,36 +3,52 @@
     <div class="project__header-info">
       <div v-if="isAdmin" class="project__header-actions">
         <template v-if="project.status === ProjectStatus.WAITING">
-          <v-btn icon @click="$emit('handle-manage-status', ProjectStatus.APPROVED)">
-            <v-icon>
-              fas fa-thumbs-up
-            </v-icon>
+          <v-btn
+            class="text-capitalize white--text"
+            color="#29CC97"
+            @click="$emit('handle-manage-status', ProjectStatus.APPROVED)"
+          >
+            Aprovar
           </v-btn>
-          <v-btn icon @click="handleManageStatus(ProjectStatus.REPROVED)">
-            <v-icon>
-              fas fa-thumbs-down
-            </v-icon>
+          <v-btn
+            class="text-capitalize white--text"
+            color="#FF4C33"
+            @click="handleManageStatus(ProjectStatus.REPROVED)"
+          >
+            Reprovar
           </v-btn>
         </template>
-        <v-btn v-if="project.status === ProjectStatus.APPROVED" icon @click="$emit('handle-manage-status', ProjectStatus.DOING)">
-          <v-icon>
-            fas fa-play
-          </v-icon>
+        <v-btn
+          v-if="project.status === ProjectStatus.APPROVED"
+          class="text-capitalize white--text"
+          color="#FF9C33"
+          @click="$emit('handle-manage-status', ProjectStatus.DOING)"
+        >
+          Iniciar projeto
         </v-btn>
-        <v-btn v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED" icon @click="$emit('show-manage-groups')">
-          <v-icon>
-            fas fa-users
-          </v-icon>
+        <v-btn
+          v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
+          color="#2696E8"
+          class="text-capitalize white--text"
+          @click="$emit('show-manage-groups')"
+        >
+          Alocar grupos
         </v-btn>
-        <v-btn v-if="project.status === ProjectStatus.DOING" icon @click="$emit('handle-manage-status', ProjectStatus.FINISHED)">
-          <v-icon>
-            fas fa-check
-          </v-icon>
+        <v-btn
+          v-if="project.status === ProjectStatus.DOING"
+          class="text-capitalize white--text"
+          color="#2696E8"
+          @click="$emit('handle-manage-status', ProjectStatus.FINISHED)"
+        >
+          Finalizar projeto
         </v-btn>
-        <v-btn v-if="project.status === ProjectStatus.FINISHED" icon @click="$emit('show-add-students-score')">
-          <v-icon>
-            fas fa-star
-          </v-icon>
+        <v-btn
+          v-if="project.status === ProjectStatus.FINISHED"
+          class="text-capitalize white--text"
+          color="#FF9C33"
+          @click="$emit('show-add-students-score')"
+        >
+          Atribuir notas
         </v-btn>
       </div>
       <div class="project__header-title">
@@ -104,7 +120,7 @@ export default defineComponent({
   }
   &__header-description {
     color: grey;
-    margin-top: $MAIN_SPACE;
+    margin-top: 8px;
   }
 }
 @media #{map-get($display-breakpoints, 'md-and-up')}{

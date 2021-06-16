@@ -1,7 +1,9 @@
 <template>
   <v-card v-if="user" class="user fill-height">
     <div class="user__breadcrumbs">
-      Você está aqui:
+      <div class="user__breadcrumbs-text">
+        Você está aqui:
+      </div>
       <v-breadcrumbs
         class="pa-0"
         :items="breadcrumbItems"

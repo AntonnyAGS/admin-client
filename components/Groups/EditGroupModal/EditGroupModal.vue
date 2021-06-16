@@ -40,7 +40,6 @@
           <v-btn
             v-if="isAdmin"
             type="submit"
-            rounded
             class="text-capitalize"
             color="secondary"
             :loading="loading"

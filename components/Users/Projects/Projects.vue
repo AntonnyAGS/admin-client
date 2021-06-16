@@ -51,9 +51,9 @@ export default defineComponent({
     padding: $MAIN_SPACE;
   }
   &__projects-body {
-    margin-top: 10px;
+    margin-top: 8px;
     ::v-deep .v-chip {
-      margin: 5px 5px 0 0;
+      margin: 0px 8px 0 0;
     }
   }
   &__projects-title {

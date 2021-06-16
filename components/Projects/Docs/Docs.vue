@@ -69,12 +69,13 @@ export default defineComponent({
   }
   &__docs-body {
     display: flex;
+    margin-top: 8px;
   }
   &__docs-empty {
     color: grey;
   }
   &__docs-item {
-    margin: 5px 5px 0 0;
+    margin: 0 8px 0 0;
     width: 120px;
     border: 1px solid #d7d7d9;
     background-color: white;

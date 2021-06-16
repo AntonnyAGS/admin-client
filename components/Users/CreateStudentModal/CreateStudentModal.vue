@@ -45,7 +45,6 @@
           <v-spacer />
           <v-btn
             type="submit"
-            rounded
             class="text-capitalize"
             color="secondary"
             :loading="loading"

@@ -47,6 +47,10 @@ export default defineComponent({
 <style lang="scss">
 @import '~vuetify/src/styles/styles.sass';
 @import '@/assets/variables.scss';
+*:not(.v-icon) {
+  font-family: Montserrat;
+}
+
   .notification {
     left: 50%;
     transform: translateX(-50%);

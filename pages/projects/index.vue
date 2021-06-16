@@ -7,13 +7,6 @@
         image-url="whiteboard.svg"
         class="projects__cover-card"
       />
-      <!-- <action-card
-        title="Crie novos alunos"
-        description="Você pode criar novos alunos para te ajudar."
-        image-url="books.svg"
-        class="projects__create-students-card"
-        @handle-click="showCreateStudent = true"
-      /> -->
     </div>
     <div class="projects__body">
       <v-card class="projects__table-card">

@@ -1,8 +1,13 @@
 <template>
   <div class="user__header">
-    <div class="user__header-title">
-      {{ user.name }}
-      <v-spacer />
+    <div class="user__header-info">
+      <v-avatar color="secondary" class="white--text text-uppercase" size="56">
+        {{ initials }}
+      </v-avatar>
+      <div class="user__header-title">
+        {{ user.name }}
+        <v-spacer />
+      </div>
     </div>
     <div class="user__header-description">
       <div v-if="user.role === UserRole.STUDENT">
@@ -16,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent } from '@nuxtjs/composition-api'
 
 import { User } from '@/types'
 import { StatusColor, StatusText } from '@/helpers'
@@ -30,11 +35,21 @@ export default defineComponent({
     }
   },
 
-  setup () {
+  setup (props) {
+    const initials = computed(() => {
+      const array = props.user.name.split(' ')
+
+      const first = array[0]
+      const last = array[array.length - 1]
+
+      return `${first[0]}${last[0]}`
+    })
+
     return {
       StatusColor,
       StatusText,
-      UserRole
+      UserRole,
+      initials
     }
   }
 })
@@ -50,6 +65,13 @@ export default defineComponent({
   &__header {
     padding: $MAIN_SPACE;
   }
+
+  &__header-info {
+    display: flex;
+    align-items: center;
+    gap: $MAIN_SPACE;
+  }
+
   &__header-title {
     font-size: 2rem;
     display: flex;
@@ -60,7 +82,7 @@ export default defineComponent({
   }
   &__header-description {
     color: grey;
-    margin-top: $MAIN_SPACE;
+    margin-top: 8px;
   }
 }
 // @media #{map-get($display-breakpoints, 'md-and-up')}{

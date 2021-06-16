@@ -62,9 +62,6 @@
           Entrar
         </v-btn>
       </v-form>
-      <!-- <div>
-        oi
-      </div> -->
     </div>
     <v-snackbar v-model="error.show">
       <div class="text-center">
@@ -117,6 +114,7 @@ export default defineComponent({
           setUser(user)
           redirect('/dashboard')
         } catch (er) {
+          console.log(er.message)
           error.value.message = er.message
           error.value.show = true
         } finally {

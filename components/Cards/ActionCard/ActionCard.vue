@@ -11,7 +11,6 @@
         <v-spacer />
         <v-btn
           v-if="isAdmin"
-          rounded
           color="#ff9700"
           class="action-card__button white--text text-capitalize"
           width="120px"

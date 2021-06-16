@@ -18,20 +18,19 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
-// import Cookie from 'js-cookie'
 
 export default defineComponent({
   middleware: 'isNotAuthenticated'
 })
 </script>
-<style lang="scss">
-  body {
-    font-family: Montserrat;
-  }
-</style>
+
 <style lang="scss" scoped>
 @import '@/assets/colors.scss';
 @import '~vuetify/src/styles/styles.sass';
+
+*:not(.v-icon) {
+  font-family: Montserrat;
+}
 
 .unauthorized {
   height: 100%;
@@ -59,7 +58,6 @@ export default defineComponent({
       font-weight: 600;
       border-left: 5px solid black;
       padding-left: 10px;
-      font-family: Montserrat;
     }
 }
 }

@@ -10,7 +10,7 @@
     style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;"
   >
     <div class="sidebar__grid">
-      <div>
+      <div class="py-2">
         <v-list-item class="px-2">
           <v-list-item-avatar>
             <img src="@/assets/images/icon.svg">
@@ -44,9 +44,9 @@
         </template>
       </v-list>
 
-      <div class="d-flex align-end" style="width: 100%">
+      <div class="d-flex align-end py-2" style="width: 100%">
         <v-list nav class="pa-0 ma-0" style="width: 100%">
-          <v-list-item class="pa-0 ma-0 logout">
+          <!-- <v-list-item class="pa-0 ma-0 logout">
             <v-list-item-icon class="ma-4">
               <v-icon color="white">
                 fas fa-cog
@@ -55,7 +55,7 @@
             <v-list-item-content>
               <v-list-item-title>Configurações</v-list-item-title>
             </v-list-item-content>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item class="pa-0 ma-0 logout" @click="handleLogout">
             <v-list-item-icon class="ma-4">
               <v-icon color="white">

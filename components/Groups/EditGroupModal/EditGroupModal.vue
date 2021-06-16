@@ -40,7 +40,7 @@
           <v-btn
             v-if="isAdmin"
             type="submit"
-            class="text-capitalize"
+            class="text-none"
             color="secondary"
             :loading="loading"
             @click="handleSubmit"

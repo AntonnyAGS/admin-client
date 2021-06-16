@@ -34,7 +34,7 @@
               style="margin-left: 15px;"
             />
             <v-btn icon>
-              <v-icon small color="white" @click="showSearch = !showSearch">
+              <v-icon small color="white" @click="showSearch = !showSearch, search = ''">
                 fas fa-search
               </v-icon>
             </v-btn>
@@ -58,7 +58,7 @@
             </v-chip>
           </template>
           <template v-slot:[`item.action`]="{item}">
-            <v-btn class="text-capitalize" color="secondary" @click="$router.push(`/users/${item._id}`)">
+            <v-btn class="text-none" color="secondary" @click="$router.push(`/users/${item._id}`)">
               Detalhes
             </v-btn>
           </template>

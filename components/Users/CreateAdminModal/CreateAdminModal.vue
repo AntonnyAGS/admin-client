@@ -34,7 +34,7 @@
           <v-spacer />
           <v-btn
             type="submit"
-            class="text-capitalize"
+            class="text-none"
             color="secondary"
             :loading="loading"
             @click="handleSubmit"

@@ -4,14 +4,14 @@
       <div v-if="isAdmin" class="project__header-actions">
         <template v-if="project.status === ProjectStatus.WAITING">
           <v-btn
-            class="text-capitalize white--text"
+            class="text-none white--text"
             color="#29CC97"
             @click="$emit('handle-manage-status', ProjectStatus.APPROVED)"
           >
             Aprovar
           </v-btn>
           <v-btn
-            class="text-capitalize white--text"
+            class="text-none white--text"
             color="#FF4C33"
             @click="handleManageStatus(ProjectStatus.REPROVED)"
           >
@@ -20,7 +20,7 @@
         </template>
         <v-btn
           v-if="project.status === ProjectStatus.APPROVED"
-          class="text-capitalize white--text"
+          class="text-none white--text"
           color="#FF9C33"
           @click="$emit('handle-manage-status', ProjectStatus.DOING)"
         >
@@ -29,14 +29,14 @@
         <v-btn
           v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
           color="#2696E8"
-          class="text-capitalize white--text"
+          class="text-none white--text"
           @click="$emit('show-manage-groups')"
         >
           Alocar grupos
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.DOING"
-          class="text-capitalize white--text"
+          class="text-none white--text"
           color="#2696E8"
           @click="$emit('handle-manage-status', ProjectStatus.FINISHED)"
         >
@@ -44,7 +44,7 @@
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.FINISHED"
-          class="text-capitalize white--text"
+          class="text-none white--text"
           color="#FF9C33"
           @click="$emit('show-add-students-score')"
         >

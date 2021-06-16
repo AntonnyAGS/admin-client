@@ -15,7 +15,7 @@
           <v-list-item-avatar>
             <img src="@/assets/images/icon.svg">
           </v-list-item-avatar>
-          <v-list-item-title>
+          <v-list-item-title style="font-weight: 500;">
             Fabrica de software
           </v-list-item-title>
         </v-list-item>
@@ -38,7 +38,9 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-title style="font-weight: 500">
+                {{ item.title }}
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -63,7 +65,9 @@
               </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Logout</v-list-item-title>
+              <v-list-item-title style="font-weight: 500">
+                Logout
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>

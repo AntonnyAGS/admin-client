@@ -12,7 +12,7 @@
         <!-- <v-btn
           rounded
           color="#ff9700"
-          class="cover-card__button white--text text-capitalize"
+          class="cover-card__button white--text text-none"
           width="120px"
           @click="$emit('handle-click')"
         >

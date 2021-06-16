@@ -12,7 +12,7 @@
         <v-btn
           v-if="isAdmin"
           color="#ff9700"
-          class="action-card__button white--text text-capitalize"
+          class="action-card__button white--text text-none"
           width="120px"
           @click="$emit('handle-click')"
         >

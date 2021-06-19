@@ -48,7 +48,7 @@
 
       <div class="d-flex align-end py-2" style="width: 100%">
         <v-list nav class="pa-0 ma-0" style="width: 100%">
-          <!-- <v-list-item class="pa-0 ma-0 logout">
+          <v-list-item class="pa-0 ma-0 logout" to="/my-account">
             <v-list-item-icon class="ma-4">
               <v-icon color="white">
                 fas fa-cog
@@ -57,7 +57,7 @@
             <v-list-item-content>
               <v-list-item-title>Configurações</v-list-item-title>
             </v-list-item-content>
-          </v-list-item> -->
+          </v-list-item>
           <v-list-item class="pa-0 ma-0 logout" @click="handleLogout">
             <v-list-item-icon class="ma-4">
               <v-icon color="white">
@@ -100,8 +100,8 @@ export default defineComponent({
     const { logout } = useNamespacedActions<Actions>('config', ['logout'])
     const { user } = useNamespacedState<State>('user', ['user'])
 
-    const handleLogout = async () => {
-      await logout()
+    const handleLogout = () => {
+      logout()
     }
 
     return {

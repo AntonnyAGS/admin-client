@@ -51,10 +51,10 @@ export default defineComponent({
     padding: $MAIN_SPACE;
   }
   &__groups-body {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
     margin-top: 8px;
-    ::v-deep .v-chip {
-      margin: 0 8px 0 0;
-    }
   }
   &__groups-title {
     font-weight: 500;

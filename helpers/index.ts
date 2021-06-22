@@ -30,6 +30,14 @@ export const formatNumber = (number: number, length: number): string => {
   return result
 }
 
+export function formatPhone (phone: string): string {
+  if (phone.length === 10) {
+    return phone.replace(/(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3')
+  }
+
+  return phone.replace(/(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+}
+
 export const UserRoleText: Record<UserRole, string> = {
   [UserRole.ADMIN]: 'Administrador',
   [UserRole.CLIENT]: 'Cliente',

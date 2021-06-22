@@ -2,6 +2,13 @@ import axios from '@/config/axios'
 import { User } from '@/types'
 import Cookie from 'js-cookie'
 
+type UpdateUserParams = {
+  email?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  name?: string;
+  phone?: string;
+}
 export class UserService {
   async users (): Promise<User[]> {
     try {
@@ -57,6 +64,16 @@ export class UserService {
     } catch (error) {
       throw new Error(error.response.data.message)
     }
+  }
+
+  async updateLoggedUser (params: UpdateUserParams): Promise<User> {
+    const token = Cookie.get(process.env.TOKEN)
+    const { data } = await axios.put<User>('/user', params, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return data
   }
 }
 

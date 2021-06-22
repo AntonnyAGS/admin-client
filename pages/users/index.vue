@@ -14,7 +14,16 @@
         image-url="books.svg"
         class="users__create-students-card"
         @handle-click="showCreateStudent = true"
-      />
+      >
+        <v-btn
+          :is-admin="user.role === UserRole.ADMIN"
+          color="#ff9700"
+          class="action-card__button white--text text-none ml-2"
+          @click="showImportStudents = true"
+        >
+          Importar alunos
+        </v-btn>
+      </action-card>
     </div>
     <div class="users__body">
       <v-card class="users__table-card">
@@ -67,6 +76,7 @@
     </div>
     <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleCreateStudent" />
     <create-admin-modal v-if="showCreateAdmin" v-model="showCreateAdmin" :loading.sync="loading" @handle-submit="handleCreateAdmin" />
+    <import-students-modal v-if="showImportStudents" v-model="showImportStudents" />
   </div>
 </template>
 <script lang="ts">
@@ -76,7 +86,7 @@ import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
 // Components
 import { ActionCard } from '@/components/Cards'
 import DataTable from '@/components/DataTable'
-import { Filters, CreateStudentModal, CreateAdminModal } from '@/components/Users'
+import { Filters, CreateStudentModal, CreateAdminModal, ImportStudentsModal } from '@/components/Users'
 
 // Services/Helpers/Types
 import { UserService } from '@/services'
@@ -85,6 +95,7 @@ import { UserRoleText, UserRoleColor } from '@/helpers'
 import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpers'
 
 import { State, Actions } from '@/store/users'
+import { State as UserState } from '@/store/user'
 import { UserRole } from '@/enums'
 import { User } from '~/types'
 
@@ -94,12 +105,14 @@ export default defineComponent({
     DataTable,
     CreateStudentModal,
     CreateAdminModal,
-    Filters
+    Filters,
+    ImportStudentsModal
   },
 
   setup (_, { root: { $notify, $route } }) {
     const { setUsers, setFilters } = useNamespacedActions<Actions>('users', ['setUsers', 'setFilters'])
     const { users, filter } = useNamespacedState<State>('users', ['users', 'filter'])
+    const { user } = useNamespacedState<UserState>('user', ['user'])
 
     const { role } = $route.query
 
@@ -114,6 +127,7 @@ export default defineComponent({
     const showSearch = ref(false)
     const showCreateStudent = ref(false)
     const showCreateAdmin = ref(false)
+    const showImportStudents = ref(false)
 
     const headers = [
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
@@ -197,9 +211,12 @@ export default defineComponent({
       handleCreateStudent,
       UserRoleText,
       UserRoleColor,
+      UserRole,
       filteredUsers,
       showCreateAdmin,
-      handleCreateAdmin
+      handleCreateAdmin,
+      user,
+      showImportStudents
     }
   }
 })

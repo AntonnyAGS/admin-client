@@ -5,8 +5,8 @@
       class="data-table"
       :header-props="{ sortByText: 'Ordene por...' }"
       :footer-props="{
-        itemsPerPageAllText: 'Todos',
-        itemsPerPageText: 'Itens por página:'
+        itemsPerPageText: '',
+        itemsPerPageOptions: [ ...Array.from({ length: 10 }, (_, i) => (i + 1) * 5) ]
       }"
       locale="pt"
       v-on="$listeners"
@@ -42,30 +42,12 @@ export default defineComponent({
   },
   setup: (props) => {
     const limitSelect = ref(10)
-    const limitList = [
-      { text: '5 itens', value: 5 },
-      { text: '10 itens', value: 10 },
-      { text: '15 itens', value: 15 }
-    ]
     const getFooterLenght = computed(() => Math.ceil(props.footerTotalItems / limitSelect.value))
-    const pagination = ref(1)
-    const getFooterText = computed(() => {
-      const min = limitSelect.value * (pagination.value - 1) + 1
-      const max = limitSelect.value * pagination.value
-      if (max > props.footerTotalItems) {
-        return `Mostrando ${props.footerTotalItems === 0 ? '0' : min} - ${props.footerTotalItems} de ${props.footerTotalItems} itens`
-      } else {
-        return `Mostrando ${props.footerTotalItems === 0 ? '0' : min} - ${max} de ${props.footerTotalItems} itens`
-      }
-    })
 
     return {
-      limitList,
       limitSelect,
       getFooterLenght,
       props,
-      pagination,
-      getFooterText,
       formatNumber
     }
   }

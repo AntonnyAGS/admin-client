@@ -1,8 +1,8 @@
 <template>
   <v-dialog :value="value" persistent max-width="600px">
     <v-card>
-      <div class="create-admin__title">
-        Criar administrador
+      <div class="import-students__title">
+        Importar alunos
         <v-spacer />
         <v-btn icon @click="$emit('input', false)">
           <v-icon>
@@ -11,38 +11,27 @@
         </v-btn>
       </div>
       <v-divider />
-      <v-form @submit.prevent>
-        <div class="create-admin__body">
-          <v-text-field
-            v-model="form.name"
-            label="Nome *"
-            placeholder="Digite o nome do aluno"
-          />
-          <v-text-field
-            v-model="form.email"
-            label="Email *"
-            type="text"
-            placeholder="Digite o email do aluno"
-          />
-
-          <div class="create-admin__password-obs">
-            <strong>Atenção:</strong> todos os administradores serão criados com a senha '123456' como padrão.
+      <input
+        v-show="false"
+        ref="input"
+        type="file"
+        accept=".csv"
+        @change="handleFileChange"
+      >
+      <div class="import-students__body">
+        <div class="import-students__card" @click="openFileInput">
+          <div class="import-students__inner">
+            Clique aqui para fazer o upload dos alunos.
           </div>
         </div>
-        <v-divider />
-        <div class="create-admin__footer">
-          <v-spacer />
-          <v-btn
-            type="submit"
-            class="text-none"
-            color="secondary"
-            :loading="loading"
-            @click="handleSubmit"
-          >
-            Salvar
-          </v-btn>
-        </div>
-      </v-form>
+      </div>
+      <v-divider />
+      <div class="import-students__footer">
+        <v-spacer />
+        <v-btn color="secondary">
+          Concluir
+        </v-btn>
+      </div>
     </v-card>
   </v-dialog>
 </template>
@@ -58,9 +47,11 @@ import { UserRole } from '@/enums'
 type UserForm = {
   name: string;
   email: string;
+  ra: string;
   password: string;
   // eslint-disable-next-line
   password_repeat: string;
+  phone?: string;
   role: UserRole;
 
 }
@@ -70,7 +61,15 @@ const validateSchema = yup.object().shape<UserForm>({
   email: yup.string().email('Digite um email válido').required('Digite o email'),
   password: yup.string().required('Digite a senha'),
   password_repeat: yup.string().required('Digite a confirmação de senha'),
-  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole))
+  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
+  ra: yup.string().required('Digite o RA'),
+  phone: yup.string().test('len', 'Digite um telefone válido', (val) => {
+    if (typeof val !== 'string' || (val?.length !== 0 && val.length < 14)) {
+      return false
+    }
+    return true
+  })
+
 })
 
 export default defineComponent({
@@ -88,14 +87,21 @@ export default defineComponent({
       name: '',
       email: '',
       password: '123456',
+      phone: '',
+      ra: '',
       password_repeat: '123456',
-      role: UserRole.ADMIN
+      role: UserRole.STUDENT
 
     })
+
+    const input = ref()
 
     const handleSubmit = () => {
       try {
         validateSchema.validateSync(form.value, { abortEarly: false })
+        if (form.value.phone) {
+          form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
+        }
         form.value.email = form.value.email.toLowerCase()
         emit('handle-submit', form.value)
       } catch (error) {
@@ -112,9 +118,17 @@ export default defineComponent({
       }
     }
 
+    const openFileInput = () => {
+      if (input.value) {
+        input.value.click()
+      }
+    }
+
     return {
       form,
-      handleSubmit
+      handleSubmit,
+      input,
+      openFileInput
     }
   }
 })
@@ -126,7 +140,7 @@ export default defineComponent({
 @import '@/assets/colors.scss';
 @import '~vuetify/src/styles/styles.sass';
 
-.create-admin {
+.import-students {
   &__title {
     padding: $MAIN_SPACE;
     font-size: 1.4rem;
@@ -136,13 +150,26 @@ export default defineComponent({
   &__body {
     padding: $MAIN_SPACE;
   }
+  &__card {
+    border: 1px dashed black;
+
+    padding: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  &__inner {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #d9e7ff;
+    border-radius: 4px;
+  }
   &__footer {
     padding: $MAIN_SPACE;
     display: flex;
   }
-  &__password-obs {
-    text-align: center;
-    opacity: 0.5;
-  }
+
 }
 </style>

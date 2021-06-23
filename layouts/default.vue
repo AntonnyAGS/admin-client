@@ -31,10 +31,10 @@ export default defineComponent({
 
   setup () {
     const items = ref<SidebarItem[]>([
-      { to: '/dashboard', icon: 'mdi-home', title: 'home' },
-      { to: '/users', icon: 'mdi-account-multiple', title: 'users', isAdminOnly: true },
-      { to: '/projects', icon: 'mdi-folder', title: 'projects' },
-      { to: '/groups', icon: 'mdi-account-group', title: 'groups' }
+      { to: '/dashboard', icon: 'mdi-home', title: 'Home' },
+      { to: '/users', icon: 'mdi-account-multiple', title: 'Usuários', isAdminOnly: true },
+      { to: '/projects', icon: 'mdi-folder', title: 'Projetos' },
+      { to: '/groups', icon: 'mdi-account-group', title: 'Grupos' }
     ])
 
     return {
@@ -47,6 +47,10 @@ export default defineComponent({
 <style lang="scss">
 @import '~vuetify/src/styles/styles.sass';
 @import '@/assets/variables.scss';
+*:not(.v-icon) {
+  font-family: Montserrat;
+}
+
   .notification {
     left: 50%;
     transform: translateX(-50%);

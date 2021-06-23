@@ -7,13 +7,6 @@
         image-url="whiteboard.svg"
         class="projects__cover-card"
       />
-      <!-- <action-card
-        title="Crie novos alunos"
-        description="Você pode criar novos alunos para te ajudar."
-        image-url="books.svg"
-        class="projects__create-students-card"
-        @handle-click="showCreateStudent = true"
-      /> -->
     </div>
     <div class="projects__body">
       <v-card class="projects__table-card">
@@ -33,7 +26,7 @@
               style="margin-left: 15px;"
             />
             <v-btn icon>
-              <v-icon small color="white" @click="showSearch = !showSearch">
+              <v-icon small color="white" @click="showSearch = !showSearch, search = ''">
                 fas fa-search
               </v-icon>
             </v-btn>
@@ -57,7 +50,7 @@
             </v-chip>
           </template>
           <template v-slot:[`item.action`]="{item}">
-            <v-btn rounded small class="text-capitalize" color="secondary" @click="$router.push(`/projects/${item._id}`)">
+            <v-btn class="text-none" color="secondary" @click="$router.push(`/projects/${item._id}`)">
               Detalhes
             </v-btn>
           </template>

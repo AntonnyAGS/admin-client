@@ -99,3 +99,34 @@
     }
   }
 }
+
+::v-deep .v-breadcrumbs {
+  li > a {
+    color: $MAIN-ORANGE;
+    font-weight: 500;
+  }
+}
+
+::v-deep .v-breadcrumbs {
+  display: flex;
+
+  flex-wrap: nowrap;
+
+  flex: 1;
+  overflow: hidden;
+
+  li > a {
+    color: $MAIN-ORANGE;
+    font-weight: 500;
+  }
+
+  &__item--disabled {
+    flex: 1;
+
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+}

@@ -28,7 +28,7 @@
               style="margin-left: 15px;"
             />
             <v-btn icon>
-              <v-icon small color="white" @click="showSearch = !showSearch">
+              <v-icon small color="white" @click="showSearch = !showSearch, search = ''">
                 fas fa-search
               </v-icon>
             </v-btn>
@@ -46,7 +46,7 @@
           loading-text="Carregando..."
         >
           <template v-slot:[`item.action`]="{item}">
-            <v-btn rounded small class="text-capitalize" color="secondary" @click="handleEditGroup(item)">
+            <v-btn class="text-none" color="secondary" @click="handleEditGroup(item)">
               Detalhes
             </v-btn>
           </template>

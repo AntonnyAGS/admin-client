@@ -9,16 +9,18 @@
           {{ description }}
         </div>
         <v-spacer />
-        <v-btn
-          v-if="isAdmin"
-          rounded
-          color="#ff9700"
-          class="action-card__button white--text text-capitalize"
-          width="120px"
-          @click="$emit('handle-click')"
-        >
-          Clique aqui
-        </v-btn>
+        <div class="d-flex">
+          <v-btn
+            v-if="isAdmin"
+            color="#ff9700"
+            class="action-card__button white--text text-none"
+            width="120px"
+            @click="$emit('handle-click')"
+          >
+            Clique aqui
+          </v-btn>
+          <slot />
+        </div>
       </div>
       <div class="action-card__image" :style="{ 'background-image': `url(${require(`@/assets/images/${imageUrl}`)})` }" />
     </v-card>

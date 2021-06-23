@@ -3,56 +3,72 @@
     app
     mini-variant
     color="primary"
+    expand-on-hover
     mobile-breakpoint="600"
-    mini-variant-width="80px"
     :value="true"
     :disable-route-watcher="true"
     style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;"
   >
     <div class="sidebar__grid">
-      <div style="width: 80px;">
-        <v-list>
-          <v-list-item class="px-2">
-            <v-list-item-avatar class="ma-0">
-              <img src="@/assets/images/icon.svg">
-            </v-list-item-avatar>
+      <div class="py-2">
+        <v-list-item class="px-2">
+          <v-list-item-avatar>
+            <img src="@/assets/images/icon.svg">
+          </v-list-item-avatar>
+          <v-list-item-title style="font-weight: 500;">
+            Fabrica de software
+          </v-list-item-title>
+        </v-list-item>
+      </div>
+
+      <v-list nav class="pa-0 ma-0">
+        <template v-for="item in items">
+          <v-list-item
+            v-if="!item.isAdminOnly || (item.isAdminOnly && user && user.role === UserRole.ADMIN) "
+            :key="item.title"
+            link
+            class="pa-0 ma-0"
+            :to="item.to"
+            active-class="sidebar__active"
+          >
+            <v-list-item-icon class="mx-4">
+              <v-icon color="white">
+                {{ item.icon }}
+              </v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title style="font-weight: 500">
+                {{ item.title }}
+              </v-list-item-title>
+            </v-list-item-content>
           </v-list-item>
-        </v-list>
-      </div>
+        </template>
+      </v-list>
 
-      <div style="width: 80px;">
-        <v-list
-          nav
-          dense
-        >
-          <template v-for="item in items">
-            <v-list-item
-              v-if="!item.isAdminOnly || (item.isAdminOnly && user && user.role === UserRole.ADMIN) "
-              :key="item.title"
-              class="mb-5"
-              link
-              :to="item.to"
-              active-class="sidebar__active"
-            >
-              <v-list-item-icon class="ma-0">
-                <v-icon color="white" large>
-                  {{ item.icon }}
-                </v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </template>
-        </v-list>
-      </div>
-
-      <div class="d-flex align-end" style="width: 80px;">
-        <v-list style="width: 100%">
-          <v-list-item class="px-2" @click="handleLogout">
-            <v-list-item-icon class="ma-0">
-              <v-icon color="white" large>
+      <div class="d-flex align-end py-2" style="width: 100%">
+        <v-list nav class="pa-0 ma-0" style="width: 100%">
+          <v-list-item class="pa-0 ma-0 logout" to="/my-account">
+            <v-list-item-icon class="ma-4">
+              <v-icon color="white">
+                fas fa-cog
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Configurações</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item class="pa-0 ma-0 logout" @click="handleLogout">
+            <v-list-item-icon class="ma-4">
+              <v-icon color="white">
                 mdi-logout
               </v-icon>
             </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title style="font-weight: 500">
+                Logout
+              </v-list-item-title>
+            </v-list-item-content>
           </v-list-item>
         </v-list>
       </div>
@@ -84,8 +100,8 @@ export default defineComponent({
     const { logout } = useNamespacedActions<Actions>('config', ['logout'])
     const { user } = useNamespacedState<State>('user', ['user'])
 
-    const handleLogout = async () => {
-      await logout()
+    const handleLogout = () => {
+      logout()
     }
 
     return {

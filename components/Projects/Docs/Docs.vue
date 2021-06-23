@@ -41,7 +41,23 @@ export default defineComponent({
     const handleFileDownload = (fileId: string) => {
       if (!files) { return }
       const _file = files.find(({ _id }) => _id === fileId)
-      window.open(_file?.fileUrl)
+
+      const url = _file?.fileUrl || ''
+      const filename = _file?.fileName || ''
+
+      fetch(url)
+        .then((t) => {
+          return t.blob()
+        })
+        .then((b) => {
+          const downloadUrl = window.URL.createObjectURL(b)
+          const link = document.createElement('a')
+          link.href = downloadUrl
+          link.setAttribute('download', filename)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
     }
 
     return {
@@ -69,12 +85,13 @@ export default defineComponent({
   }
   &__docs-body {
     display: flex;
+    margin-top: 8px;
   }
   &__docs-empty {
     color: grey;
   }
   &__docs-item {
-    margin: 5px 5px 0 0;
+    margin: 0 8px 0 0;
     width: 120px;
     border: 1px solid #d7d7d9;
     background-color: white;

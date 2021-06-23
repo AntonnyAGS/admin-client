@@ -28,7 +28,7 @@
         </div>
         <div v-if="group" class="create__students">
           Alunos
-          <v-list class="pa-0" style="overflow: auto; max-height: 122px;">
+          <v-list class="pa-0" style="overflow: auto; max-height: 244px;">
             <v-list-item v-for="student in group.usersIds || group.users" :key="student._id" class="pa-0">
               <v-list-item-content>
                 <v-list-item-title>
@@ -93,13 +93,12 @@
           <v-spacer />
           <v-btn
             type="submit"
-            rounded
-            class="text-capitalize"
+            class="text-none"
             color="secondary"
             :loading="loading"
             @click="handleSubmit"
           >
-            Salvar
+            Concluir
           </v-btn>
         </div>
       </v-form>
@@ -119,7 +118,10 @@ import { ScoreType } from '@/enums'
 export default defineComponent({
   props: {
     value: Boolean,
-    loading: Boolean,
+    loading: {
+      type: Boolean,
+      default: false
+    },
     items: {
       type: Array as () => Group[],
       default: () => []

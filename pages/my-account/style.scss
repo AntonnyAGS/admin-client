@@ -1,0 +1,28 @@
+@import '@/assets/colors.scss';
+@import '@/assets/variables.scss';
+
+.my-account {
+  height: 100%;
+  width: 100%;
+
+  background: $MAIN_GREY;
+
+  border-radius: 4px;
+
+  &__body {
+    padding: $MAIN_SPACE;
+
+    font-weight: 500;
+
+  }
+  &__form {
+    display: flex;
+  
+    flex-direction: column;
+  
+    gap: 8px;
+    margin: 16px 0;
+    max-width: 600px;
+  }
+
+}

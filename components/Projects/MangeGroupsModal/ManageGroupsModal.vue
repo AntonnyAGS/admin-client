@@ -19,6 +19,7 @@
             :items="items"
             label="Grupos *"
             item-text="name"
+            no-data-text="Ainda não há nada aqui..."
             item-value="_id"
             type="text"
             chips
@@ -32,8 +33,7 @@
           <v-spacer />
           <v-btn
             type="submit"
-            rounded
-            class="text-capitalize"
+            class="text-none"
             color="secondary"
             :loading="loading"
             @click="handleSubmit"

@@ -53,7 +53,7 @@ export default defineComponent({
     font-weight: 500;
   }
   &__client-info{
-    margin-top: $MAIN_SPACE;
+    margin-top: 8px;
     color: grey;
   }
 }

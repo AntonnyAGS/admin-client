@@ -15,6 +15,7 @@
       :project="project"
       @show-manage-groups="showManageGroupsModal = true"
       @show-add-students-score="showAddStudentScore = true"
+      @show-create-tasks="showCreateTasks = true"
       @handle-manage-status="handleManageStatus($event)"
     />
     <v-divider />
@@ -25,6 +26,8 @@
     <student-score v-if="user && user.role === UserRole.STUDENT" :score="studentScore" />
     <v-divider v-if="user && user.role === UserRole.STUDENT" />
     <docs v-if="files" :files="files" />
+    <v-divider />
+    <tasks />
     <manage-groups-modal v-if="showManageGroupsModal" v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
     <add-student-score
       v-if="showAddStudentScore"
@@ -33,6 +36,12 @@
       :scores="scores"
       :project="project"
       @handle-submit="handleCreateScores"
+    />
+    <create-tasks-modal
+      v-if="showCreateTasks"
+      v-model="showCreateTasks"
+      :groups="project.groups"
+      :task.sync="task"
     />
   </v-card>
 </template>
@@ -48,9 +57,19 @@ import { useNamespacedState } from 'vuex-composition-helpers'
 
 import { State } from '@/store/groups'
 import { State as UserState } from '@/store/user'
-import { ManageGroupsModal, Header as ProjectHeader, Client, AddStudentScore, Groups, Docs, StudentScore } from '@/components/Projects'
+import {
+  ManageGroupsModal,
+  Header as ProjectHeader,
+  Client,
+  AddStudentScore,
+  Groups,
+  Docs,
+  StudentScore,
+  Tasks,
+  CreateTasksModal
+} from '@/components/Projects'
 import { useLoadGroups } from '@/hooks'
-import { Project, File, Group, Score } from '~/types'
+import { Project, File, Group, Score, Task } from '~/types'
 
 export default defineComponent({
   components: {
@@ -60,7 +79,9 @@ export default defineComponent({
     AddStudentScore,
     Groups,
     Docs,
-    StudentScore
+    StudentScore,
+    Tasks,
+    CreateTasksModal
   },
 
   setup (_, { root: { $route } }) {
@@ -72,8 +93,12 @@ export default defineComponent({
     const files = ref<File[]>()
     const scores = ref<Score[]>()
 
+    const task = ref<Task>()
+
     const showManageGroupsModal = ref(false)
     const showAddStudentScore = ref(false)
+
+    const showCreateTasks = ref(true)
 
     const getProject = async () => {
       try {
@@ -181,7 +206,9 @@ export default defineComponent({
       handleCreateScores,
       user,
       UserRole,
-      studentScore
+      studentScore,
+      showCreateTasks,
+      task
     }
   }
 })

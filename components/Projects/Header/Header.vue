@@ -35,6 +35,14 @@
           Alocar grupos
         </v-btn>
         <v-btn
+          v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
+          color="primary"
+          class="text-none white--text"
+          @click="$emit('show-create-tasks')"
+        >
+          Criar tarefa
+        </v-btn>
+        <v-btn
           v-if="project.status === ProjectStatus.DOING"
           class="text-none white--text"
           color="#2696E8"

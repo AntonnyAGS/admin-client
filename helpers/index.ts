@@ -69,3 +69,7 @@ export const FileText: Record<FileType, string> = {
   [FileType.LOGO]: 'Logo',
   [FileType.REQUIREMENTS_DOCUMENT]: 'Requerimentos'
 }
+
+export const clone = <T extends Object>(obj: T): T => {
+  return JSON.parse(JSON.stringify(obj))
+}

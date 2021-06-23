@@ -52,3 +52,13 @@ export type Score = {
   projectId: Project | string;
   groupId: Group | string;
 }
+
+export type Task = {
+  _id?: string;
+  name: string;
+  description: string;
+  group: Group;
+  projectId: string;
+  dateStart: Date;
+  dateEnd: Date | null;
+}

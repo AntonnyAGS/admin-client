@@ -20,15 +20,24 @@
       >
       <div class="import-students__body">
         <div class="import-students__card" @click="openFileInput">
-          <div class="import-students__inner">
+          <div v-if="!file" class="import-students__inner">
             Clique aqui para fazer o upload dos alunos.
+            <div class="import-students__info">
+              Arquivos suportados: csv.
+            </div>
+            <div class="import-students__info">
+              O arquivo deve possuir as seguintes colunas: <span style="font-weight: 500">email, telefone, ra e nome.</span>
+            </div>
+          </div>
+          <div v-else class="import-students__inner">
+            {{ file.name }}
           </div>
         </div>
       </div>
       <v-divider />
       <div class="import-students__footer">
         <v-spacer />
-        <v-btn color="secondary">
+        <v-btn color="secondary" @click="handleSubmit">
           Concluir
         </v-btn>
       </div>
@@ -39,7 +48,6 @@
 <script lang="ts">
 // Libs
 import { defineComponent, ref } from '@nuxtjs/composition-api'
-import * as yup from 'yup'
 import { mask } from 'vue-the-mask'
 
 // Types/enums
@@ -56,22 +64,6 @@ type UserForm = {
 
 }
 
-const validateSchema = yup.object().shape<UserForm>({
-  name: yup.string().required('Digite o nome'),
-  email: yup.string().email('Digite um email válido').required('Digite o email'),
-  password: yup.string().required('Digite a senha'),
-  password_repeat: yup.string().required('Digite a confirmação de senha'),
-  role: yup.mixed<UserRole>().oneOf(Object.values(UserRole)),
-  ra: yup.string().required('Digite o RA'),
-  phone: yup.string().test('len', 'Digite um telefone válido', (val) => {
-    if (typeof val !== 'string' || (val?.length !== 0 && val.length < 14)) {
-      return false
-    }
-    return true
-  })
-
-})
-
 export default defineComponent({
   props: {
     value: Boolean,
@@ -82,40 +74,26 @@ export default defineComponent({
     mask
   },
 
-  setup (_, { emit, root: { $notify } }) {
-    const form = ref<UserForm>({
-      name: '',
-      email: '',
-      password: '123456',
-      phone: '',
-      ra: '',
-      password_repeat: '123456',
-      role: UserRole.STUDENT
-
-    })
-
+  setup (_, { emit }) {
     const input = ref()
 
+    const file = ref()
+
     const handleSubmit = () => {
-      try {
-        validateSchema.validateSync(form.value, { abortEarly: false })
-        if (form.value.phone) {
-          form.value.phone = form.value.phone.replace(/[^a-zA-Z0-9]/g, '')
-        }
-        form.value.email = form.value.email.toLowerCase()
-        emit('handle-submit', form.value)
-      } catch (error) {
-        let title = ''
-        if (error.name === 'ValidationError') {
-          title = 'Erro de validação'
-        }
-        $notify({
-          title,
-          type: 'error',
-          text: error.errors[0]
-        })
-        console.log(error.errors)
+      if (!file.value) {
+        emit('input', false)
+        return
       }
+
+      emit('import:file', file.value)
+    }
+
+    const handleFileChange = (evt: Event) => {
+      const input = evt.target as HTMLInputElement
+
+      if (!input || !input.files) { return }
+
+      file.value = input.files[0]
     }
 
     const openFileInput = () => {
@@ -125,10 +103,11 @@ export default defineComponent({
     }
 
     return {
-      form,
       handleSubmit,
       input,
-      openFileInput
+      openFileInput,
+      handleFileChange,
+      file
     }
   }
 })
@@ -158,13 +137,26 @@ export default defineComponent({
     cursor: pointer;
   }
   &__inner {
-    height: 80px;
     display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 16px;
+
     justify-content: center;
     align-items: center;
 
+    text-align: center;
+
     background: #d9e7ff;
     border-radius: 4px;
+
+    font-weight: 500;
+  }
+  &__info {
+    font-weight: 400;
+    font-size: 0.875rem;
   }
   &__footer {
     padding: $MAIN_SPACE;

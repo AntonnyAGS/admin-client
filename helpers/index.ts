@@ -1,5 +1,5 @@
 
-import { ProjectStatus, UserRole, PersonType, FileType } from '@/enums'
+import { ProjectStatus, UserRole, PersonType, FileType, TaskStatus } from '@/enums'
 
 export const validateEmail = (email: string): boolean => {
   const pattern = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi)
@@ -53,6 +53,24 @@ export const UserRoleColor: Record<UserRole, string> = {
 export const UserPersonText: Record<PersonType, string> = {
   [PersonType.COMPANY]: 'Pessoa Jurídica',
   [PersonType.PERSON]: 'Pessoa Física'
+}
+
+export const TaskStatusIcon: Record<TaskStatus, string> = {
+  [TaskStatus.PLANNED]: 'fas fa-clipboard-list',
+  [TaskStatus.CANCELLED]: 'fas fa-clipboard-list',
+  [TaskStatus.DOING]: 'fas fa-clipboard-list',
+  [TaskStatus.DONE]: 'fas fa-clipboard-list',
+  [TaskStatus.STOPPED]: 'fas fa-clipboard-list',
+  [TaskStatus.TODO]: 'fas fa-clipboard-list'
+}
+
+export const TaskStatusText: Record<TaskStatus, string> = {
+  [TaskStatus.PLANNED]: 'Planejado',
+  [TaskStatus.CANCELLED]: 'Cancelado',
+  [TaskStatus.DOING]: 'Em andamento',
+  [TaskStatus.DONE]: 'Feito',
+  [TaskStatus.STOPPED]: 'Pausado',
+  [TaskStatus.TODO]: 'A fazer'
 }
 
 export function formatCpf (cpf: string): string {

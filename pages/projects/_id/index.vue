@@ -27,7 +27,7 @@
     <v-divider v-if="user && user.role === UserRole.STUDENT" />
     <docs v-if="files" :files="files" />
     <v-divider />
-    <tasks />
+    <tasks :tasks="tasks" @click:task="handleOpenEditTask" />
     <manage-groups-modal v-if="showManageGroupsModal" v-model="showManageGroupsModal" :items="groups" :selected-items="project.groups" @handle-submit="handleManageGroups" />
     <add-student-score
       v-if="showAddStudentScore"
@@ -40,8 +40,12 @@
     <create-tasks-modal
       v-if="showCreateTasks"
       v-model="showCreateTasks"
+      :is-admin="user && user.role === UserRole.ADMIN"
       :groups="project.groups"
       :task.sync="task"
+      @input="task = {}"
+      @handle-submit="handleCreateTask"
+      @handle-edit="handleEditTask"
     />
   </v-card>
 </template>
@@ -68,8 +72,10 @@ import {
   Tasks,
   CreateTasksModal
 } from '@/components/Projects'
-import { useLoadGroups } from '@/hooks'
+import { useLoadGroups, useNotify } from '@/hooks'
+import { TaskFactory, TaskInputFactory } from '@/factories/task-factory'
 import { Project, File, Group, Score, Task } from '~/types'
+import TaskService from '~/services/TaskService'
 
 export default defineComponent({
   components: {
@@ -94,11 +100,14 @@ export default defineComponent({
     const scores = ref<Score[]>()
 
     const task = ref<Task>()
+    const tasks = ref<Task[]>()
 
     const showManageGroupsModal = ref(false)
     const showAddStudentScore = ref(false)
 
-    const showCreateTasks = ref(true)
+    const showCreateTasks = ref(false)
+
+    const notify = useNotify()
 
     const getProject = async () => {
       try {
@@ -127,10 +136,21 @@ export default defineComponent({
       }
     }
 
+    const getTasks = async () => {
+      try {
+        const service = new TaskService()
+
+        tasks.value = await service.get(id)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
     getProject()
     getFiles()
     useLoadGroups()
     getScores()
+    getTasks()
 
     const studentScore = computed(() => {
       if (user.value?.role !== UserRole.STUDENT) {
@@ -183,6 +203,66 @@ export default defineComponent({
       }
     }
 
+    const handleCreateTask = async () => {
+      try {
+        if (!task.value) { return }
+
+        const input = TaskInputFactory.build(task.value, id)
+
+        const service = new TaskService()
+
+        await service.create(input)
+
+        getTasks()
+
+        notify({
+          title: 'Tarefa cadastrada com sucesso!',
+          type: 'success'
+        })
+      } catch (err) {
+        const message = err.response.data.message ? err.response.data.message : 'Por favor, contate o administrador'
+
+        notify({
+          title: 'Não foi possível cadastrar a tarefa',
+          type: 'error',
+          text: message
+        })
+      }
+    }
+
+    const handleEditTask = async () => {
+      try {
+        if (!task.value) { return }
+
+        const input = TaskInputFactory.build(task.value, id)
+
+        const service = new TaskService()
+
+        await service.update(input, task.value._id || '')
+
+        getTasks()
+
+        notify({
+          title: 'Tarefa cadastrada com sucesso!',
+          type: 'success'
+        })
+      } catch (err) {
+        const message = err.response.data.message ? err.response.data.message : 'Por favor, contate o administrador'
+
+        notify({
+          title: 'Não foi possível cadastrar a tarefa',
+          type: 'error',
+          text: message
+        })
+      }
+    }
+
+    const handleOpenEditTask = (selected: Task) => {
+      task.value = TaskFactory.build(selected)
+
+      showCreateTasks.value = true
+    }
+
     return {
       getProject,
       project,
@@ -208,7 +288,11 @@ export default defineComponent({
       UserRole,
       studentScore,
       showCreateTasks,
-      task
+      task,
+      handleCreateTask,
+      tasks,
+      handleOpenEditTask,
+      handleEditTask
     }
   }
 })

@@ -28,7 +28,7 @@
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
-          color="#2696E8"
+          color="#33cccc"
           class="text-none white--text"
           @click="$emit('show-manage-groups')"
         >
@@ -36,7 +36,7 @@
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
-          color="primary"
+          color="#5690E3"
           class="text-none white--text"
           @click="$emit('show-create-tasks')"
         >

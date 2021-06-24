@@ -92,6 +92,7 @@ import { State as UserState } from '@/store/user'
 
 import { UserRole } from '@/enums'
 import { Group } from '~/types'
+import { useNotify } from '~/hooks'
 
 export default defineComponent({
   components: {
@@ -120,6 +121,8 @@ export default defineComponent({
       { text: 'Nome', value: 'name', sortable: true, align: 'center' },
       { text: '', value: 'action', sortable: false, align: 'center' }
     ]
+
+    const notify = useNotify()
 
     const loadGroups = async () => {
       try {
@@ -156,8 +159,19 @@ export default defineComponent({
         const service = new GroupService()
         await service.create(group)
         showCreateGroup.value = false
+
+        notify({
+          title: 'Grupo criado com sucesso',
+          type: 'success'
+        })
+
         await loadGroups()
       } catch (error) {
+        notify({
+          title: 'Erro ao cadastrar grupo',
+          text: error,
+          type: 'error'
+        })
         console.log(error)
       } finally {
         loading.value = false
@@ -175,8 +189,19 @@ export default defineComponent({
         const service = new GroupService()
         await service.update(group)
         showEditGroup.value = false
+
+        notify({
+          title: 'Grupo atualizado com sucesso',
+          type: 'success'
+        })
+
         await loadGroups()
       } catch (error) {
+        notify({
+          title: 'Erro ao atualizar grupo',
+          text: error,
+          type: 'error'
+        })
         console.log(error)
       } finally {
         loading.value = false

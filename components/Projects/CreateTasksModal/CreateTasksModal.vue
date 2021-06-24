@@ -23,7 +23,6 @@
           :value="task.name"
           placeholder="Nome"
           label="Nome *"
-          dense
           @input="$emit('update:task', {...task, name: $event })"
         />
         <v-autocomplete
@@ -36,7 +35,6 @@
           no-data-text="Ainda não há grupos."
           type="text"
           return-object
-          dense
           placeholder="Digite o nome do grupo"
           @input="handleUpdate('group', $event)"
         />
@@ -47,7 +45,6 @@
             :value="task.dateStart || moment().format('DD/MM/YYYY')"
             placeholder="Data de inicio"
             label="Data de inicio *"
-            dense
             @input="$emit('update:task', {...task, dateStart: $event })"
           />
           <v-text-field
@@ -56,7 +53,6 @@
             :value="task.dateEnd"
             placeholder="Data de entrega"
             label="Data de entrega *"
-            dense
             @input="$emit('update:task', {...task, dateEnd: $event })"
           />
         </div>
@@ -65,7 +61,6 @@
           :value="task.description"
           placeholder="Descrição"
           label="Descrição *"
-          dense
           @input="$emit('update:task', {...task, description: $event })"
         />
         <v-autocomplete
@@ -77,7 +72,6 @@
           item-value="value"
           no-data-text="Ainda não há status."
           type="text"
-          dense
           placeholder="Digite o status"
           @input="$emit('update:task', {...task, status: $event })"
         />

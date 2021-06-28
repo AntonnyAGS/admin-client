@@ -1,5 +1,5 @@
 
-import { ProjectStatus, UserRole, PersonType, FileType } from '@/enums'
+import { ProjectStatus, UserRole, PersonType, FileType, TaskStatus } from '@/enums'
 
 export const validateEmail = (email: string): boolean => {
   const pattern = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi)
@@ -55,6 +55,24 @@ export const UserPersonText: Record<PersonType, string> = {
   [PersonType.PERSON]: 'Pessoa Física'
 }
 
+export const TaskStatusIcon: Record<TaskStatus, string> = {
+  [TaskStatus.PLANNED]: 'fas fa-clipboard-list',
+  [TaskStatus.CANCELLED]: 'fas fa-clipboard-list',
+  [TaskStatus.DOING]: 'fas fa-clipboard-list',
+  [TaskStatus.DONE]: 'fas fa-clipboard-list',
+  [TaskStatus.STOPPED]: 'fas fa-clipboard-list',
+  [TaskStatus.TODO]: 'fas fa-clipboard-list'
+}
+
+export const TaskStatusText: Record<TaskStatus, string> = {
+  [TaskStatus.PLANNED]: 'Planejado',
+  [TaskStatus.CANCELLED]: 'Cancelado',
+  [TaskStatus.DOING]: 'Em andamento',
+  [TaskStatus.DONE]: 'Feito',
+  [TaskStatus.STOPPED]: 'Pausado',
+  [TaskStatus.TODO]: 'A fazer'
+}
+
 export function formatCpf (cpf: string): string {
   if (!cpf) { return '' }
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
@@ -68,4 +86,8 @@ export function formatCnpj (cnpj: string): string {
 export const FileText: Record<FileType, string> = {
   [FileType.LOGO]: 'Logo',
   [FileType.REQUIREMENTS_DOCUMENT]: 'Requerimentos'
+}
+
+export const clone = <T extends Object>(obj: T): T => {
+  return JSON.parse(JSON.stringify(obj))
 }

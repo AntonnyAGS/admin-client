@@ -27,3 +27,12 @@ export enum ScoreType {
   PRESENTATION = 'PRESENTATION',
   FINAL = 'FINAL'
 }
+
+export enum TaskStatus {
+  PLANNED = 'PLANNED',
+  TODO = 'TODO',
+  DOING = 'DOING',
+  DONE = 'DONE',
+  CANCELLED = 'CANCELLED',
+  STOPPED = 'STOPPED'
+}

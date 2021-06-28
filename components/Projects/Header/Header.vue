@@ -28,11 +28,19 @@
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
-          color="#2696E8"
+          color="#33cccc"
           class="text-none white--text"
           @click="$emit('show-manage-groups')"
         >
           Alocar grupos
+        </v-btn>
+        <v-btn
+          v-if="project.status === ProjectStatus.DOING || project.status === ProjectStatus.APPROVED"
+          color="#5690E3"
+          class="text-none white--text"
+          @click="$emit('show-create-tasks')"
+        >
+          Criar tarefa
         </v-btn>
         <v-btn
           v-if="project.status === ProjectStatus.DOING"

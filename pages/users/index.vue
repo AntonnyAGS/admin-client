@@ -76,7 +76,7 @@
     </div>
     <create-student-modal v-if="showCreateStudent" v-model="showCreateStudent" :loading.sync="loading" @handle-submit="handleCreateStudent" />
     <create-admin-modal v-if="showCreateAdmin" v-model="showCreateAdmin" :loading.sync="loading" @handle-submit="handleCreateAdmin" />
-    <import-students-modal v-if="showImportStudents" v-model="showImportStudents" />
+    <import-students-modal v-if="showImportStudents" v-model="showImportStudents" @import:file="handleImport" />
   </div>
 </template>
 <script lang="ts">
@@ -97,7 +97,10 @@ import { useNamespacedState, useNamespacedActions } from 'vuex-composition-helpe
 import { State, Actions } from '@/store/users'
 import { State as UserState } from '@/store/user'
 import { UserRole } from '@/enums'
+import { useNotify } from '@/hooks'
 import { User } from '~/types'
+import { ImportStudentsCsvFactory } from '~/factories/import-students-csv-factory'
+import { StudentsInputFactory } from '~/factories/students-input-factory'
 
 export default defineComponent({
   components: {
@@ -109,12 +112,14 @@ export default defineComponent({
     ImportStudentsModal
   },
 
-  setup (_, { root: { $notify, $route } }) {
+  setup (_, { root: { $route } }) {
     const { setUsers, setFilters } = useNamespacedActions<Actions>('users', ['setUsers', 'setFilters'])
     const { users, filter } = useNamespacedState<State>('users', ['users', 'filter'])
     const { user } = useNamespacedState<UserState>('user', ['user'])
 
     const { role } = $route.query
+
+    const notify = useNotify()
 
     if (role && Object.values(UserRole).includes(role as UserRole)) {
       setFilters({ role: [role as UserRole] })
@@ -161,13 +166,13 @@ export default defineComponent({
         loading.value = true
         await service.createStudent(user)
         showCreateStudent.value = false
-        $notify({
+        notify({
           title: 'Aluno criado com sucesso!',
           text: 'Seu novo aluno foi criado com sucesso.'
         })
         loadUsers()
       } catch (error) {
-        $notify({
+        notify({
           title: 'Erro ao criar aluno!',
           text: error.message,
           type: 'error'
@@ -183,20 +188,84 @@ export default defineComponent({
         loading.value = true
         await service.createAdmin(user)
         showCreateAdmin.value = false
-        $notify({
+        notify({
           title: 'Administrador criado com sucesso!',
           text: 'Seu novo administrador foi criado com sucesso.'
         })
         loadUsers()
       } catch (error) {
         console.log(error)
-        $notify({
+        notify({
           title: 'Erro ao criar administrador!',
           text: error.message,
           type: 'error'
         })
       } finally {
         loading.value = false
+      }
+    }
+
+    const handleImport = async (csv: File) => {
+      try {
+        notify({
+          title: 'Importando usuários...',
+          type: 'info'
+        })
+
+        const users = await ImportStudentsCsvFactory.parse<{ nome: string, email: string, ra: string, telefone: string}>(csv, {
+          skipEmptyLines: true,
+          header: true,
+          transformHeader: (header) => {
+            if (header.toLowerCase().includes('nome')) {
+              return 'nome'
+            }
+            if (header.toLowerCase().includes('email')) {
+              return 'email'
+            }
+
+            if (header.toLowerCase().includes('telefone')) {
+              return 'telefone'
+            }
+
+            if (header.toLowerCase().includes('ra')) {
+              return 'ra'
+            }
+
+            if (header.toLowerCase().includes('ra')) {
+              return 'telefone'
+            }
+
+            return header
+          }
+        })
+
+        const formatedUsers = StudentsInputFactory.build(users)
+
+        const service = new UserService()
+
+        await service.createUsers(formatedUsers)
+
+        showImportStudents.value = false
+
+        notify({
+          title: 'Usuários criados com sucesso!',
+          type: 'success'
+        })
+
+        loadUsers()
+      } catch (err) {
+        if (err.response.data.message) {
+          notify({
+            title: 'Erro ao importar usuários',
+            text: err.response.data.message,
+            type: 'error'
+          })
+          return
+        }
+        notify({
+          title: 'Erro ao importar usuários',
+          type: 'error'
+        })
       }
     }
 
@@ -216,7 +285,8 @@ export default defineComponent({
       showCreateAdmin,
       handleCreateAdmin,
       user,
-      showImportStudents
+      showImportStudents,
+      handleImport
     }
   }
 })

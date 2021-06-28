@@ -1,4 +1,4 @@
-import { ProjectStatus, PersonType, UserRole, FileType, ScoreType } from '@/enums'
+import { ProjectStatus, PersonType, UserRole, FileType, ScoreType, TaskStatus } from '@/enums'
 
 export type User = {
   createdAt: Date;
@@ -51,4 +51,15 @@ export type Score = {
   scoresType: ScoreType[];
   projectId: Project | string;
   groupId: Group | string;
+}
+
+export type Task = {
+  _id?: string;
+  description: string;
+  name: string;
+  group: Group;
+  projectId: string;
+  dateStart: Date | string;
+  dateEnd: Date | string | null;
+  status: TaskStatus;
 }

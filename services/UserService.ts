@@ -9,6 +9,14 @@ type UpdateUserParams = {
   name?: string;
   phone?: string;
 }
+
+type UserInput = {
+  email: string;
+  name: string;
+  ra: string;
+  phone: string;
+  password: string;
+}
 export class UserService {
   async users (): Promise<User[]> {
     try {
@@ -69,6 +77,16 @@ export class UserService {
   async updateLoggedUser (params: UpdateUserParams): Promise<User> {
     const token = Cookie.get(process.env.TOKEN)
     const { data } = await axios.put<User>('/user', params, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return data
+  }
+
+  async createUsers (params: UserInput[]) {
+    const token = Cookie.get(process.env.TOKEN)
+    const { data } = await axios.post<User[]>('/user/register-many', params, {
       headers: {
         Authorization: `Bearer ${token}`
       }
